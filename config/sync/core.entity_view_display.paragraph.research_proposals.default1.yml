@@ -1,0 +1,32 @@
+uuid: dbd21b39-7511-4a3c-adbc-ef276159c9b7
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.default1
+    - field.field.paragraph.research_proposals.field_research
+    - field.field.paragraph.research_proposals.field_research_proposal_brief
+    - paragraphs.paragraphs_type.research_proposals
+  module:
+    - file
+id: paragraph.research_proposals.default1
+targetEntityType: paragraph
+bundle: research_proposals
+mode: default1
+content:
+  field_research:
+    type: file_default
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_research_proposal_brief:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

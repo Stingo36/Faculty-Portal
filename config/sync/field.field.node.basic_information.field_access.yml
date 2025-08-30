@@ -1,0 +1,21 @@
+uuid: 30c44d58-15a8-4de6-8e9b-e7466745f904
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_access
+    - node.type.basic_information
+  module:
+    - options
+id: node.basic_information.field_access
+field_name: field_access
+entity_type: node
+bundle: basic_information
+label: Access
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

@@ -1,0 +1,26 @@
+# ncbs.email_form:
+#   path: 'admin/ncbs/email'
+#   defaults:
+#     _form: '\Drupal\ncbs\Form\EmailForm'
+#     _title: 'Send Email to Deans'
+#   requirements:
+#     _permission: 'administer site configuration'
+
+ncbs.download:
+  path: '/pdf/download/{nid}'
+  defaults:
+    _controller: '\Drupal\ncbs\Controller\PdfDownloaderController::download'
+    _title: 'Download PDF'
+  requirements:
+    _permission: 'access content'
+    nid: '\d+'  # This ensures the nid is a number
+
+
+
+ncbs.email_settings_form:
+  path: '/set-emails'
+  defaults:
+    _form: '\Drupal\ncbs\Form\EmailSettingsForm'
+    _title: 'Email Settings'
+  requirements:
+    _permission: 'administer email settings'

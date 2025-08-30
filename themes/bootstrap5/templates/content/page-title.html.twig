@@ -1,0 +1,11 @@
+{#
+/**
+ * @file
+ * Theme override for page titles.
+ */
+#}
+{{ title_prefix }}
+{% if title|render|striptags|trim %}
+  <h2{{ title_attributes.addClass('custom-page-title') }}>{{ title }}</h2>
+{% endif %}
+{{ title_suffix }}

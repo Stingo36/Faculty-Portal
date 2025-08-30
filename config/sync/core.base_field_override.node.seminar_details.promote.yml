@@ -1,0 +1,22 @@
+uuid: 03f8f5d9-ea76-41a9-9f01-b626b346e564
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.seminar_details
+id: node.seminar_details.promote
+field_name: promote
+entity_type: node
+bundle: seminar_details
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

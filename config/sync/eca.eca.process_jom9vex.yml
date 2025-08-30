@@ -1,0 +1,96 @@
+uuid: ce3bdfa3-47a3-4071-87c3-a2f0c905a132
+langcode: en
+status: true
+dependencies:
+  config:
+    - easy_email.easy_email_type.4_mail_to_admin_on_comment
+    - field.field.node.add_comments.field_add_comments_
+    - field.storage.node.field_add_comments_
+    - node.type.add_comments
+  module:
+    - easy_email
+    - eca_content
+    - eca_render
+    - eca_user
+id: process_jom9vex
+modeller: bpmn_io
+label: '3. Mail on Comment (entity Update)'
+version: '1.1'
+weight: 0
+events:
+  Event_0jez9k4:
+    plugin: 'content_entity:update'
+    label: Update
+    configuration:
+      type: 'node add_comments'
+    successors:
+      -
+        id: Activity_0z9ixrd
+        condition: Flow_03q4l98
+conditions:
+  Flow_03q4l98:
+    plugin: eca_current_user_role
+    configuration:
+      role: admin
+      negate: true
+gateways: {  }
+actions:
+  Activity_0mybbae:
+    plugin: eca_new_entity
+    label: Create
+    configuration:
+      token_name: SendEmailOnComment
+      type: 'easy_email 4_mail_to_admin_on_comment'
+      langcode: ''
+      label: SendEmailOnComment
+      published: false
+      owner: ''
+    successors:
+      -
+        id: Activity_11uzjdi
+        condition: ''
+  Activity_0ospth0:
+    plugin: easy_email_send
+    label: 'Send Email'
+    configuration:
+      object: SendEmailOnComment
+    successors:
+      -
+        id: Activity_129l9mx
+        condition: ''
+  Activity_129l9mx:
+    plugin: eca_save_entity
+    label: Save
+    configuration:
+      object: SendEmailOnComment
+    successors: {  }
+  Activity_0z9ixrd:
+    plugin: eca_switch_account
+    label: 'Switch Account'
+    configuration:
+      user_id: '1'
+    successors:
+      -
+        id: Activity_0mybbae
+        condition: ''
+  Activity_11uzjdi:
+    plugin: eca_render_twig
+    label: |-
+      Render Twig
+      Get Latest value
+    configuration:
+      template: |-
+        {% set last = node.field_add_comments_ | last %}
+        {% if last and last.entity and last.entity.hasField('field_comments') %}
+          {{ last.entity.field_comments.processed ?? last.entity.field_comments.value }}
+        {% endif %}
+      value: ''
+      use_yaml: true
+      name: ''
+      token_name: latest_comment_html
+      weight: ''
+      mode: append
+    successors:
+      -
+        id: Activity_0ospth0
+        condition: ''

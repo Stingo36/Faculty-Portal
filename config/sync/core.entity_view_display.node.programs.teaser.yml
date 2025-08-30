@@ -1,0 +1,25 @@
+uuid: c48fc480-b54e-42e1-88dd-b691cfb66ae0
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.programs.field_date
+    - field.field.node.programs.field_minimum_referee
+    - node.type.programs
+  module:
+    - user
+id: node.programs.teaser
+targetEntityType: node
+bundle: programs
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_date: true
+  field_minimum_referee: true
+  langcode: true

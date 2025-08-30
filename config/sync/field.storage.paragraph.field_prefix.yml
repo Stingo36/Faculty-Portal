@@ -1,0 +1,31 @@
+uuid: 6d1f054e-c5ed-4559-986f-e6f8e4ec9be2
+langcode: en
+status: true
+dependencies:
+  module:
+    - field_permissions
+    - options
+    - paragraphs
+third_party_settings:
+  field_permissions:
+    permission_type: public
+id: paragraph.field_prefix
+field_name: field_prefix
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: Dr.
+      label: Dr.
+    -
+      value: Prof.
+      label: Prof.
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,21 @@
+uuid: 925f4ec7-f749-4f56-a5de-aab6b2ab1228
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_check_pending_flag
+    - node.type.add_comments
+id: node.add_comments.field_check_pending_flag
+field_name: field_check_pending_flag
+entity_type: node
+bundle: add_comments
+label: Flags
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'True'
+  off_label: 'False'
+field_type: boolean

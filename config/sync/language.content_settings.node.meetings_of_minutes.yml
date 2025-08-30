@@ -1,0 +1,11 @@
+uuid: 479e6de4-c3d3-4e29-94d7-3d7390c02765
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.meetings_of_minutes
+id: node.meetings_of_minutes
+target_entity_type_id: node
+target_bundle: meetings_of_minutes
+default_langcode: site_default
+language_alterable: false

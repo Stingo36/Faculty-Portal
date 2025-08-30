@@ -1,0 +1,19 @@
+uuid: 6ee58dfc-b6b8-4375-8ea3-e4c71245accb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_major_subjects
+    - paragraphs.paragraphs_type.education_
+id: paragraph.education_.field_major_subjects
+field_name: field_major_subjects
+entity_type: paragraph
+bundle: education_
+label: 'Major Subjects'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

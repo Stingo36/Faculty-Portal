@@ -1,0 +1,1719 @@
+<?php
+
+/**
+ * @file
+ * bootstrap5 theme file.
+ */
+
+use Drupal\block\Entity\Block;
+use Drupal\bootstrap5\SettingsManager;
+use Drupal\bootstrap5\SubthemeFormManager;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Element;
+use Drupal\views\ViewExecutable;
+use Drupal\user\Entity\Role;
+
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function bootstrap5_theme_suggestions_page_alter(array &$suggestions, array $variables)
+{
+
+  if (isset($_GET['styleguide'])) {
+    $suggestions[] = 'page__styleguide';
+  }
+
+  if (isset($variables['attributes']['data-block']['region'])) {
+    $region = $variables['attributes']['data-block']['region'];
+    $suggestions[] = $variables['theme_hook_original'] . '__' . $region;
+    $suggestions[] = 'menu__' . $region;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function bootstrap5_form_system_theme_settings_alter(&$form, FormStateInterface $form_state, $form_id = NULL)
+{
+  $settings_manager = new SettingsManager(\Drupal::service('theme.manager'));
+  return $settings_manager->themeSettingsAlter($form, $form_state, $form_id);
+}
+
+/**
+ * Validate callback to ensure filter order and allowed_html are compatible.
+ */
+function bootstrap5_form_system_theme_settings_subtheme_validate(array &$form, FormStateInterface $form_state)
+{
+  $subtheme_form_manager = new SubthemeFormManager();
+  return $subtheme_form_manager->validateForm($form, $form_state);
+}
+
+/**
+ * Form submission handler for node_form().
+ *
+ * @see bootstrap5_form_system_theme_settings_alter()
+ */
+function bootstrap5_form_system_theme_settings_subtheme_submit($form, FormStateInterface $form_state)
+{
+  $subtheme_form_manager = new SubthemeFormManager();
+  return $subtheme_form_manager->submitForm($form, $form_state);
+}
+
+/**
+ * Implements theme_preprocess_html().
+ */
+function bootstrap5_preprocess_html(&$variables)
+{
+  // Body colour theme.
+  $variables['b5_body_schema'] = theme_get_setting('b5_body_schema');
+  $variables['b5_body_bg_schema'] = theme_get_setting('b5_body_bg_schema');
+}
+
+/**
+ * Implements theme_preprocess_page().
+ */
+function bootstrap5_preprocess_page(&$variables)
+{
+  // Pass variables to theme.
+  $variables['b5_top_container'] = theme_get_setting('b5_top_container');
+  // Navbar colour theme.
+  $variables['b5_navbar_schema'] = theme_get_setting('b5_navbar_schema');
+  $variables['b5_navbar_bg_schema'] = theme_get_setting('b5_navbar_bg_schema');
+  // Footer colour theme.
+  $variables['b5_footer_schema'] = theme_get_setting('b5_footer_schema');
+  $variables['b5_footer_bg_schema'] = theme_get_setting('b5_footer_bg_schema');
+
+  //\Drupal::messenger()->addMessage('TEEE<pre>' . print_r($variables, TRUE) . '</pre>');
+
+
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for menu-local-tasks templates.
+ *
+ * Use preprocess hook to set #attached to child elements
+ * because they will be processed by Twig and drupal_render will
+ * be invoked.
+ */
+function bootstrap5_preprocess_menu_local_tasks(&$variables)
+{
+  if (!empty($variables['primary'])) {
+    $variables['primary']['#attached'] = [
+      'library' => [
+        'bootstrap5/drupal.nav-tabs',
+      ],
+    ];
+  } elseif (!empty($variables['secondary'])) {
+    $variables['secondary']['#attached'] = [
+      'library' => [
+        'bootstrap5/drupal.nav-tabs',
+      ],
+    ];
+  }
+
+  foreach (Element::children($variables['primary']) as $key) {
+    $variables['primary'][$key]['#level'] = 'primary';
+  }
+  foreach (Element::children($variables['secondary']) as $key) {
+    $variables['secondary'][$key]['#level'] = 'secondary';
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for menu-local-task templates.
+ */
+function bootstrap5_preprocess_menu_local_task(&$variables)
+{
+  // Ensure is-active class is set when the tab is active. The generic active
+  // link handler applies stricter comparison rules than what is necessary for
+  // tabs.
+  if (isset($variables['is_active']) && $variables['is_active'] === TRUE) {
+    $variables['link']['#options']['attributes']['class'][] = 'nav-link active is-active';
+  } else {
+    $variables['link']['#options']['attributes']['class'][] = 'nav-link';
+  }
+
+  if (isset($variables['element']['#level'])) {
+    $variables['level'] = $variables['element']['#level'];
+  }
+}
+
+/**
+ * Callback to convert attributes class which is string to array.
+ *
+ * @param array $variables
+ *   The variables to render from preprocess function.
+ */
+function _bootstrap5_attributes_class_string_to_array(&$variables)
+{
+  if (
+    isset($variables['attributes']) &&
+    isset($variables['attributes']['class']) &&
+    !is_array($variables['attributes']['class'])
+  ) {
+    $variables['attributes']['class'] = [$variables['attributes']['class']];
+  }
+}
+
+/**
+ * Implements theme_preprocess_textarea().
+ */
+function bootstrap5_preprocess_textarea(&$variables)
+{
+  _bootstrap5_attributes_class_string_to_array($variables);
+  $variables['attributes']['class'][] = 'form-control';
+}
+
+/**
+ * Implements template_preprocess_HOOK() for input.
+ */
+function bootstrap5_preprocess_input(&$variables)
+{
+  _bootstrap5_attributes_class_string_to_array($variables);
+
+  $type_html = $variables['attributes']['type'];
+  $text_types_html = [
+    'text',
+    'email',
+    'tel',
+    'number',
+    'search',
+    'password',
+    'url',
+    'month',
+    'week',
+    'date',
+    'time',
+  ];
+
+  if (in_array($type_html, $text_types_html)) {
+    $variables['attributes']['class'][] = 'form-control';
+  }
+
+  if (in_array($type_html, ['checkbox'])) {
+    $variables['attributes']['class'][] = 'form-check-input';
+  }
+}
+
+/**
+ * Implements theme_preprocess_datetime_form().
+ */
+function bootstrap5_preprocess_datetime_form(&$variables)
+{
+  _bootstrap5_attributes_class_string_to_array($variables);
+  $variables['attributes']['class'][] = 'form-inline';
+}
+
+/**
+ * Implements theme_preprocess_views_ui_display_tab_setting().
+ */
+function bootstrap5_preprocess_views_ui_display_tab_setting(&$variables)
+{
+  _bootstrap5_attributes_class_string_to_array($variables);
+  $variables['attributes']['class'][] = 'my-1';
+}
+
+/**
+ * Implements theme_preprocess_views_ui_display_tab_bucket().
+ */
+function bootstrap5_preprocess_views_ui_display_tab_bucket(&$variables)
+{
+  _bootstrap5_attributes_class_string_to_array($variables);
+  $variables['attributes']['class'][] = 'my-2';
+}
+
+/**
+ * Implements theme_preprocess_image().
+ */
+function bootstrap5_preprocess_image(&$variables)
+{
+  _bootstrap5_attributes_class_string_to_array($variables);
+  $variables['attributes']['class'][] = 'img-fluid';
+}
+
+/**
+ * Callback to add standard table classes.
+ *
+ * @see https://getbootstrap.com/docs/5.2/content/tables/
+ */
+function bootstrap5_add_table_variables(&$variables)
+{
+  _bootstrap5_attributes_class_string_to_array($variables);
+  $variables['attributes']['class'][] = 'table';
+}
+
+/**
+ * Callback to add standard table classes.
+ *
+ * @see https://getbootstrap.com/docs/5.2/content/tables/
+ */
+function bootstrap5_add_table_striped_variables(&$variables)
+{
+  _bootstrap5_attributes_class_string_to_array($variables);
+  $variables['attributes']['class'][] = 'table-striped';
+}
+
+/**
+ * Implements theme_preprocess_system_modules_details().
+ */
+function bootstrap5_preprocess_system_modules_details(&$variables)
+{
+  bootstrap5_add_table_variables($variables);
+  bootstrap5_add_table_striped_variables($variables);
+}
+
+/**
+ * Implements theme_preprocess_system_modules_uninstall().
+ */
+function bootstrap5_preprocess_system_modules_uninstall(&$variables)
+{
+  bootstrap5_add_table_variables($variables);
+  bootstrap5_add_table_striped_variables($variables);
+}
+
+/**
+ * Implements theme_preprocess_views_ui_views_listing_table().
+ */
+function bootstrap5_preprocess_views_ui_views_listing_table(&$variables)
+{
+  bootstrap5_add_table_variables($variables);
+  bootstrap5_add_table_striped_variables($variables);
+}
+
+/**
+ * Implements theme_preprocess_table().
+ */
+function bootstrap5_preprocess_table(&$variables)
+{
+  bootstrap5_add_table_variables($variables);
+}
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function bootstrap5_views_pre_render(ViewExecutable $view)
+{
+  $add_classes = function (&$option, array $classes_to_add) {
+    $classes = preg_split('/\s+/', $option);
+    $classes = array_filter($classes);
+    $classes = array_merge($classes, $classes_to_add);
+    $option = implode(' ', array_unique($classes));
+  };
+
+  if ($view->id() === 'media_library') {
+    if ($view->display_handler->options['defaults']['css_class']) {
+      $add_classes($view->displayHandlers->get('default')->options['css_class'], ['media-library-view']);
+    } else {
+      $add_classes($view->display_handler->options['css_class'], ['media-library-view']);
+    }
+
+    if ($view->current_display === 'page') {
+      if (array_key_exists('media_bulk_form', $view->field)) {
+        $add_classes($view->field['media_bulk_form']->options['element_class'], ['media-library-item__click-to-select-checkbox']);
+      }
+      if (array_key_exists('rendered_entity', $view->field)) {
+        $add_classes($view->field['rendered_entity']->options['element_class'], ['media-library-item__content']);
+      }
+      if (array_key_exists('edit_media', $view->field)) {
+        $add_classes($view->field['edit_media']->options['alter']['link_class'], ['media-library-item__edit']);
+        $add_classes($view->field['edit_media']->options['alter']['link_class'], ['icon-link']);
+      }
+      if (array_key_exists('delete_media', $view->field)) {
+        $add_classes($view->field['delete_media']->options['alter']['link_class'], ['media-library-item__remove']);
+        $add_classes($view->field['delete_media']->options['alter']['link_class'], ['icon-link']);
+      }
+    } elseif (strpos($view->current_display, 'widget') === 0) {
+      if (array_key_exists('rendered_entity', $view->field)) {
+        $add_classes($view->field['rendered_entity']->options['element_class'], ['media-library-item__content']);
+      }
+      if (array_key_exists('media_library_select_form', $view->field)) {
+        $add_classes($view->field['media_library_select_form']->options['element_wrapper_class'], ['media-library-item__click-to-select-checkbox']);
+      }
+
+      if ($view->display_handler->options['defaults']['css_class']) {
+        $add_classes($view->displayHandlers->get('default')->options['css_class'], ['media-library-view--widget']);
+      } else {
+        $add_classes($view->display_handler->options['css_class'], ['media-library-view--widget']);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_media_library_item__widget().
+ *
+ * This targets each media item selected in an entity reference field.
+ */
+function bootstrap5_preprocess_media_library_item__widget(array &$variables)
+{
+  $variables['content']['remove_button']['#attributes']['class'][] = 'media-library-item__remove';
+  $variables['content']['remove_button']['#attributes']['class'][] = 'icon-link';
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ *
+ * Pass block region value to content so this can be used in
+ * THEME_theme_suggestions_menu_alter.
+ */
+function bootstrap5_preprocess_block(&$variables)
+{
+  $account = \Drupal::currentUser();
+  $variables['user_roles'] = $account->getRoles();
+  if (isset($variables['elements']['#id'])) {
+    $block = Block::load($variables['elements']['#id']);
+    if ($block) {
+      $region = Block::load($variables['elements']['#id'])->getRegion();
+      if (!empty($region)) {
+        $variables['content']['#attributes']['data-block']['region'] = $region;
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function bootstrap5_theme_suggestions_menu_alter(array &$suggestions, array $variables)
+{
+  if (isset($variables['attributes']['data-block']['region'])) {
+    $region = $variables['attributes']['data-block']['region'];
+    $suggestions[] = $variables['theme_hook_original'] . '__' . $region;
+    $suggestions[] = 'menu__' . $region;
+  }
+}
+
+/* ------------------------ //! CUSTOM FUNCTION ADDED ----------------------- */
+
+
+use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\Core\Datetime\DateFormatterInterface;
+
+function bootstrap5_preprocess_user(&$variables)
+{
+
+  // $user = $variables['elements']['#user'];
+  // $current_time = \Drupal::service('datetime.time')->getCurrentTime();
+  // $account_creation_time = $user->getCreatedTime();
+
+  // $days_since_creation = floor(($current_time - $account_creation_time) / (24 * 60 * 60));
+  // $days_remaining = max(15 - $days_since_creation, 0);
+
+  // // Add expiry date: creation time + 15 days
+  // $expiry_timestamp = strtotime('+15 days', $account_creation_time);
+  // $formatted_expiry_date = \Drupal::service('date.formatter')->format($expiry_timestamp, 'custom', 'd-M-Y') . ' until midnight IST';
+
+  // $formatted_created_date = \Drupal::service('date.formatter')->format($account_creation_time, 'custom', 'd-M-Y');
+
+  //   // Add to template
+  // $variables['user_created_date'] = $formatted_created_date;
+  // $variables['user_days_remaining'] = $days_remaining;
+  // $variables['user_expiry_date'] = $formatted_expiry_date;
+
+  // // Add roles
+  // $variables['user_roles'] = $user->getRoles();
+
+  //! as of 31st july 25
+  $user = $variables['elements']['#user'];
+  $current_time = \Drupal::service('datetime.time')->getCurrentTime();
+  $account_creation_time = $user->getCreatedTime();
+
+  $days_since_creation = floor(($current_time - $account_creation_time) / (24 * 60 * 60));
+  $days_remaining = max(16 - $days_since_creation, 0);
+
+  // Add expiry date: creation time + 15 days
+  $expiry_timestamp = strtotime('+16 days', $account_creation_time);
+  $formatted_expiry_date = \Drupal::service('date.formatter')->format($expiry_timestamp, 'custom', 'd-M-Y') . ' until midnight IST';
+
+  $formatted_created_date = \Drupal::service('date.formatter')->format($account_creation_time, 'custom', 'd-M-Y');
+
+  // Add to template
+  $variables['user_created_date'] = $formatted_created_date;
+  $variables['user_expiry_date'] = $formatted_expiry_date;
+
+  // Only pass `user_days_remaining` if session key field is empty
+  if ($user->hasField('field_user_session_key') && $user->get('field_user_session_key')->isEmpty()) {
+    $variables['user_days_remaining'] = $days_remaining;
+  }
+
+  // Add roles
+  $variables['user_roles'] = $user->getRoles();
+
+
+  //! ends here
+
+
+  //! Pending Task
+
+
+  $account = $variables['elements']['#user'];
+  $reviewed_nodes = [];
+
+  if ($account->hasField('field_review_candidates') && !$account->get('field_review_candidates')->isEmpty()) {
+    foreach ($account->get('field_review_candidates')->referencedEntities() as $candidate_node) {
+      if (!$candidate_node instanceof \Drupal\node\NodeInterface) {
+        continue;
+      }
+
+      $label = $candidate_node->label();
+      $nid = $candidate_node->id();
+      $program = '';
+      $status = '';
+
+      // ✅ Get program name from taxonomy term
+      if (
+        $candidate_node->hasField('field_program_name') &&
+        !$candidate_node->get('field_program_name')->isEmpty()
+      ) {
+        $term = $candidate_node->get('field_program_name')->entity;
+        if ($term) {
+          $program = $term->label();
+        }
+      }
+
+      // ✅ Get status from list field ON THE CANDIDATE NODE
+      if (
+        $candidate_node->hasField('field_status') &&
+        !$candidate_node->get('field_status')->isEmpty()
+      ) {
+        $status_value = $candidate_node->get('field_status')->value;
+
+        // Resolve human-readable label for list field
+        $allowed_values = $candidate_node->getFieldDefinition('field_status')->getSetting('allowed_values');
+        $status = $allowed_values[$status_value] ?? $status_value;
+      }
+
+      // ✅ Determine action link based on comment status
+      $action_link = null;
+      $session_key = $candidate_node->hasField('field_session_key') ? $candidate_node->get('field_session_key')->value : '';
+
+      // Check if the user has already commented
+      $user_has_commented = FALSE;
+      $comment_nid = NULL;
+
+      /* ------------------------ //! pending task old link ----------------------- */
+      // if (
+      //   $candidate_node->hasField('field_faculty_member_comment_ref') &&
+      //   !$candidate_node->get('field_faculty_member_comment_ref')->isEmpty()
+      // ) {
+      //   foreach ($candidate_node->get('field_faculty_member_comment_ref')->referencedEntities() as $comment_node) {
+      //     if (
+      //       $comment_node->hasField('field_comment_name') &&
+      //       $comment_node->get('field_comment_name')->value === $account->getAccountName()
+      //     ) {
+      //       $user_has_commented = TRUE;
+      //       $comment_nid = $comment_node->id();
+      //       break;
+      //     }
+      //   }
+      // }
+      /* ------------------------------ //! Ends here ----------------------------- */
+
+
+      // initialize
+      $user_has_commented = FALSE;
+      $comment_nid = NULL;
+
+      // list of comment‐reference fields to check
+      $comment_fields = [
+        'field_faculty_member_comment_ref',
+        'field_dean_comment_reference',
+      ];
+
+      foreach ($comment_fields as $field_name) {
+        if (
+          $candidate_node->hasField($field_name) &&
+          !$candidate_node->get($field_name)->isEmpty()
+        ) {
+          foreach ($candidate_node->get($field_name)->referencedEntities() as $comment_node) {
+            if (
+              $comment_node->hasField('field_comment_name') &&
+              $comment_node->get('field_comment_name')->value === $account->getAccountName()
+            ) {
+              $user_has_commented = TRUE;
+              $comment_nid = $comment_node->id();
+              // found it, break out of both loops
+              break 2;
+            }
+          }
+        }
+      }
+
+
+
+
+
+      if ($user_has_commented && $comment_nid) {
+        // ✅ Build Edit link for existing comment
+        $query = [
+          'session' => $session_key,
+          'nid' => $nid,
+          'destination' => \Drupal::request()->getRequestUri(),
+        ];
+
+        $url = \Drupal\Core\Url::fromRoute('entity.node.edit_form', ['node' => $comment_nid], ['query' => $query]);
+
+        $action_link = [
+          'title' => 'Add Comments',
+          'url' => $url->toString(),
+        ];
+
+        \Drupal::logger('review_candidates')->debug("User {$account->getAccountName()} already commented. Edit link generated for comment node ID {$comment_nid}");
+      } else {
+        // ✅ Build Add link if user hasn't commented
+        $query = [
+          'session' => $session_key,
+          'nid' => $nid,
+          'destination' => \Drupal::request()->getRequestUri(),
+        ];
+        $url = \Drupal\Core\Url::fromUri('internal:/node/add/add_comments', ['query' => $query]);
+        $action_link = [
+          'title' => 'Add Comments',
+          'url' => $url->toString(),
+        ];
+        \Drupal::logger('review_candidates')->debug("User {$account->getAccountName()} has not commented. Add link generated for candidate node ID {$nid}");
+      }
+
+      $reviewed_nodes[] = [
+        'label' => $label,
+        'nid' => $nid,
+        'program' => $program,
+        'status' => $status,
+        'action_link' => $action_link,
+      ];
+    }
+  }
+
+  $variables['review_candidates_data'] = $reviewed_nodes;
+
+  // ✅ Final output for debug
+  \Drupal::logger('review_candidates')->notice('<pre>' . print_r($reviewed_nodes, TRUE) . '</pre>');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  //! To get roles
+
+  // Get role machine names, exclude 'authenticated'
+  $role_ids = array_diff($account->getRoles(), ['authenticated']);
+
+  // Convert to labels
+  $role_labels = [];
+  foreach ($role_ids as $rid) {
+    $role = Role::load($rid);
+    if ($role) {
+      $role_labels[] = $role->label();
+    }
+  }
+
+  $variables['user_role_labels'] = $role_labels;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function bootstrap5_preprocess_paragraph__other_relevant_information(&$variables)
+{
+  // Your code here.
+  $paragraph = $variables['paragraph']; // This gets the paragraph entity.
+  if (isset($paragraph)) {
+    $variables['field_definitions'] = $paragraph->getFieldDefinitions();
+  }
+}
+
+
+
+function bootstrap5_preprocess_paragraph__education_(&$variables)
+{
+  // Your code here.
+  $paragraph = $variables['paragraph']; // This gets the paragraph entity.
+  if (isset($paragraph)) {
+    $variables['field_definitions'] = $paragraph->getFieldDefinitions();
+  }
+}
+
+function bootstrap5_preprocess_paragraph__referee_details(&$variables)
+{
+  // Your code here.
+  $paragraph = $variables['paragraph']; // This gets the paragraph entity.
+  if (isset($paragraph)) {
+    $variables['field_definitions'] = $paragraph->getFieldDefinitions();
+  }
+}
+function bootstrap5_preprocess_paragraph__publications(&$variables)
+{
+  // Your code here.
+  $paragraph = $variables['paragraph']; // This gets the paragraph entity.
+  if (isset($paragraph)) {
+    $variables['field_definitions'] = $paragraph->getFieldDefinitions();
+  }
+}
+function bootstrap5_preprocess_paragraph__research_proposals(&$variables)
+{
+  // Your code here.
+  $paragraph = $variables['paragraph']; // This gets the paragraph entity.
+  if (isset($paragraph)) {
+    $variables['field_definitions'] = $paragraph->getFieldDefinitions();
+  }
+}
+
+
+//!
+use Drupal\node\Entity\Node;
+use Drupal\Core\Messenger\MessengerInterface;
+
+
+
+function bootstrap5_preprocess_node(&$variables)
+{
+  $node = $variables['node'];
+
+  if ($node->bundle() === 'academic_qualification' && $node->hasField('field_academic_qualification')) {
+    $headers = [];
+    $rows = [];
+
+    foreach ($node->get('field_academic_qualification') as $delta => $item) {
+      $paragraph = $item->entity;
+
+      if ($paragraph) {
+        $row = [];
+
+        // Load display config
+        $display = \Drupal::entityTypeManager()
+          ->getStorage('entity_view_display')
+          ->load('paragraph.' . $paragraph->bundle() . '.default');
+
+        if ($display) {
+          $components = $display->getComponents();
+
+          // ✅ Sort components by 'weight'
+          uasort($components, function ($a, $b) {
+            return ($a['weight'] ?? 0) <=> ($b['weight'] ?? 0);
+          });
+
+          foreach (array_keys($components) as $field_name) {
+            if ($paragraph->hasField($field_name)) {
+              $field = $paragraph->get($field_name);
+              $label = $field->getFieldDefinition()->getLabel();
+              $value = $field->value ?? '';
+
+              if ($delta === 0) {
+                $headers[] = $label;
+              }
+
+              $row[] = $value;
+            }
+          }
+        }
+
+        $rows[] = $row;
+      }
+    }
+
+    $variables['academic_qualification_headers'] = $headers;
+    $variables['academic_qualification_rows'] = $rows;
+  }
+
+  // Update Publications
+  if ($node->bundle() === 'update_publications' && $node->hasField('field_update_publications')) {
+    $headers = [];
+    $rows = [];
+
+    foreach ($node->get('field_update_publications') as $delta => $item) {
+      $paragraph = $item->entity;
+      if ($paragraph) {
+        $row = [];
+
+        $display = \Drupal::entityTypeManager()
+          ->getStorage('entity_view_display')
+          ->load('paragraph.' . $paragraph->bundle() . '.default');
+
+        if ($display) {
+          $components = $display->getComponents();
+          uasort($components, fn($a, $b) => ($a['weight'] ?? 0) <=> ($b['weight'] ?? 0));
+
+          foreach (array_keys($components) as $field_name) {
+            if ($paragraph->hasField($field_name)) {
+              $field = $paragraph->get($field_name);
+              $label = $field->getFieldDefinition()->getLabel();
+
+              // ✅ Render with display formatter
+              $field_definition = $field->getFieldDefinition();
+              $target_type = $field_definition->getSetting('target_type');
+
+              if ($target_type === 'file' && !$field->isEmpty()) {
+                $file = $field->entity;
+                $uri = $file->getFileUri();
+                $url = \Drupal::service('file_url_generator')->generateAbsoluteString($uri);
+
+                $value = '<a href="' . $url . '" download>Download</a>';
+              } else {
+                $rendered = $field->view(['label' => 'hidden', 'type' => 'default']);
+                $value = \Drupal::service('renderer')->renderPlain($rendered);
+              }
+
+              if ($delta === 0) {
+                $headers[] = $label;
+              }
+
+              $row[] = $value;
+            }
+          }
+        }
+
+        $rows[] = $row;
+      }
+    }
+
+    $variables['update_publications_headers'] = $headers;
+    $variables['update_publications_rows'] = $rows;
+  }
+
+  // work experience
+  if ($node->bundle() === 'work_experience' && $node->hasField('field_work_experience')) {
+    $headers = [];
+    $rows = [];
+
+    foreach ($node->get('field_work_experience') as $delta => $item) {
+      $paragraph = $item->entity;
+      if ($paragraph) {
+        $row = [];
+
+        $display = \Drupal::entityTypeManager()
+          ->getStorage('entity_view_display')
+          ->load('paragraph.' . $paragraph->bundle() . '.default');
+
+        if ($display) {
+          $components = $display->getComponents();
+          uasort($components, fn($a, $b) => ($a['weight'] ?? 0) <=> ($b['weight'] ?? 0));
+
+          foreach (array_keys($components) as $field_name) {
+            if ($paragraph->hasField($field_name)) {
+              $field = $paragraph->get($field_name);
+              $label = $field->getFieldDefinition()->getLabel();
+
+              $field_definition = $field->getFieldDefinition();
+              $field_type = $field_definition->getType();
+
+              if ($field_type === 'datetime' && !$field->isEmpty()) {
+                $date_value = $field->value;
+                $value = \Drupal::service('date.formatter')->format(strtotime($date_value), 'custom', 'd-m-Y');
+              } else {
+                // fallback to normal render for other fields
+                $rendered = $field->view(['label' => 'hidden', 'type' => 'default']);
+                $value = \Drupal::service('renderer')->renderPlain($rendered);
+              }
+
+
+              if ($delta === 0) {
+                $headers[] = $label;
+              }
+
+              $row[] = $value;
+            }
+          }
+        }
+
+        $rows[] = $row;
+      }
+    }
+
+    $variables['work_experience_headers'] = $headers;
+    $variables['work_experience_rows'] = $rows;
+  }
+
+
+
+
+
+
+  // Research Areas
+  if ($variables['node']->bundle() === 'other_relevant_information') {
+    $current_user = \Drupal::currentUser();
+    $account = \Drupal\user\Entity\User::load($current_user->id());
+
+    $parent_terms = [];
+    if ($account && $account->hasField('field_user_research_programs') && !$account->get('field_user_research_programs')->isEmpty()) {
+      foreach ($account->get('field_user_research_programs')->referencedEntities() as $term) {
+        $parent_terms[] = $term->label();
+      }
+    }
+
+    $variables['user_parent_terms'] = $parent_terms;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+use Drupal\file\Entity\File;
+use Drupal\Core\Url;
+
+
+use Drupal\image\Entity\ImageStyle;
+use Drupal\Core\Logger\RfcLogLevel;
+
+/**
+ * Implements hook_preprocess_node__submit_application().
+ */
+function bootstrap5_preprocess_node__submit_application(&$variables)
+{
+  $node = $variables['node'];
+  // Check if the node exists before proceeding.
+  if (isset($variables['node'])) {
+    $node = $variables['node'];
+
+    /* -------------------------- //! BASIC INFORMATION ------------------------- */
+    if ($node->hasField('field_basic_information_referenc') && !$node->get('field_basic_information_referenc')->isEmpty()) {
+      // Load the referenced 'basic_information' node.
+      $basic_information = $node->get('field_basic_information_referenc')->entity;
+
+      if ($basic_information) {
+        $bundle = $basic_information->bundle();
+
+        // Load the form display configuration.
+        $form_display = \Drupal::entityTypeManager()
+          ->getStorage('entity_form_display')
+          ->load("node.{$bundle}.default");
+
+        if ($form_display) {
+          $components = $form_display->getComponents();
+          uasort($components, fn($a, $b) => $a['weight'] <=> $b['weight']);
+
+          $ordered_basic_fields = [];
+
+          foreach ($components as $field_name => $options) {
+            if ($basic_information->hasField($field_name) && !$basic_information->get($field_name)->isEmpty()) {
+              $field = $basic_information->get($field_name);
+              $field_definition = $field->getFieldDefinition();
+              $target_type = $field_definition->getSetting('target_type');
+
+              // // Check if it's a file field.
+              // if ($target_type === 'file' && !$field->isEmpty()) {
+              //   $file = $field->entity;
+
+              //   if ($file instanceof \Drupal\file\FileInterface) {
+              //     $mime = $file->getMimeType();
+
+              //     if (strpos($mime, 'image/') !== 0) {
+              //       // Non-image file → Download link
+              //       $uri = $file->getFileUri();
+              //       $url = \Drupal::service('file_url_generator')->generateAbsoluteString($uri);
+
+              //       $value = [
+              //         '#markup' => '<a href="' . $url . '" download>Download</a>',
+              //         '#allowed_tags' => ['a'],
+              //       ];
+              //     } else {
+              //       // ✅ Image → custom size
+              //       $uri = $file->getFileUri();
+              //       $url = \Drupal::service('file_url_generator')->generateAbsoluteString($uri);
+
+              //       $value = [
+              //         '#theme' => 'image',
+              //         '#uri' => $uri,
+              //         '#width' => 250,
+              //         '#height' => 250,
+              //         '#alt' => $file->getFilename(),
+              //         '#attributes' => [
+              //           'style' => 'object-fit: cover;',
+              //         ],
+              //       ];
+              //     }
+              //   }
+              // } else {
+              //   // Default render for non-file fields
+              //   $value = $field->view(['label' => 'hidden']);
+              // }
+
+              //! as of 28-07 - making view | download link
+              // Check if it's a file field.
+              if ($target_type === 'file' && !$field->isEmpty()) {
+                $file = $field->entity;
+
+                if ($file instanceof \Drupal\file\FileInterface) {
+                  $mime = $file->getMimeType();
+                  $uri = $file->getFileUri();
+                  $url = \Drupal::service('file_url_generator')->generateAbsoluteString($uri);
+
+                  if (strpos($mime, 'image/') !== 0) {
+                    // Non-image file → View and Download links
+                    $value = [
+                      '#markup' => '<a href="' . $url . '" target="_blank">View</a> | <a href="' . $url . '" download>Download</a>',
+                      '#allowed_tags' => ['a'],
+                    ];
+                  } else {
+                    // ✅ Image → custom size + links
+                    $value = [
+                      '#theme' => 'image',
+                      '#uri' => $uri,
+                      '#width' => 250,
+                      '#height' => 250,
+                      '#alt' => $file->getFilename(),
+                      '#attributes' => [
+                        'style' => 'object-fit: cover;',
+                      ],
+                      'links' => [
+                        '#markup' => '<div><a href="' . $url . '" target="_blank">View</a> | <a href="' . $url . '" download>Download</a></div>',
+                        '#allowed_tags' => ['a', 'div'],
+                      ],
+                    ];
+                  }
+                }
+              } elseif ($field_name === 'field_date_of_birth') {
+                // Format the date only (no time)
+                $timestamp = strtotime($field->value);
+                $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'd-m-Y');
+                $value = ['#markup' => $formatted_date];
+              } else {
+                // Default render for non-file fields
+                $value = $field->view(['label' => 'hidden']);
+              }
+
+              //! Ends here
+
+
+              $ordered_basic_fields[$field_name] = [
+                'label' => $field_definition->getLabel(),
+                'value' => $value,
+              ];
+            }
+          }
+
+          // Get the author of the basic_information node.
+          $author = $basic_information->getOwner();
+          if ($author instanceof \Drupal\user\UserInterface) {
+            $variables['user_email'] = $author->getEmail();
+          }
+
+          // Pass to Twig.
+          $variables['ui_basic_fields'] = $ordered_basic_fields;
+        }
+      }
+    }
+    /* -------------------------- //! BASIC INFORMATION ENDS ------------------------- */
+
+    /* --------------------- // ! RESEARCH AREAS APPLICATION -------------------- */
+    if ($node->hasField('field_other_relevant_info_ref') && !$node->get('field_other_relevant_info_ref')->isEmpty()) {
+      // Load the referenced 'other_relevant_information' node.
+      $other_relevant_info = $node->field_other_relevant_info_ref->entity;
+
+      if ($other_relevant_info) {
+        //    \Drupal::logger('bootstrap5-research areas')->info('Loaded Other Relevant Info node: ' . $other_relevant_info->id());
+
+        // Get all field definitions for the entity.
+        $relevant_fields = $other_relevant_info->getFieldDefinitions();
+        //    \Drupal::logger('bootstrap5-research areas')->info('Loaded field definitions count: ' . count($relevant_fields));
+
+        // Filter only fields that belong to the 'other_relevant_information' bundle.
+        $ui_relevant_fields = array_filter($relevant_fields, fn($field_def) => $field_def->getTargetBundle() == 'other_relevant_information');
+        //     \Drupal::logger('bootstrap5-research areas')->info('Filtered relevant fields: ' . implode(', ', array_keys($ui_relevant_fields)));
+
+        // Load VIEW DISPLAY config for the 'full' view mode.
+        $relevant_display = \Drupal::entityTypeManager()->getStorage('entity_view_display')->load('node.other_relevant_information.full');
+
+        if ($relevant_display) {
+          //       \Drupal::logger('bootstrap5-research areas')->info('Loaded entity_view_display: node.other_relevant_information.full');
+
+          $relevant_components = $relevant_display->getComponents();
+          uasort($relevant_components, fn($a, $b) => $a['weight'] <=> $b['weight']);
+          //       \Drupal::logger('bootstrap5-research areas')->info('Found ' . count($relevant_components) . ' components from display config.');
+
+          $ordered_relevant_fields = [];
+
+          foreach ($relevant_components as $field_name => $display_options) {
+            //         \Drupal::logger('bootstrap5-research areas')->info("Processing field: $field_name");
+
+            if (!$other_relevant_info->hasField($field_name)) {
+              //            \Drupal::logger('bootstrap5-research areas')->info("Skipping $field_name: field not found");
+              continue;
+            }
+
+            $field = $other_relevant_info->get($field_name);
+            if ($field->isEmpty()) {
+              //            \Drupal::logger('bootstrap5-research areas')->info("Skipping $field_name: field is empty");
+              continue;
+            }
+
+            $field_type = $field->getFieldDefinition()->getType();
+            $values = [];
+
+            if (in_array($field_type, ['entity_reference', 'taxonomy_term_reference'])) {
+              foreach ($field->referencedEntities() as $term) {
+                $values[] = $term->label();
+              }
+              $value = implode(', ', $values);
+            } elseif ($field_type === 'list_string') {
+              foreach ($field as $item) {
+                $values[] = $item->value;
+              }
+              $value = implode(', ', $values);
+            } else {
+              $value = $field->value ?? '';
+            }
+
+            if (empty($value)) {
+              //            \Drupal::logger('bootstrap5-research areas')->info("Skipping $field_name: resolved value is empty");
+              continue;
+            }
+
+            $label = isset($ui_relevant_fields[$field_name])
+              ? $ui_relevant_fields[$field_name]->getLabel()
+              : ucfirst(str_replace('_', ' ', $field_name));
+
+            $ordered_relevant_fields[$field_name] = [
+              'label' => $label,
+              'value' => $value,
+            ];
+          }
+          // Final data passed to template.
+          $variables['ui_relevant_fields'] = $ordered_relevant_fields;
+          \Drupal::logger('bootstrap5-research areas')->info('Relevant fields added to template: ' . implode(', ', array_keys($ordered_relevant_fields)));
+        } else {
+          \Drupal::logger('bootstrap5-research areas')->error('Display settings for Other Relevant Info could not be loaded.');
+        }
+      } else {
+        \Drupal::logger('bootstrap5-research areas')->error('Other Relevant Info entity could not be loaded.');
+      }
+    } else {
+      \Drupal::logger('bootstrap5-research areas')->notice('field_other_relevant_info_ref field missing or empty on node.');
+    }
+    /* --------------------- // ! RESEARCH AREAS APPLICATION ENDS HERE-------------------- */
+
+
+    /* --------------------------- //! STATUS UPDATES --------------------------- */
+    if ($node->hasField('field_status_update') && !$node->get('field_status_update')->isEmpty()) {
+      $status_paragraphs = $node->get('field_status_update')->referencedEntities();
+
+      // Reverse so latest status update comes first
+      $status_paragraphs = array_reverse($status_paragraphs);
+
+      $structured_status_updates = [];
+
+      foreach ($status_paragraphs as $paragraph) {
+        if (
+          $paragraph->hasField('field_status_name') &&
+          $paragraph->hasField('field_status_update_date')
+        ) {
+          $status_names = [];
+          foreach ($paragraph->get('field_status_name')->getValue() as $item) {
+            $status_names[] = $item['value'];
+          }
+
+          $status_dates = [];
+          foreach ($paragraph->get('field_status_update_date')->getValue() as $item) {
+            if (!empty($item['value'])) {
+              try {
+                $date = new \DateTime($item['value'], new \DateTimeZone('UTC'));
+                $drupal_timezone = new \DateTimeZone(date_default_timezone_get());
+                $date->setTimezone($drupal_timezone);
+                $formatted_date = $date->format('d-m-Y h:i:s A');
+                $status_dates[] = $formatted_date;
+              } catch (\Exception $e) {
+                \Drupal::logger('error')->error('Date conversion error: ' . $e->getMessage());
+              }
+            }
+          }
+
+          // Get previous status (handles single or multi-value)
+          $previous_status_values = [];
+          if ($paragraph->hasField('field_previous_status')) {
+            foreach ($paragraph->get('field_previous_status')->getValue() as $item) {
+              $previous_status_values[] = $item['value'];
+            }
+          }
+
+          // Pair statuses, previous statuses, and dates
+          $count = max(count($status_names), count($status_dates), count($previous_status_values));
+          $status_entries = [];
+          for ($i = 0; $i < $count; $i++) {
+            $status_entries[] = [
+              'status' => $status_names[$i] ?? 'N/A',
+              'date' => $status_dates[$i] ?? 'N/A',
+              'previous_status' => $previous_status_values[$i] ?? '', // Add previous status
+            ];
+          }
+
+          $structured_status_updates[] = [
+            'paragraph_id' => $paragraph->id(),
+            'entries' => $status_entries,
+          ];
+        }
+      }
+
+      $variables['ui_status_fields'] = $structured_status_updates;
+      // \Drupal::logger('bootstrap5')->error('Status Information: ' . json_encode($variables['ui_status_fields']));
+    } else {
+      // \Drupal::logger('bootstrap5')->error('No status update paragraphs found.');
+    }
+    /* --------------------------- //! STATUS UPDATES ENDS HERE --------------------------- */
+
+    /* ---------- //! ACADEMIC, WORK EXPERIENCE, REFEREES,PUBLICATIONS ---------- */
+    // Initialize an array to store all the data.
+    $data = [];
+
+    // Define the field mappings for each data type.
+    $field_mappings = [
+      'field_academic_qualification_ref' => [
+        'target_field' => 'field_academic_qualification',
+        'target_type' => 'education_',
+        'target_view_mode' => 'default1',
+        'result_key' => 'academic_qualifications',
+      ],
+      'field_work_experience_ref' => [
+        'target_field' => 'field_work_experience',
+        'target_type' => 'work_experience',
+        'target_view_mode' => 'default1',
+        'result_key' => 'work_experience',
+      ],
+      'field_update_publications_ref' => [
+        'target_field' => 'field_update_publications',
+        'target_type' => 'publications',
+        'target_view_mode' => 'default1',
+        'result_key' => 'publications',
+      ],
+      'field_research_proposal_ref' => [
+        'target_field' => 'field_research_proposal',
+        'target_type' => 'research_proposals',
+        'target_view_mode' => 'default1',
+        'result_key' => 'research_proposals',
+      ],
+    ];
+
+    // Loop through each field mapping configuration.
+    foreach ($field_mappings as $field_name => $mapping) {
+      // Make sure the field exists and is not empty.
+      if ($node->hasField($field_name) && !$node->get($field_name)->isEmpty()) {
+        $ref_node = $node->get($field_name)->entity;
+
+        // Check if the referenced node is valid and contains the target paragraph field.
+        if ($ref_node && $ref_node->hasField($mapping['target_field']) && !$ref_node->get($mapping['target_field'])->isEmpty()) {
+          $paragraphs = $ref_node->get($mapping['target_field'])->referencedEntities();
+
+          // Build the entity view display ID for the paragraph type and view mode.
+          // $display_id = 'paragraph.' . $mapping['target_type'] . '.' . $mapping['target_view_mode'];
+
+          $display_id = 'paragraph.' . $mapping['target_type'] . '.default';
+
+          // Load display configuration (Manage display settings in UI).
+          $display = \Drupal::entityTypeManager()->getStorage('entity_view_display')->load($display_id);
+
+          if ($display) {
+            // Get all components and sort by weight to match UI order.
+            $ordered_fields = $display->getComponents();
+            uasort($ordered_fields, fn($a, $b) => $a['weight'] <=> $b['weight']);
+
+            // Loop through each paragraph entity.
+            foreach ($paragraphs as $paragraph) {
+              $paragraph_data = [];
+
+              // Render each field based on display config (weight/order).
+              foreach ($ordered_fields as $field_key => $settings) {
+                // Only process field_* type fields.
+                if ($paragraph->hasField($field_key) && strpos($field_key, 'field_') === 0 && !$paragraph->get($field_key)->isEmpty()) {
+                  $field = $paragraph->get($field_key);
+                  $definition = $field->getFieldDefinition();
+                  $field_type = $definition->getType();
+
+                  // Handle file and image fields as renderable arrays.
+                  // if (($field_type === 'file' || $field_type === 'image') && !$field->isEmpty()) {
+                  //   $file_entity = $field->entity;
+                  //   if ($file_entity instanceof \Drupal\file\FileInterface) {
+                  //     $mime = $file_entity->getMimeType();
+
+                  //     if (strpos($mime, 'image/') === 0) {
+                  //       // ✅ Image → render normally
+                  //       $paragraph_data[$field_key] = [
+                  //         'label' => $definition->getLabel(),
+                  //         'value' => $field->view([
+                  //           'label' => 'hidden',
+                  //           'type' => $settings['type'],
+                  //           'settings' => $settings['settings'],
+                  //         ]),
+                  //       ];
+                  //     } else {
+                  //       // ✅ Non-image file → render as "Download"
+                  //       $uri = $file_entity->getFileUri();
+                  //       $url = \Drupal::service('file_url_generator')->generateAbsoluteString($uri);
+                  //       $paragraph_data[$field_key] = [
+                  //         'label' => $definition->getLabel(),
+                  //         'value' => [
+                  //           '#markup' => '<a href="' . $url . '" download>Download</a>',
+                  //           '#allowed_tags' => ['a'],
+                  //         ],
+                  //       ];
+                  //     }
+                  //   }
+                  // }
+
+                  //! as of 28-07 - making view|download
+                  // Handle file and image fields as renderable arrays.
+                  if (($field_type === 'file' || $field_type === 'image') && !$field->isEmpty()) {
+                    $file_entity = $field->entity;
+
+                    if ($file_entity instanceof \Drupal\file\FileInterface) {
+                      $mime = $file_entity->getMimeType();
+                      $uri = $file_entity->getFileUri();
+                      $url = \Drupal::service('file_url_generator')->generateAbsoluteString($uri);
+
+                      if (strpos($mime, 'image/') === 0) {
+                        // ✅ Image → render with formatter and add View | Download links
+                        $image_render = $field->view([
+                          'label' => 'hidden',
+                          'type' => $settings['type'],
+                          'settings' => $settings['settings'],
+                        ]);
+
+                        $links_render = [
+                          '#markup' => '<div style="margin-top: 5px;"><a href="' . $url . '" target="_blank">View</a> | <a href="' . $url . '" download>Download</a></div>',
+                          '#allowed_tags' => ['a', 'div'],
+                        ];
+
+                        $paragraph_data[$field_key] = [
+                          'label' => $definition->getLabel(),
+                          'value' => [
+                            $image_render,
+                            $links_render,
+                          ],
+                        ];
+                      } else {
+                        // ✅ Non-image file → render View | Download links
+                        $paragraph_data[$field_key] = [
+                          'label' => $definition->getLabel(),
+                          'value' => [
+                            '#markup' => '<a href="' . $url . '" target="_blank">View</a> | <a href="' . $url . '" download>Download</a>',
+                            '#allowed_tags' => ['a'],
+                          ],
+                        ];
+                      }
+                    }
+                  }
+
+                  //! ends here
+
+
+                  // Handle list_string (e.g., dropdowns/multiselects).
+                  elseif ($field_type === 'list_string') {
+                    $values = array_column($field->getValue(), 'value');
+                    $paragraph_data[$field_key] = [
+                      'label' => $definition->getLabel(),
+                      'value' => implode(', ', $values),
+                    ];
+                  }
+                  // New handling for the 'year' field type:
+                  elseif ($field_type === 'year') {
+                    // Year fields also expose their data in a 'value' key
+                    $values = array_column($field->getValue(), 'value');
+                    $paragraph_data[$field_key] = [
+                      'label' => $definition->getLabel(),
+                      'value' => implode(', ', $values),
+                    ];
+                  }
+                  // Default handling for plain fields (text, number, etc.).
+                  else {
+                    $paragraph_data[$field_key] = [
+                      'label' => $definition->getLabel(),
+                      'value' => $field->view([
+                        'label' => 'hidden',
+                        'type' => $settings['type'],
+                        'settings' => $settings['settings'],
+                      ]),
+                    ];
+                  }
+                }
+              }
+
+              // Add each paragraph's ordered data to the main result array.
+              $data[$mapping['result_key']][] = $paragraph_data;
+            }
+          } else {
+            // Log an error if the display config couldn't be loaded.
+            \Drupal::logger('bootstrap5')->error('The display configuration for @display_id could not be loaded.', [
+              '@display_id' => $display_id,
+            ]);
+          }
+        }
+      }
+    }
+
+    /* ------------------------------- //! REFEREE ------------------------------ */
+    if ($node->hasField('field_list_of_referees_ref') && !$node->get('field_list_of_referees_ref')->isEmpty()) {
+      $ref_node = $node->get('field_list_of_referees_ref')->entity;
+
+      if ($ref_node && $ref_node->hasField('field_list_of_referees_') && !$ref_node->get('field_list_of_referees_')->isEmpty()) {
+        $paragraphs = $ref_node->get('field_list_of_referees_')->referencedEntities();
+
+        // Load display config to get field order
+        $display = \Drupal::entityTypeManager()
+          ->getStorage('entity_view_display')
+          ->load('paragraph.referee_details.default1');
+
+        $ordered_fields = $display ? $display->getComponents() : [];
+        uasort($ordered_fields, fn($a, $b) => $a['weight'] <=> $b['weight']);
+
+        foreach ($paragraphs as $paragraph) {
+          $referee_data = [];
+
+          // Add only fields defined in the display config (ordered)
+          foreach ($ordered_fields as $field_name => $settings) {
+            if (
+              strpos($field_name, 'field_') === 0 &&
+              $paragraph->hasField($field_name) &&
+              !$paragraph->get($field_name)->isEmpty()
+            ) {
+              $field = $paragraph->get($field_name);
+              $referee_data[$field_name] = [
+                'label' => $field->getFieldDefinition()->getLabel(),
+                'value' => $field->view([
+                  'label' => 'hidden',
+                  'type' => $settings['type'],
+                  'settings' => $settings['settings'],
+                ]),
+              ];
+            }
+          }
+
+          // Feedback node logic
+          if ($paragraph->hasField('field_referee_feedback_reference') && !$paragraph->get('field_referee_feedback_reference')->isEmpty()) {
+            $feedback_ref_node = $paragraph->get('field_referee_feedback_reference')->entity;
+            $comment_feedback = '';
+
+            if ($feedback_ref_node) {
+              if ($feedback_ref_node->hasField('field_upload_recommendations') && !$feedback_ref_node->get('field_upload_recommendations')->isEmpty()) {
+                $file_entities = $feedback_ref_node->get('field_upload_recommendations')->referencedEntities();
+                foreach ($file_entities as $file) {
+                  if ($file instanceof \Drupal\file\Entity\File) {
+                    $url = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
+                    $comment_feedback .= '<a href="' . $url . '" target="_blank">' . $file->getFilename() . '</a><br>';
+                  }
+                }
+              }
+
+              if ($feedback_ref_node->hasField('field_comment') && !$feedback_ref_node->get('field_comment')->isEmpty()) {
+                $comment_feedback .= '<p>' . $feedback_ref_node->get('field_comment')->value . '</p>';
+              }
+
+              // Add combined feedback
+              $referee_data['field_comment_feedback'] = [
+                'label' => 'Comment/Feedback',
+                'value' => [
+                  '#markup' => $comment_feedback,
+                  '#allowed_tags' => ['a', 'p', 'br'],
+                ],
+              ];
+
+              if ($feedback_ref_node->hasField('field_referee_comment_status') && !$feedback_ref_node->get('field_referee_comment_status')->isEmpty()) {
+                $referee_data['field_referee_comment_status'] = [
+                  'label' => $feedback_ref_node->getFieldDefinition('field_referee_comment_status')->getLabel(),
+                  'value' => $feedback_ref_node->get('field_referee_comment_status')->value,
+                ];
+              }
+            }
+          }
+
+          $data['referee_details'][] = $referee_data;
+        }
+      }
+    }
+    // Pass all the data to the Twig template.
+    $variables['data'] = $data;
+
+    /* ---------- //! ACADEMIC, WORK EXPERIENCE, REFEREES,PUBLICATIONS ENDS HERE---------- */
+
+
+
+    /* ------------------------------ //! COMMENTS ------------------------------ */
+    $node = $variables['node'];
+
+
+
+    //   $comments = [];
+    //   $current_user = \Drupal::currentUser();
+    //   $current_user_name = $current_user->getAccountName();
+    //   $current_user_roles = $current_user->getRoles();
+
+    //   $fields = [
+    //     'field_admin_comment_reference',
+    //     'field_dean_comment_reference',
+    //     'field_director_comment_reference',
+    //     'field_faculty_search_comit_coref',
+    //     'field_faculty_member_comment_ref',
+    //     'field_prescreen_comment_ref',
+    //   ];
+
+    //   foreach ($fields as $field) {
+    //     $comments[$field] = [];
+
+    //     if (!$node->hasField($field) || $node->get($field)->isEmpty()) {
+    //       continue;
+    //     }
+
+    //     foreach ($fields as $field) {
+    //       $comments[$field] = [];
+
+    //       if (!$node->hasField($field) || $node->get($field)->isEmpty()) {
+    //         continue;
+    //       }
+
+    //       foreach ($node->get($field)->referencedEntities() as $ref_node) {
+    //         $comment_name = $ref_node->get('field_comment_name')->value ?? '';
+
+    //         if ($ref_node->hasField('field_add_comments_') && !$ref_node->get('field_add_comments_')->isEmpty()) {
+    //           foreach ($ref_node->get('field_add_comments_')->referencedEntities() as $paragraph) {
+    //             // Ensure required fields exist
+    //             if (
+    //               $paragraph->hasField('field_comment_date') &&
+    //               $paragraph->hasField('field_comments') &&
+    //               !$paragraph->get('field_comment_date')->isEmpty() &&
+    //               !$paragraph->get('field_comments')->isEmpty()
+    //             ) {
+    //               // ✅ Paragraph "author" (owner)
+    //               $created_by = $paragraph->getOwner() ? $paragraph->getOwner()->getDisplayName() : '';
+
+    //               // ✅ Referenced faculty user
+    //               $author_name = '';
+
+    //               // First, try to get from faculty field.
+    //               if ($paragraph->hasField('field_user_list_faculty') && !$paragraph->get('field_user_list_faculty')->isEmpty()) {
+    //                 $faculty_entity = $paragraph->get('field_user_list_faculty')->entity;
+    //                 $author_name = $faculty_entity ? $faculty_entity->getDisplayName() : '';
+    //               }
+
+    //               // Then, override if dean field is set (takes precedence).
+    //               if ($paragraph->hasField('field_user_list_dean') && !$paragraph->get('field_user_list_dean')->isEmpty()) {
+    //                 $dean_entity = $paragraph->get('field_user_list_dean')->entity;
+    //                 $author_name = $dean_entity ? $dean_entity->getDisplayName() : '';
+    //               }
+
+    //               // Handle multiple comments
+    //               $dates = $paragraph->get('field_comment_date')->getValue();
+    //               $texts = $paragraph->get('field_comments')->getValue();
+    //               $count = min(count($dates), count($texts));
+
+    //               for ($i = 0; $i < $count; $i++) {
+    //                 $comments[$field][] = [
+    //                   'field_comment_name' => $comment_name,
+    //                   'field_comment_author' => $author_name,
+    //                   'field_comment_date' => [$dates[$i]],
+    //                   'field_add_comments' => [$texts[$i]],
+    //                   'created_by' => $created_by, // ✅ This is the real author
+    //                 ];
+    //               }
+    //             }
+    //           }
+    //         }
+    //       }
+    //     }
+    //     // 🚨 IMPORTANT: Add user-based cache context
+    //     $variables['#cache']['contexts'][] = 'user';
+    //     $variables['comments'] = $comments;
+    //     $variables['user_roles'] = \Drupal::currentUser()->getRoles();
+    //     $variables['current_user_name'] = \Drupal::currentUser()->getAccountName();
+    //   }
+    //   // 🚨 IMPORTANT: Add user-based cache context
+    //   $variables['#cache']['contexts'][] = 'user';
+    //   $variables['comments'] = $comments;
+    //   $variables['user_roles'] = $current_user_roles;
+    //   $variables['current_user_name'] = $current_user_name;
+
+
+    //   \Drupal::service('cache.render')->invalidateAll();
+    //   \Drupal::service('page_cache_kill_switch')->trigger();
+    // } else {
+    //   \Drupal::logger('bootstrap5')->error('Node is not set in the variables.');
+    // }
+
+
+    //ANCHOR - //! as of 19th Aug 2025
+
+
+    $comments = [];
+    $current_user = \Drupal::currentUser();
+    $current_user_name = $current_user->getAccountName();
+    $current_user_display = $current_user->getDisplayName();
+    $current_user_roles = $current_user->getRoles();
+
+    $fields = [
+      'field_admin_comment_reference',
+      'field_dean_comment_reference',
+      'field_director_comment_reference',
+      'field_faculty_search_comit_coref',
+      'field_faculty_member_comment_ref',
+      'field_prescreen_comment_ref',
+    ];
+
+    foreach ($fields as $field) {
+      $comments[$field] = [];
+
+      if (!$node->hasField($field) || $node->get($field)->isEmpty()) {
+        continue;
+      }
+
+      foreach ($node->get($field)->referencedEntities() as $ref_node) {
+        $comment_name = $ref_node->get('field_comment_name')->value ?? '';
+
+        if ($ref_node->hasField('field_add_comments_') && !$ref_node->get('field_add_comments_')->isEmpty()) {
+          foreach ($ref_node->get('field_add_comments_')->referencedEntities() as $paragraph) {
+            // Ensure required fields exist
+            $has_dates = $paragraph->hasField('field_comment_date') && !$paragraph->get('field_comment_date')->isEmpty();
+            $has_texts = $paragraph->hasField('field_comments') && !$paragraph->get('field_comments')->isEmpty();
+            if (!$has_dates || !$has_texts) {
+              continue;
+            }
+
+            // ✅ Actor = who actually posted (admin/faculty/dean)
+            $actor = $paragraph->getOwner() ? $paragraph->getOwner()->getDisplayName() : '';
+
+            // ✅ Represented = faculty/dean from dropdowns
+            $represented = '';
+            if ($paragraph->hasField('field_user_list_dean') && !$paragraph->get('field_user_list_dean')->isEmpty()) {
+              $represented = $paragraph->get('field_user_list_dean')->entity ? $paragraph->get('field_user_list_dean')->entity->getDisplayName() : '';
+            } elseif ($paragraph->hasField('field_user_list_faculty') && !$paragraph->get('field_user_list_faculty')->isEmpty()) {
+              $represented = $paragraph->get('field_user_list_faculty')->entity ? $paragraph->get('field_user_list_faculty')->entity->getDisplayName() : '';
+            }
+
+            // Multi-value dates/comments
+            $dates = $paragraph->get('field_comment_date')->getValue();  // arrays with ['value' => '...']
+            $texts = $paragraph->get('field_comments')->getValue();      // arrays with ['value' => '...']
+            $count = min(count($dates), count($texts));
+
+            for ($i = 0; $i < $count; $i++) {
+              $comments[$field][] = [
+                'field_comment_name'   => $comment_name,         // optional free-text label, keep for compatibility
+                'field_comment_author' => $represented,           // <-- represented person (faculty/dean)
+                'field_comment_date'   => [$dates[$i]],          // keep your original shape
+                'field_add_comments'   => [$texts[$i]],          // keep your original shape
+                'created_by'           => $actor,                 // <-- actor (admin/faculty/dean)
+              ];
+            }
+          }
+        }
+      }
+    }
+
+    // Cache context so output varies per user
+    $variables['#cache']['contexts'][] = 'user';
+
+    // Hand off to Twig
+    $variables['comments'] = $comments;
+    $variables['user_roles'] = $current_user_roles;
+    $variables['current_user_name'] = $current_user_name;
+    $variables['current_user_display'] = $current_user_display;
+  } else {
+    \Drupal::logger('bootstrap5')->error('Node is not set in the variables.');
+  }
+}
+//! Ends here
+
+
+
+
+//  FORM LAYOTUS
+function bootstrap5_theme_suggestions_form_alter(array &$suggestions, array $variables)
+{
+  if (!empty($variables['element']['#form_id']) && $variables['element']['#form_id'] === 'user_login_form') {
+    $suggestions[] = 'form__user_login_form';
+  }
+  if (!empty($variables['element']['#form_id']) && $variables['element']['#form_id'] === 'user_register_form') {
+    $suggestions[] = 'form__user_register_form';
+  }
+  if (!empty($variables['element']['#form_id']) && $variables['element']['#form_id'] === 'user_pass') {
+    $suggestions[] = 'form__user_pass';
+  }
+  if (!empty($variables['element']['#form_id']) && $variables['element']['#form_id'] === 'user_form') {
+    $suggestions[] = 'form__user_form';
+  }
+}
+
+
+
+/**
+ * Add Bootstrap classes to user login and register forms.
+ */
+function bootstrap5_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id)
+{
+  // Style the login form submit button
+  if ($form_id === 'user_login_form' && isset($form['actions']['submit'])) {
+    $form['actions']['submit']['#attributes']['class'][] = 'btn';
+    $form['actions']['submit']['#attributes']['style'] = 'background-color: #1f4e9d; border-color: #1f4e9d; color: #fff;';
+    $form['actions']['submit']['#attributes']['class'][] = 'w-100';
+  }
+
+  // Style the register form submit button
+  if ($form_id === 'user_register_form' && isset($form['actions']['submit'])) {
+    $form['actions']['submit']['#attributes']['class'][] = 'btn';
+    $form['actions']['submit']['#attributes']['style'] = 'background-color: #1f4e9d; border-color: #1f4e9d; color: #fff;';
+    $form['actions']['submit']['#attributes']['class'][] = 'w-100';
+  }
+  // Style the password reset form submit button
+  if ($form_id === 'user_pass' && isset($form['actions']['submit'])) {
+    $form['actions']['submit']['#attributes']['class'][] = 'btn';
+    $form['actions']['submit']['#attributes']['style'] = 'background-color: #1f4e9d; border-color: #1f4e9d; color: #fff;';
+    $form['actions']['submit']['#attributes']['class'][] = 'w-100';
+  }
+}

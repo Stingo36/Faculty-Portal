@@ -1,0 +1,21 @@
+uuid: 5a3e94a1-01d3-4e9d-a6de-513be4d125a8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_start_date
+    - taxonomy.vocabulary.research_areas
+  module:
+    - datetime
+id: taxonomy_term.research_areas.field_start_date
+field_name: field_start_date
+entity_type: taxonomy_term
+bundle: research_areas
+label: 'Start Date'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

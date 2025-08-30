@@ -1,0 +1,9 @@
+uuid: 2ec5f65a-a71e-4932-8cc8-c07ef084c367
+langcode: en
+status: true
+dependencies: {  }
+name: 'Research Areas'
+vid: research_areas
+description: 'A vocabulary that lists terms for each program selected by user'
+weight: 0
+new_revision: true

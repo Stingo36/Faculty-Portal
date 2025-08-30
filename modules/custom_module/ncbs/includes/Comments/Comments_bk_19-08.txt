@@ -1,0 +1,422 @@
+<?php
+
+use Drupal\node\Entity\Node;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Messenger\MessengerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+use Drupal\Core\Routing\TrustedRedirectResponse;
+use Drupal\user\Entity\User;
+
+/**
+ * Assigns the add_comments node to the correct field on the referenced node.
+ */
+// function AddCommentByRole(Node $node, AccountInterface $account, MessengerInterface $messenger, RequestStack $request_stack) {
+//   if ($node->bundle() !== 'add_comments') {
+//     $messenger->addMessage('Content type is not "add_comments".');
+//     return FALSE;
+//   }
+
+//   $request = $request_stack->getCurrentRequest();
+//   $referenced_nid = $request->query->get('nid');
+//   $url_role = $request->query->get('role');
+
+//   if (!$referenced_nid || !$referenced_node = Node::load($referenced_nid)) {
+//     $messenger->addMessage('Referenced node not found.');
+//     return FALSE;
+//   }
+
+//   $user_roles = $account->getRoles();
+//   if (in_array('admin', $user_roles) && $url_role) {
+//     $user_roles = [$url_role];
+//   }
+
+//   $role_to_field = [
+//     'board_member' => 'field_board_member_comment_refer',
+//     'administrator' => 'field_admin_comment_reference',
+//     'admin' => 'field_admin_comment_reference',
+//     'dean' => 'field_dean_comment_reference',
+//     'director' => 'field_director_comment_reference',
+//     'faculty_member' => 'field_faculty_member_comment_ref',
+//     'faculty_search_committee' => 'field_faculty_search_comit_coref',
+//     'yip_search_committee' => 'field_yip_search_committee_coref',
+//     'assessment_committee' => 'field_assessment_committee_coref',
+//     'promotion_committee' => 'field_promotion_committee_coref',
+//   ];
+
+//   foreach ($user_roles as $role) {
+//     if (isset($role_to_field[$role])) {
+//       $field_name = $role_to_field[$role];
+//       $referenced_node->get($field_name)->appendItem($node->id());
+//       $referenced_node->save();
+//       $node->save();
+//       return TRUE;
+//     }
+//   }
+
+//   $messenger->addMessage('Current user does not have a recognized role for commenting.');
+//   return FALSE;
+// }
+
+
+
+
+
+
+
+/**
+ * Attach the comment node to a target node based on the user's role.
+ *
+ * @param \Drupal\node\Entity\Node $node
+ *   The comment node being created (must be of type 'add_comments').
+ * @param \Drupal\Core\Session\AccountInterface $account
+ *   The currently logged-in user.
+ * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+ *   Messenger for displaying messages.
+ * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
+ *   To get the 'nid' and optional 'role' from the query string.
+ *
+ * @return bool
+ *   TRUE if successful, FALSE otherwise.
+ */
+function AddCommentByRole(Node $node, AccountInterface $account, MessengerInterface $messenger, RequestStack $request_stack) {
+  // ✅ Ensure it's an 'add_comments' node
+  if ($node->bundle() !== 'add_comments') {
+    $messenger->addMessage('Content type is not "add_comments".');
+    return FALSE;
+  }
+
+  // ✅ Get request parameters
+  $request = $request_stack->getCurrentRequest();
+  $referenced_nid = $request->query->get('nid');
+  $url_role = $request->query->get('role');
+
+
+//!SECTION Addming title
+
+// ✅ Load the node being commented on
+if (!$referenced_nid || !$referenced_node = Node::load($referenced_nid)) {
+  $messenger->addMessage('Referenced node not found.');
+  return FALSE;
+}
+
+$referenced_title = $referenced_node->label();
+$author_name = $account->getDisplayName();
+$formatted_title = "Candidate Name: $referenced_title - by - $author_name";
+$node->setTitle($formatted_title);
+
+
+//! ends here
+
+
+
+  // ✅ Load the node being commented on
+  if (!$referenced_nid || !$referenced_node = Node::load($referenced_nid)) {
+    $messenger->addMessage('Referenced node not found.');
+    return FALSE;
+  }
+
+  // ✅ Determine the user's role
+  $user_roles = $account->getRoles();
+  if (in_array('admin', $user_roles) && $url_role) {
+    $user_roles = [$url_role]; // Override role from URL if admin
+  }
+
+  // ✅ Map roles to fields
+  $role_to_field = [
+
+    'administrator' => 'field_admin_comment_reference',
+    'admin' => 'field_admin_comment_reference',
+    'dean' => 'field_dean_comment_reference',
+    'director' => 'field_director_comment_reference',
+    'faculty_member' => 'field_faculty_member_comment_ref',
+    'faculty_search_committee' => 'field_faculty_search_comit_coref',
+    'prescreen_committee' => 'field_prescreen_comment_ref',
+    // 'yip_search_committee' => 'field_yip_search_committee_coref',
+    // 'assessment_committee' => 'field_assessment_committee_coref',
+    // 'promotion_committee' => 'field_promotion_committee_coref',
+    //   'board_member' => 'field_board_member_comment_refer',
+  ];
+
+  // ✅ Attach comment node to target field based on role
+  foreach ($user_roles as $role) {
+    if (isset($role_to_field[$role])) {
+      $field_name = $role_to_field[$role];
+
+      // Append the comment node ID to the reference field on the target node
+      $referenced_node->get($field_name)->appendItem($node->id());
+      $referenced_node->save();
+      $node->save();
+
+      // ✅ After saving, check and update the user's review list
+      $comment_author = $node->getOwner();
+      if ($comment_author && $comment_author->hasField('field_review_candidates')) {
+        $review_list = $comment_author->get('field_review_candidates')->getValue();
+        $updated_list = [];
+
+        foreach ($review_list as $item) {
+          if ((int) $item['target_id'] !== (int) $referenced_nid) {
+            $updated_list[] = $item;
+          }
+        }
+
+        if (count($updated_list) !== count($review_list)) {
+          $comment_author->set('field_review_candidates', $updated_list);
+          $comment_author->save();
+          $messenger->addMessage('Candidate removed from your review list.');
+        }
+      }
+
+      return TRUE;
+    }
+  }
+
+  // ❌ If no matching role is found
+  $messenger->addMessage('Current user does not have a recognized role for commenting.');
+  return FALSE;
+}
+
+
+
+
+/**
+ * Handles comment field updates and trusted redirection.
+ */
+function ncbs_custom_redirect_after_comment_submit(array &$form, FormStateInterface $form_state) {
+  $node = $form_state->getFormObject()->getEntity();
+
+  // Ensure it's a node of type 'add_comments'
+  if (!$node instanceof Node || $node->bundle() !== 'add_comments') {
+    return;
+  }
+
+  $current_user = \Drupal::currentUser();
+  $account = User::load($current_user->id());
+  $username = $account ? $account->getAccountName() : 'Unknown';
+  $uid = $account ? $account->id() : 0;
+  $formatted_date = date('d-m-Y');
+
+
+  // Process paragraph field
+  if ($node->hasField('field_add_comments_') && !$node->get('field_add_comments_')->isEmpty()) {
+    try {
+      $node->set('field_comment_name', $username);
+
+      foreach ($node->get('field_add_comments_')->referencedEntities() as $paragraph) {
+        if ($paragraph instanceof Paragraph) {
+          // Set comment date (append)
+          if ($paragraph->hasField('field_comment_date')) {
+            $existing = $paragraph->get('field_comment_date')->getValue();
+            $existing[] = ['value' => $formatted_date];
+            $paragraph->set('field_comment_date', $existing);
+          }
+
+          // Set comment author if empty
+          if ($paragraph->hasField('field_comment_author') && $paragraph->get('field_comment_author')->isEmpty()) {
+            $paragraph->set('field_comment_author', $username);
+          }
+          $current_user = \Drupal::currentUser();
+          $uid = $current_user->id();
+          $user_roles = $current_user->getRoles();
+
+          // If user is not admin/administrator
+          if (!$current_user->hasPermission('administer site configuration')) {
+            if ($uid) {
+              // If user has Dean role
+              if (in_array('dean', $user_roles) && $paragraph->hasField('field_user_list_dean')) {
+                $paragraph->set('field_user_list_dean', ['target_id' => $uid]);
+              }
+              // If user has Faculty role
+              elseif (in_array('faculty_member', $user_roles) && $paragraph->hasField('field_user_list_faculty')) {
+                $paragraph->set('field_user_list_faculty', ['target_id' => $uid]);
+              }
+            }
+          }
+
+
+
+
+
+
+
+          $paragraph->save();
+        }
+      }
+
+
+
+      $node->save();
+      // \Drupal::messenger()->addMessage(t('Your comment was saved successfully.'));
+
+    } catch (\Exception $e) {
+      \Drupal::messenger()->addError(t('An error occurred while saving your comment. Please try again.'));
+      \Drupal::logger('ncbs_custom')->error('Comment save failed: @message', ['@message' => $e->getMessage()]);
+    }
+  } else {
+    \Drupal::messenger()->addWarning(t('No comment was found to save.'));
+  }
+}
+
+
+
+use Symfony\Component\HttpFoundation\Request;
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter() for the node add_comments form.
+ */
+function ncbs_form_node_add_comments_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+  // Only target the “add_comments” content type.
+  if ($form_state->getFormObject()->getEntity()->bundle() !== 'add_comments') {
+    return;
+  }
+
+  // Grab the role from ?role=…
+  $role = \Drupal::request()->query->get('role');
+
+  // Loop through each paragraph widget (including new ones via AJAX).
+  if (!empty($form['field_add_comments_']['widget']) && is_array($form['field_add_comments_']['widget'])) {
+    foreach ($form['field_add_comments_']['widget'] as $key => &$widget) {
+      // Skip the “add_more” button, etc.
+      if (!is_numeric($key) || empty($widget['subform'])) {
+        continue;
+      }
+
+      // If role=dean, hide faculty list.
+      if ($role === 'dean' && isset($widget['subform']['field_user_list_faculty'])) {
+        $widget['subform']['field_user_list_faculty']['#access']   = FALSE;
+        $widget['subform']['field_user_list_faculty']['#required'] = FALSE;
+      }
+
+      // If role=faculty, hide dean list.
+      elseif ($role === 'faculty_member' && isset($widget['subform']['field_user_list_dean'])) {
+        $widget['subform']['field_user_list_dean']['#access']   = FALSE;
+        $widget['subform']['field_user_list_dean']['#required'] = FALSE;
+      }
+      // 3) No role: hide both lists.
+      else {
+        if (isset($widget['subform']['field_user_list_faculty'])) {
+          $widget['subform']['field_user_list_faculty']['#access']   = FALSE;
+          $widget['subform']['field_user_list_faculty']['#required'] = FALSE;
+        }
+        if (isset($widget['subform']['field_user_list_dean'])) {
+          $widget['subform']['field_user_list_dean']['#access']   = FALSE;
+          $widget['subform']['field_user_list_dean']['#required'] = FALSE;
+        }
+      }
+    }
+  }
+  $form['actions']['submit']['#value'] = t('Submit');
+  // Attach your custom submit handler.
+  $form['actions']['submit']['#submit'][] = 'ncbs_custom_redirect_after_comment_submit';
+}
+
+
+
+
+
+
+/**
+ * Alters the node add_comments edit form.
+ */
+function ncbs_form_node_add_comments_edit_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+  // 1) Only target the "add_comments" node edit form.
+  if ($form_id !== 'node_add_comments_edit_form' ||
+      $form_state->getFormObject()->getEntity()->bundle() !== 'add_comments') {
+    return;
+  }
+
+  $node = $form_state->getFormObject()->getEntity();
+  $role = \Drupal::request()->query->get('role', '');
+
+  // 2) Record how many comment‐paragraphs were originally on the entity
+  if (!$form_state->has('ncbs_original_comments_count')) {
+    $count = $node->hasField('field_add_comments_')
+      ? $node->get('field_add_comments_')->count()
+      : 0;
+    $form_state->set('ncbs_original_comments_count', $count);
+  }
+  $original_count = $form_state->get('ncbs_original_comments_count');
+
+  // 3) Walk each paragraph in the add_comments field.
+  if (!empty($form['field_add_comments_']['widget']) && is_array($form['field_add_comments_']['widget'])) {
+    foreach ($form['field_add_comments_']['widget'] as $delta => &$item) {
+      if (!is_numeric($delta) || empty($item['subform'])) {
+        continue;
+      }
+      $subform = &$item['subform'];
+
+      // — Lock only original paragraphs’ comments textarea —
+      if ($delta < $original_count) {
+        $default = $subform['field_comments']['widget'][0]['value']['#default_value'] ?? '';
+        if ($default !== '') {
+          $elem = &$subform['field_comments']['widget'][0]['value'];
+          $elem['#attributes']['readonly'] = 'readonly';
+          $elem['#attributes']['style']    = 'background-color: #f0f0f0; color: #888;';
+          if (isset($item['top']['links']['remove_button'])) {
+            $item['top']['links']['remove_button']['#access'] = FALSE;
+          }
+        }
+      }
+
+      // — Role = dean: hide faculty list on all, but lock dean list only on original paragraphs —
+      if ($role === 'dean') {
+        // Hide faculty list everywhere
+        if (isset($subform['field_user_list_faculty']['widget'])) {
+          $subform['field_user_list_faculty']['widget']['#access']   = FALSE;
+          $subform['field_user_list_faculty']['widget']['#required'] = FALSE;
+        }
+        // Only make dean‐list readonly on the paragraphs that existed originally
+        if ($delta < $original_count && isset($subform['field_user_list_dean']['widget'])) {
+          // Disable the widget input
+          $subform['field_user_list_dean']['widget']['#disabled'] = TRUE;
+          // Gray it out / emulate readonly
+          $subform['field_user_list_dean']['widget']['#attributes']['readonly'] = 'readonly';
+          $subform['field_user_list_dean']['widget']['#attributes']['style']    = 'background-color: #f0f0f0; color: #888;';
+        }
+        // New paragraphs (delta >= original_count) keep an enabled dean list.
+      }
+
+      // — Role = faculty_member: hide dean list as before —
+      elseif ($role === 'faculty_member' && isset($subform['field_user_list_dean']['widget'])) {
+        $subform['field_user_list_dean']['widget']['#access']   = FALSE;
+        $subform['field_user_list_dean']['widget']['#required'] = FALSE;
+
+
+         // Only make dean‐list readonly on the paragraphs that existed originally
+        if ($delta < $original_count && isset($subform['field_user_list_faculty']['widget'])) {
+          // Disable the widget input
+          $subform['field_user_list_faculty']['widget']['#disabled'] = TRUE;
+          // Gray it out / emulate readonly
+          $subform['field_user_list_faculty']['widget']['#attributes']['readonly'] = 'readonly';
+          $subform['field_user_list_faculty']['widget']['#attributes']['style']    = 'background-color: #f0f0f0; color: #888;';
+        }
+
+
+      }
+      // New: no-role case
+      elseif (empty($role)) {
+        // Hide and unrequire the dean list
+        if (isset($subform['field_user_list_dean']['widget'])) {
+          $subform['field_user_list_dean']['widget']['#access']   = FALSE;
+          $subform['field_user_list_dean']['widget']['#required'] = FALSE;
+        }
+        // Hide and unrequire the faculty list
+        if (isset($subform['field_user_list_faculty']['widget'])) {
+          $subform['field_user_list_faculty']['widget']['#access']   = FALSE;
+          $subform['field_user_list_faculty']['widget']['#required'] = FALSE;
+        }
+      }
+            
+    }
+  }
+
+  // 4) Hide the revision tab if present.
+  if (isset($form['revision_information'])) {
+    $form['revision_information']['#access'] = FALSE;
+  }
+ $form['actions']['submit']['#value'] = t('Submit');
+  // 5) Attach your custom submit handler.
+  $form['actions']['submit']['#submit'][] = 'ncbs_custom_redirect_after_comment_submit';
+}

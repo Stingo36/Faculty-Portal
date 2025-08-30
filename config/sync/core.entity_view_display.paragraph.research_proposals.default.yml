@@ -1,0 +1,31 @@
+uuid: eaef6298-3a60-4f75-868a-832d33e0b09a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.research_proposals.field_research
+    - field.field.paragraph.research_proposals.field_research_proposal_brief
+    - paragraphs.paragraphs_type.research_proposals
+  module:
+    - file
+id: paragraph.research_proposals.default
+targetEntityType: paragraph
+bundle: research_proposals
+mode: default
+content:
+  field_research:
+    type: file_default
+    label: hidden
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_research_proposal_brief:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

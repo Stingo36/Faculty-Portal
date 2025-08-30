@@ -1,0 +1,31 @@
+uuid: ef1c0174-ad05-4be2-bd44-f2d904010c7c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.research_proposal.field_research_proposal
+    - node.type.research_proposal
+  module:
+    - entity_reference_revisions
+    - user
+id: node.research_proposal.default
+targetEntityType: node
+bundle: research_proposal
+mode: default
+content:
+  field_research_proposal:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true

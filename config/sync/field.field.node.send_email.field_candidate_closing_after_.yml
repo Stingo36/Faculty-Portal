@@ -1,0 +1,27 @@
+uuid: 295aa234-318a-41ba-8153-81d31eba202f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_candidate_closing_after_
+    - filter.format.full_html
+    - node.type.send_email
+  module:
+    - text
+id: node.send_email.field_candidate_closing_after_
+field_name: field_candidate_closing_after_
+entity_type: node
+bundle: send_email
+label: 'Candidate Closing After Prescreen Interview  '
+description: "Candidate Closing After Prescreen Interview\t"
+required: false
+translatable: false
+default_value:
+  -
+    value: '<p>Dear _______,<br><br>Thank you for applying for a faculty position at NCBS. We received many exceptional applications, including yours, which made our selection process challenging, and we apologize for the delay in responding.<br>To ensure a fair assessment, we evaluate all applications simultaneously, comparing them with each other. We discussed the area of your research with other faculty members, in relation to our ongoing efforts, and also had a recent online interaction with you. Despite the high quality of your research, we regret to inform you that we cannot proceed with your application due to limited available positions and numerous highly competitive applications.<br>We recognize your impressive credentials and wish you the best of luck in finding a faculty position that suits your potential and research interests.<br>Thank you again for your interest in NCBS.<br>Sincerely yours,</p><p>Uma Ramakrishnan &nbsp; &nbsp;&nbsp;<br>Dean of Faculty<br>NCBS-TIFR</p>'
+    format: full_html
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - full_html
+field_type: text_long

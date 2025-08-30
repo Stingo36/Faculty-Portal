@@ -1,0 +1,23 @@
+uuid: 7fc35fab-38fc-4557-a62a-87a5f5db4a75
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.research_proposal.field_research_proposal
+    - node.type.research_proposal
+  module:
+    - user
+id: node.research_proposal.teaser
+targetEntityType: node
+bundle: research_proposal
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_research_proposal: true
+  langcode: true

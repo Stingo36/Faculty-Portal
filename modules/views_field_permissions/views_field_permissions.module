@@ -1,0 +1,71 @@
+<?php
+
+/**
+ * @file
+ * Contains views_field_permissions.module.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\user\Entity\User;
+use Drupal\views\Plugin\views\field\FieldPluginBase;
+use Drupal\views\ViewExecutable;
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function views_field_permissions_form_views_ui_config_item_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $storage = $form_state->getStorage();
+  // Fields section.
+  if (isset($storage['handler']) && ($storage['handler'] instanceof FieldPluginBase)) {
+    \Drupal::service('views_field_permissions.views_ui_config_item_form')->form($form, $form_state);
+  }
+}
+
+/**
+ * Implements hook_views_post_execute().
+ */
+function views_field_permissions_views_post_execute(ViewExecutable $view) {
+  if (empty($view->result)) {
+    return;
+  }
+
+  $fields = &$view->display_handler->getHandlers('field');
+  $user = User::load(\Drupal::currentUser()->id());
+
+  foreach ($fields as $id => $field) {
+    if (empty($field->options['views_field_permissions']['control'])) {
+      continue;
+    }
+
+    $options = $field->options['views_field_permissions'];
+    switch ($options['control']) {
+      case 'perm':
+        if (!empty($options['perms'])) {
+          $condition = $options['condition'];
+          $access = [];
+          foreach ($options['perms'] as $permission) {
+            $access[] = $user->hasPermission($permission);
+          }
+
+          if (
+            ($condition == 'and' && in_array(FALSE, $access, TRUE)) ||
+            ($condition == 'or' && !in_array(TRUE, $access, TRUE))
+          ) {
+            unset($fields[$id]);
+          }
+        }
+        break;
+
+      case 'role':
+        if ($role = $options['role']) {
+          $negate = $options['role_negate'] ?? FALSE;
+          $intersection = array_intersect(array_keys($role), $user->getRoles());
+
+          if ((!$negate && !$intersection) || ($negate && $intersection)) {
+            unset($fields[$id]);
+          }
+        }
+        break;
+    }
+  }
+}

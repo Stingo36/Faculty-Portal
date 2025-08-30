@@ -1,0 +1,68 @@
+uuid: e517b3cd-92b0-4aaf-bf81-12a88dd80fb0
+langcode: en
+status: false
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.preview
+    - field.field.paragraph.education_.field_class
+    - field.field.paragraph.education_.field_institution
+    - field.field.paragraph.education_.field_major_subjects
+    - field.field.paragraph.education_.field_qualification_degree
+    - field.field.paragraph.education_.field_remarks
+    - field.field.paragraph.education_.field_university
+    - field.field.paragraph.education_.field_year_of_pass
+    - paragraphs.paragraphs_type.education_
+id: paragraph.education_.preview
+targetEntityType: paragraph
+bundle: education_
+mode: preview
+content:
+  field_class:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_institution:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_major_subjects:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_qualification_degree:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_remarks:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_university:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  field_year_of_pass: true

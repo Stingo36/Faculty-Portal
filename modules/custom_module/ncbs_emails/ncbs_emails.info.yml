@@ -1,0 +1,4 @@
+name: NCBS custom module to send emails
+type: module
+core_version_requirement: ^10
+package: Custom

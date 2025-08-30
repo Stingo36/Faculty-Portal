@@ -1,0 +1,19 @@
+uuid: 06efddc4-477a-4d5f-bd9f-a358b5dc1655
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_date_received
+    - node.type.submit_application
+id: node.submit_application.field_date_received
+field_name: field_date_received
+entity_type: node
+bundle: submit_application
+label: 'Date Received'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

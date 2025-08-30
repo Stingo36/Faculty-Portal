@@ -1,0 +1,76 @@
+uuid: c9c985fd-e3b9-4a12-b2fb-61aac5940913
+langcode: en
+status: true
+dependencies:
+  module:
+    - field_permissions
+    - node
+    - options
+third_party_settings:
+  field_permissions:
+    permission_type: custom
+id: node.field_status
+field_name: field_status
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: 'All applications'
+      label: 'All applications'
+    -
+      value: 'New applications'
+      label: 'New applications'
+    -
+      value: 'Current applications'
+      label: 'Current applications'
+    -
+      value: 'Recommendations requested'
+      label: 'Recommendations requested'
+    -
+      value: 'Invited to visit - Invited applicant'
+      label: 'Invited to visit - Invited applicant'
+    -
+      value: 'Applications on hold'
+      label: 'Applications on hold'
+    -
+      value: 'Prescreen Interview'
+      label: 'Prescreen Interview'
+    -
+      value: 'Already visited - Invited applicant'
+      label: 'Already visited - Invited applicant'
+    -
+      value: 'Ready to present to faculty'
+      label: 'Ready to present to faculty'
+    -
+      value: 'Already presented to faculty'
+      label: 'Already presented to faculty'
+    -
+      value: 'Ready for assessment'
+      label: 'Ready for assessment'
+    -
+      value: 'Offer issued'
+      label: 'Offer issued'
+    -
+      value: Selected
+      label: Selected
+    -
+      value: Accepted
+      label: Accepted
+    -
+      value: 'Not accepted'
+      label: 'Not accepted'
+    -
+      value: Joined
+      label: Joined
+    -
+      value: Closed
+      label: Closed
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

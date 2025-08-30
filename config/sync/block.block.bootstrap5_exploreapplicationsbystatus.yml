@@ -1,0 +1,43 @@
+uuid: 8676e0fb-256e-4cfc-ac2a-692a4df030db
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.explore-status-by-applications
+  module:
+    - system
+    - user
+  theme:
+    - bootstrap5
+id: bootstrap5_exploreapplicationsbystatus
+theme: bootstrap5
+region: sidebar_first
+weight: -3
+provider: null
+plugin: 'system_menu_block:explore-status-by-applications'
+settings:
+  id: 'system_menu_block:explore-status-by-applications'
+  label: 'Explore Applications by Status'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: "/user/login\r\n/user/register\r\n/user/password"
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      administrator: administrator
+      faculty_member: faculty_member
+      faculty_search_committee: faculty_search_committee
+      dean: dean
+      director: director
+      admin: admin
+      targeted_hiring_chair: targeted_hiring_chair

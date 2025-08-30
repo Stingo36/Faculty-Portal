@@ -1,0 +1,20 @@
+uuid: 4f581b26-5943-4f6a-be71-620c8feeafd9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.symfony_mailer_log.field_mail_status
+  module:
+    - symfony_mailer_log
+id: symfony_mailer_log.symfony_mailer_log.field_mail_status
+field_name: field_mail_status
+entity_type: symfony_mailer_log
+bundle: symfony_mailer_log
+label: 'Mail Status'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,29 @@
+uuid: 1c717038-8d8d-40d4-a4f3-53e5327e0bf9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_assessment_committee_coref
+    - node.type.add_comments
+    - node.type.submit_application
+id: node.submit_application.field_assessment_committee_coref
+field_name: field_assessment_committee_coref
+entity_type: node
+bundle: submit_application
+label: 'Assessment Committee comment reference'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      add_comments: add_comments
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

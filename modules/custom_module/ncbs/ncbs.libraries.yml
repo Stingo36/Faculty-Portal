@@ -1,0 +1,22 @@
+send_email_toggle:
+  version: 1.x
+  js:
+    js/send_email_toggle.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+
+
+force-left-align:
+  version: 1.x
+  css:
+    component:
+      css/force-left-align.css: {}
+
+
+user_content_block:
+  version: 1.x
+  css:
+    component:
+      css/user_content_block.css: {}
+

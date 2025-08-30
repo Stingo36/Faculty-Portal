@@ -1,0 +1,24 @@
+uuid: b8118e4f-79d7-4312-beb1-1f8581c18f12
+langcode: en
+status: true
+dependencies:
+  module:
+    - autotitle
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+  autotitle:
+    enabled: false
+    field: _none
+    fallback_title: 'Mail Template'
+    headings: {  }
+name: 'Send Email'
+type: send_email
+description: 'Content Type to Send Emails to All members'
+help: null
+new_revision: true
+preview_mode: 0
+display_submitted: true

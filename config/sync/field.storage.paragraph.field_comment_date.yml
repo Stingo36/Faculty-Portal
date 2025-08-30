@@ -1,0 +1,25 @@
+uuid: a8eb72df-9524-4e6d-823b-32c5c1d38ebf
+langcode: en
+status: true
+dependencies:
+  module:
+    - field_permissions
+    - paragraphs
+third_party_settings:
+  field_permissions:
+    permission_type: custom
+id: paragraph.field_comment_date
+field_name: field_comment_date
+entity_type: paragraph
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

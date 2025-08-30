@@ -1,0 +1,74 @@
+<div style="width: 100%; padding: 20px; font-family: Arial, sans-serif; font-size: 16px; color: #000;">
+
+  <h2 style="font-size: 22px; margin-bottom: 16px;">📧 Email Summary</h2>
+
+  <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">
+    <tr>
+      <td style="padding: 8px 0;"><strong>Candidate Name:</strong></td>
+      <td>
+        {% if node.field_candidate_ref.entity %}
+          {{ node.field_candidate_ref.entity.label }}
+        {% else %}
+          <em>Not available</em>
+        {% endif %}
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding: 8px 0;"><strong>Status:</strong></td>
+      <td>{{ content.field_email_status }}</td>
+    </tr>
+
+    <tr>
+      <td style="padding: 8px 0;"><strong>Email Sent on:</strong></td>
+      <td>{{ node.field_email_sent_date.value }}</td>
+    </tr>
+
+    {% set email_type = node.field_email_type.value %}
+    <tr>
+      <td style="padding: 8px 0;"><strong>To:</strong></td>
+      <td>
+        {% if email_type == 'Dean' and node.field_email_to_dean.entity %}
+          {{ node.field_email_to_dean.entity.name.value }} ({{ node.field_email_to_dean.entity.mail.value }})
+        {% elseif email_type == 'Director' and node.field_email_to_director.entity %}
+          {{ node.field_email_to_director.entity.name.value }} ({{ node.field_email_to_director.entity.mail.value }})
+        {% elseif email_type == 'Faculty' and node.field_email_to_faculties.entity %}
+          {{ node.field_email_to_faculties.entity.name.value }} ({{ node.field_email_to_faculties.entity.mail.value }})
+        {% elseif email_type == 'Referee/Expert' and node.field_user_email_id.value %}
+          {{ node.field_user_email_id.value }}
+        {% elseif email_type == 'Candidate' and node.field_user_email_id.value %}
+          {{ node.field_user_email_id.value }}
+        {% else %}
+          <em>Recipient not available</em>
+        {% endif %}
+      </td>
+    </tr>
+  </table>
+
+  <div style="border: 1px solid #ccc; padding: 20px; border-radius: 6px;">
+
+    <h3 style="font-size: 18px; margin-top: 0; color: #333;">📝 Subject</h3>
+    <p style="margin: 0 0 20px; font-weight: bold;">
+      {{ node.field_email_subject.value }}
+    </p>
+
+    <h3 style="font-size: 18px; color: #333;">📨 Body</h3>
+    <div style="padding: 12px 16px; background-color: #fafafa; border: 1px solid #eee; border-radius: 4px;">
+      {% if email_type == 'Dean' %}
+        {{ node.field_email_body_to_dean.value|raw }}
+      {% elseif email_type == 'Director' %}
+        {{ node.field_email_body_director.value|raw }}
+      {% elseif email_type == 'Faculty' %}
+        {{ node.field_email_body_to_faculty.value|raw }}
+      {% elseif email_type == 'Referee/Expert' %}
+        {{ node.field_email_body_referee.value|raw }}
+      {% elseif email_type == 'Candidate' %}
+        {{ node.field_email_body_to_candidate.value|raw }}
+      {% else %}
+        <em>No email body available.</em>
+      {% endif %}
+    </div>
+
+  </div>
+
+</div>

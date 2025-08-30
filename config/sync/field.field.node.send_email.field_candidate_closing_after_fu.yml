@@ -1,0 +1,27 @@
+uuid: 3af90e02-466f-4865-a9d3-57f783284664
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_candidate_closing_after_fu
+    - filter.format.full_html
+    - node.type.send_email
+  module:
+    - text
+id: node.send_email.field_candidate_closing_after_fu
+field_name: field_candidate_closing_after_fu
+entity_type: node
+bundle: send_email
+label: 'Candidate Closing After Full Faculty meeting'
+description: 'Candidate Closing After Full Faculty meeting'
+required: false
+translatable: false
+default_value:
+  -
+    value: '<p>Dear Dr.<br><br>Thank you for applying for a Faculty position at NCBS and your subsequent visit to our centre to discuss your research interests. We thoroughly enjoyed your talk and the interactions &nbsp; &nbsp; &nbsp; throughout your visit.<br>Following your visit, your application was among few that went up for discussion at the Full Faculty meeting. Although there was broad agreement on the high quality of your research, your application was not among those selected to go forward to the next step. Unfortunately, we &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; are unable to consider you for a faculty appointment at the NCBS at this time. I want to stress that this decision is purely based on the fact that, being a small centre, the capacity of NCBS for hiring new faculty is very constrained and hence we have to carefully consider how your research aligns with our vision for the growth of research at NCBS. This decision was a difficult one for us to take. We were, and continue to be, highly impressed with the excellent quality of your work. Indeed, only a handful of applications make it as far as the full faculty meeting. We hope this reassures you that your application was very &nbsp;competitive. We really hope (and believe) &nbsp;that you will soon be successful in receiving a faculty job offer that you will be excited about. Do please let me know if I may be of any assistance in this regard.<br>Once again, I thank you for your interest in NCBS.<br>My best wishes to you,<br>Sincerely yours,<br>&nbsp;<br>Uma Ramakrishnan<br>Dean of Faculty, NCBS</p>'
+    format: full_html
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - full_html
+field_type: text_long

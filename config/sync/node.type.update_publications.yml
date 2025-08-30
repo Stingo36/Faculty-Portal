@@ -1,0 +1,24 @@
+uuid: 86ac25a8-eeae-4aa5-b7ac-40dc2bdf2aa5
+langcode: en
+status: true
+dependencies:
+  module:
+    - autotitle
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+  autotitle:
+    enabled: true
+    field: _none
+    fallback_title: 'Update Publications: [node:author:field_user_full_name]'
+    headings: {  }
+name: 'Update Publications'
+type: update_publications
+description: 'Content type to add  Publications'
+help: null
+new_revision: false
+preview_mode: 0
+display_submitted: true

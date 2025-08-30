@@ -1,0 +1,23 @@
+uuid: 12bed011-9189-4d5b-a282-bca5d01047ed
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_video_link
+    - node.type.seminar_details
+  module:
+    - link
+id: node.seminar_details.field_video_link
+field_name: field_video_link
+entity_type: node
+bundle: seminar_details
+label: 'Video Link'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 0
+  link_type: 17
+field_type: link

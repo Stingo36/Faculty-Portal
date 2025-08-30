@@ -1,0 +1,19 @@
+uuid: eb1ed40d-4082-4799-b4a3-bb34af094306
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_status_name
+    - paragraphs.paragraphs_type.status_value
+id: paragraph.status_value.field_status_name
+field_name: field_status_name
+entity_type: paragraph
+bundle: status_value
+label: 'Status Name'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

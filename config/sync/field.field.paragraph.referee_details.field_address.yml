@@ -1,0 +1,19 @@
+uuid: 3c219912-48e0-4391-ad09-80298fbab857
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_address
+    - paragraphs.paragraphs_type.referee_details
+id: paragraph.referee_details.field_address
+field_name: field_address
+entity_type: paragraph
+bundle: referee_details
+label: Address
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

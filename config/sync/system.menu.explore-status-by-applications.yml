@@ -1,0 +1,8 @@
+uuid: b571c2d3-9279-41af-98c5-4ab8d741c134
+langcode: en
+status: true
+dependencies: {  }
+id: explore-status-by-applications
+label: 'Explore Applications by Status'
+description: ''
+locked: false

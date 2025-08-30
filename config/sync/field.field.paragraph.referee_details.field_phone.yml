@@ -1,0 +1,19 @@
+uuid: dc6266f0-87bb-4abb-9712-6c106d82e413
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_phone
+    - paragraphs.paragraphs_type.referee_details
+id: paragraph.referee_details.field_phone
+field_name: field_phone
+entity_type: paragraph
+bundle: referee_details
+label: Phone
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,30 @@
+uuid: 43cc2140-bf51-464a-87ea-28b268ab6e7c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_user_update_pub_ref
+    - node.type.update_publications
+  module:
+    - user
+id: user.user.field_user_update_pub_ref
+field_name: field_user_update_pub_ref
+entity_type: user
+bundle: user
+label: "Update Publications ref\t"
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      update_publications: update_publications
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

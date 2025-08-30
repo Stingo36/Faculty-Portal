@@ -1,0 +1,14 @@
+uuid: 2044720c-ed7a-4b2b-a24f-52306e2ece63
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.prescreen_committee
+  module:
+    - user
+id: user_remove_role_action.prescreen_committee
+label: 'Remove the Prescreen Committee role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: prescreen_committee

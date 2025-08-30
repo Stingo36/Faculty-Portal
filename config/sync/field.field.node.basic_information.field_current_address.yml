@@ -1,0 +1,19 @@
+uuid: 4ec3b591-ebde-4e0e-8665-1b39183a8a5b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_current_address
+    - node.type.basic_information
+id: node.basic_information.field_current_address
+field_name: field_current_address
+entity_type: node
+bundle: basic_information
+label: 'Current Address'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

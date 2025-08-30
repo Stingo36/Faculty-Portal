@@ -1,0 +1,7 @@
+uuid: 2d9fcb9d-7c5d-499c-8ea7-cb22efd260b4
+langcode: en
+status: false
+dependencies: {  }
+formId: node_add_comments_form
+captchaType: default
+label: node_add_comments_form

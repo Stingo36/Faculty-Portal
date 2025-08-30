@@ -1,0 +1,391 @@
+uuid: 255bc15b-d108-4a5a-b00f-8d80c88c47f1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.send_email.field_candidate_closing_after_
+    - field.field.node.send_email.field_candidate_closing_after_fu
+    - field.field.node.send_email.field_candidate_closing_after_vi
+    - field.field.node.send_email.field_candidate_closing_prelimin
+    - field.field.node.send_email.field_candidate_closing_template
+    - field.field.node.send_email.field_candidate_prescreen_temp
+    - field.field.node.send_email.field_candidate_ref
+    - field.field.node.send_email.field_candidate_templates
+    - field.field.node.send_email.field_email_body_director
+    - field.field.node.send_email.field_email_body_referee
+    - field.field.node.send_email.field_email_body_to_candidate
+    - field.field.node.send_email.field_email_body_to_dean
+    - field.field.node.send_email.field_email_body_to_faculty
+    - field.field.node.send_email.field_email_sent_date
+    - field.field.node.send_email.field_email_status
+    - field.field.node.send_email.field_email_subject
+    - field.field.node.send_email.field_email_to_dean
+    - field.field.node.send_email.field_email_to_director
+    - field.field.node.send_email.field_email_to_faculties
+    - field.field.node.send_email.field_email_type
+    - field.field.node.send_email.field_from_email_id
+    - field.field.node.send_email.field_user_email_id
+    - node.type.send_email
+  module:
+    - conditional_fields
+    - display_machine_name
+    - field_group
+    - field_layout
+    - hide_revision_field
+    - layout_discovery
+    - text
+third_party_settings:
+  display_machine_name:
+    enable_display_machine_name: 1
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
+  field_group:
+    group_candidate_group:
+      children:
+        - field_candidate_templates
+        - field_candidate_closing_template
+        - field_email_body_to_candidate
+        - field_candidate_prescreen_temp
+        - field_candidate_closing_prelimin
+        - field_candidate_closing_after_
+        - field_candidate_closing_after_vi
+        - field_candidate_closing_after_fu
+      label: 'Candidate Group'
+      region: content
+      parent_name: ''
+      weight: 15
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        description: ''
+        required_fields: false
+id: node.send_email.default
+targetEntityType: node
+bundle: send_email
+mode: default
+content:
+  field_candidate_closing_after_:
+    type: text_textarea
+    weight: 19
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      conditional_fields:
+        1dd252df-dc25-4da1-a2e4-f1b723964b7d:
+          entity_type: node
+          bundle: send_email
+          dependee: field_candidate_closing_template
+          settings:
+            state: visible
+            reset: false
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: 'After Prescreen Interview'
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_candidate_closing_after_fu:
+    type: text_textarea
+    weight: 21
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      conditional_fields:
+        28d863bf-07a6-4c14-87e3-5b3b0da2353b:
+          entity_type: node
+          bundle: send_email
+          dependee: field_candidate_closing_template
+          settings:
+            state: visible
+            reset: true
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: 'After Full Faculty meeting'
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_candidate_closing_after_vi:
+    type: text_textarea
+    weight: 20
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      conditional_fields:
+        973316c5-23a1-4cdb-afcb-af5e3c213305:
+          entity_type: node
+          bundle: send_email
+          dependee: field_candidate_closing_template
+          settings:
+            state: visible
+            reset: false
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: 'After in-person Visit'
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_candidate_closing_prelimin:
+    type: text_textarea
+    weight: 18
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      conditional_fields:
+        c5625ae7-a8ed-442a-8a03-00f7a5181f9a:
+          entity_type: node
+          bundle: send_email
+          dependee: field_candidate_closing_template
+          settings:
+            state: visible
+            reset: false
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: Preliminary
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_candidate_closing_template:
+    type: options_select
+    weight: 15
+    region: content
+    settings: {  }
+    third_party_settings:
+      conditional_fields:
+        fd6335af-ce21-42ed-bf53-973ae6e96402:
+          entity_type: node
+          bundle: send_email
+          dependee: field_candidate_templates
+          settings:
+            state: visible
+            reset: false
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: 'Closing letter'
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_candidate_prescreen_temp:
+    type: text_textarea
+    weight: 17
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      conditional_fields:
+        f89b4a3b-d902-42e0-bb8f-51662ea6b85b:
+          entity_type: node
+          bundle: send_email
+          dependee: field_candidate_templates
+          settings:
+            state: visible
+            reset: false
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: 'Prescreen Interview'
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_candidate_ref:
+    type: entity_reference_autocomplete
+    weight: 3
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_candidate_templates:
+    type: options_select
+    weight: 14
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_email_body_director:
+    type: text_textarea
+    weight: 10
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      conditional_fields: {  }
+  field_email_body_referee:
+    type: text_textarea
+    weight: 11
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      conditional_fields: {  }
+  field_email_body_to_candidate:
+    type: text_textarea
+    weight: 16
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      conditional_fields:
+        3f4a4946-d97f-4929-ae85-f62d5c144732:
+          entity_type: node
+          bundle: send_email
+          dependee: field_candidate_templates
+          settings:
+            state: visible
+            reset: false
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: Other
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_email_body_to_dean:
+    type: text_textarea
+    weight: 9
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      conditional_fields: {  }
+  field_email_body_to_faculty:
+    type: text_textarea
+    weight: 12
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      conditional_fields: {  }
+  field_email_sent_date:
+    type: string_textfield
+    weight: 4
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_email_status:
+    type: options_select
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_email_subject:
+    type: string_textfield
+    weight: 8
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_email_to_dean:
+    type: options_select
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings:
+      conditional_fields: {  }
+  field_email_to_director:
+    type: options_select
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings:
+      conditional_fields: {  }
+  field_email_to_faculties:
+    type: options_select
+    weight: 7
+    region: content
+    settings: {  }
+    third_party_settings:
+      conditional_fields: {  }
+  field_email_type:
+    type: options_select
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_user_email_id:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  revision_log:
+    type: hide_revision_field_log_widget
+    weight: 14
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+      show: true
+      default: ''
+      permission_based: false
+      allow_user_settings: true
+      hide_revision: false
+    third_party_settings: {  }
+hidden:
+  created: true
+  field_from_email_id: true
+  langcode: true
+  path: true
+  promote: true
+  publish_on: true
+  status: true
+  sticky: true
+  title: true
+  uid: true
+  unpublish_on: true

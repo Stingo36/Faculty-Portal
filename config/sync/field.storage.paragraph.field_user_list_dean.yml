@@ -1,0 +1,24 @@
+uuid: 4d2d9ee2-b203-45cf-92f1-d8696a787a02
+langcode: en
+status: true
+dependencies:
+  module:
+    - field_permissions
+    - paragraphs
+    - user
+third_party_settings:
+  field_permissions:
+    permission_type: custom
+id: paragraph.field_user_list_dean
+field_name: field_user_list_dean
+entity_type: paragraph
+type: entity_reference
+settings:
+  target_type: user
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

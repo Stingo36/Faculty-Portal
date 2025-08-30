@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * @file
+ * Module file for year.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\field\FieldStorageConfigInterface;
+
+/**
+ * Implements hook_help().
+ */
+function year_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // For help overview pages we use the route help.page.$moduleName.
+    case 'help.page.year':
+      $output = '';
+      $output = '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('<strong>Year</strong> provides a custom field type to collect only the year part of date.') . '</p>';
+      return $output;
+  }
+}
+
+/**
+ * Implements hook_field_views_data().
+ *
+ * Custom views integration for year fields. Provide a user-friendly dropdown
+ * (select) filter with a configurable range of years.
+ */
+function year_field_views_data(FieldStorageConfigInterface $field) {
+
+  $moduleHandler = \Drupal::service('module_handler');
+  if ($moduleHandler->moduleExists('year_views')) {
+    $data = views_field_default_views_data($field);
+
+    foreach ($data as $table_name => $table_data) {
+      foreach ($table_data as $field_name => $field_data) {
+        if ($field->getType() == 'year' && isset($field_data['filter']) && $field_name != 'delta') {
+          $data[$table_name]['year_enhanced_filter'] = [
+            'title' => t('@name (Dropdown Filter)', ['@name' => $field_data['title']]),
+            'help' => t('Provides a dropdown filter with configurable range of years.'),
+            'group' => $field_data['group'],
+            'filter' => [
+              'id' => 'year_field',
+              'field' => $field_name,
+            ],
+          ];
+        }
+      }
+    }
+
+    return $data;
+  }
+}

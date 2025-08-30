@@ -1,0 +1,117 @@
+uuid: 9383bfc5-7c94-4ef8-a53a-7cb473a10645
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.user.user.field_gender
+    - field.field.user.user.field_prefix_user
+    - field.field.user.user.field_remainder_sent
+    - field.field.user.user.field_review_candidates
+    - field.field.user.user.field_temp_password
+    - field.field.user.user.field_user_academic_qualifi_ref
+    - field.field.user.user.field_user_basic_info_ref
+    - field.field.user.user.field_user_full_name
+    - field.field.user.user.field_user_list_of_referees_ref
+    - field.field.user.user.field_user_other_rel_info_ref
+    - field.field.user.user.field_user_research_programs
+    - field.field.user.user.field_user_research_proposal_ref
+    - field.field.user.user.field_user_seminar_details_ref
+    - field.field.user.user.field_user_session_key
+    - field.field.user.user.field_user_submit_app_ref
+    - field.field.user.user.field_user_update_pub_ref
+    - field.field.user.user.field_user_work_experience_ref
+  module:
+    - display_machine_name
+    - options
+    - user
+third_party_settings:
+  display_machine_name:
+    enable_display_machine_name: 0
+_core:
+  default_config_hash: mZLyuWM9CQx2ZJVqFGSbzgFnHzudVbHBYmdU256A5Wk
+id: user.user.default
+targetEntityType: user
+bundle: user
+mode: default
+content:
+  display_name:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_gender:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_prefix_user:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_remainder_sent:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  field_review_candidates:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_temp_password:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_user_full_name:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_user_research_programs:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  member_for:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  field_user_academic_qualifi_ref: true
+  field_user_basic_info_ref: true
+  field_user_list_of_referees_ref: true
+  field_user_other_rel_info_ref: true
+  field_user_research_proposal_ref: true
+  field_user_seminar_details_ref: true
+  field_user_session_key: true
+  field_user_submit_app_ref: true
+  field_user_update_pub_ref: true
+  field_user_work_experience_ref: true
+  langcode: true

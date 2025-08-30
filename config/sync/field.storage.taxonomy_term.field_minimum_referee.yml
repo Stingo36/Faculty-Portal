@@ -1,0 +1,55 @@
+uuid: ca021bdd-63ef-43af-aaa6-1cb6ad92d25c
+langcode: en
+status: true
+dependencies:
+  module:
+    - field_permissions
+    - options
+    - taxonomy
+third_party_settings:
+  field_permissions:
+    permission_type: public
+id: taxonomy_term.field_minimum_referee
+field_name: field_minimum_referee
+entity_type: taxonomy_term
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: '1'
+      label: '1'
+    -
+      value: '2'
+      label: '2'
+    -
+      value: '3'
+      label: '3'
+    -
+      value: '4'
+      label: '4'
+    -
+      value: '5'
+      label: '5'
+    -
+      value: '6'
+      label: '6'
+    -
+      value: '7'
+      label: '7'
+    -
+      value: '8'
+      label: '8'
+    -
+      value: '9'
+      label: '9'
+    -
+      value: '10'
+      label: '10'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

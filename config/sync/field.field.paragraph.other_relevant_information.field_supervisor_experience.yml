@@ -1,0 +1,19 @@
+uuid: 976ab5be-e916-408b-9320-e427d933e4ba
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_supervisor_experience
+    - paragraphs.paragraphs_type.other_relevant_information
+id: paragraph.other_relevant_information.field_supervisor_experience
+field_name: field_supervisor_experience
+entity_type: paragraph
+bundle: other_relevant_information
+label: 'Supervisor Experience'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

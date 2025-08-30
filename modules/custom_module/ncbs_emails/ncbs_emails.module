@@ -1,0 +1,142 @@
+<?php
+
+// use Drupal\Core\Entity\EntityInterface;
+// use Drupal\node\Entity\Node;
+
+// /**
+//  * Implements hook_entity_update().
+//  */
+// function ncbs_emails_entity_update(EntityInterface $entity) {
+//   // Process only if the entity is a node.
+//   if ($entity->getEntityTypeId() === 'node') {
+
+//     // --- For 'submit_application' content type ---
+//     if ($entity->bundle() === 'submit_application') {
+//       $node = $entity;
+//       $current_user = \Drupal::currentUser();
+
+//       // Check if form is not yet submitted and session key exists.
+//       if ($node->get('field_form_submitted')->value == 0 && !$node->get('field_session_key')->isEmpty()) {
+
+//         // -- USER EMAIL --
+//         $template_id = '2_form_submit_mail_to_user';
+//         $template = \Drupal::entityTypeManager()
+//           ->getStorage('easy_email_type')
+//           ->load($template_id);
+
+//         if (!$template) {
+//           \Drupal::logger('ncbs_emails')->error('Email template "@template" not found.', ['@template' => $template_id]);
+//           return;
+//         }
+
+//         $raw_body = $template->get('bodyHtml')['value'] ?? '';
+//         $body = strip_tags($raw_body);
+//         $raw_subject = $template->get('subject');
+//         $to = 'sahilst@ext.ncbs.res.in'; // Replace with $current_user->getEmail() if needed.
+
+//         $params = [
+//           'subject' => $raw_subject,
+//           'message' => $body,
+//         ];
+
+//         $result = \Drupal::service('plugin.manager.mail')->mail('ncbs_emails', 'thank_you_mail', $to, $current_user->getPreferredLangcode(), $params, NULL, TRUE);
+
+//         if ($result['result'] === TRUE) {
+//           \Drupal::messenger()->addMessage('Email sent successfully to ' . $to);
+//         } else {
+//           \Drupal::messenger()->addError('There was a problem sending the email to the user.');
+//         }
+
+//         // -- ADMIN EMAILS --
+//         $template_id_admin = '3_form_submit_mail_to_admin';
+//         $template_admin = \Drupal::entityTypeManager()
+//           ->getStorage('easy_email_type')
+//           ->load($template_id_admin);
+
+//         if (!$template_admin) {
+//           \Drupal::logger('ncbs_emails')->error('Email template "@template" not found.', ['@template' => $template_id_admin]);
+//           return;
+//         }
+
+//         $admin_body = strip_tags($template_admin->get('bodyHtml')['value'] ?? '');
+//         $admin_subject = $template_admin->get('subject');
+//         $admin_params = [
+//           'subject' => $admin_subject,
+//           'message' => $admin_body,
+//         ];
+
+//         // Get all admin users
+//         $admin_users = \Drupal::entityTypeManager()
+//           ->getStorage('user')
+//           ->loadByProperties(['roles' => 'administrator']);
+
+//         foreach ($admin_users as $admin_user) {
+//           $admin_email = $admin_user->getEmail();
+
+//           $result = \Drupal::service('plugin.manager.mail')->mail(
+//             'ncbs_emails',
+//             'thank_you_mail',
+//             $admin_email,
+//             $current_user->getPreferredLangcode(),
+//             $admin_params,
+//             NULL,
+//             TRUE
+//           );
+
+//           if ($result['result'] === TRUE) {
+//             \Drupal::messenger()->addMessage('Email sent successfully to admin: ' . $admin_email);
+//           } else {
+//             \Drupal::messenger()->addError('Error sending email to admin: ' . $admin_email);
+//           }
+//         }
+
+//         // -- POST EMAIL ACTIONS --
+//         // Mark the form as submitted
+//         $node->set('field_form_submitted', 1);
+
+//         // Update access on referenced nodes
+//         $reference_field = $node->get('field_basic_information_referenc');
+//         if (!$reference_field->isEmpty()) {
+//           foreach ($reference_field as $item) {
+//             $referenced_node = Node::load($item->target_id);
+//             if ($referenced_node && $referenced_node->hasField('field_access')) {
+//               $referenced_node->set('field_access', 'edit');
+//               $referenced_node->save();
+//               \Drupal::messenger()->addMessage('Field access updated to edit for node ID: ' . $referenced_node->id());
+//               \Drupal::logger('ncbs_emails')->info('field_access set to edit for node ID: ' . $referenced_node->id());
+//             } else {
+//               \Drupal::logger('ncbs_emails')->error('field_access not present on node ID: ' . $referenced_node->id());
+//             }
+//           }
+//         }
+
+//         // Save updates to main node
+//         $node->save();
+//       }
+//     }
+
+//     // --- For 'add_comments' content type ---
+//     if ($entity instanceof \Drupal\node\NodeInterface && $entity->bundle() == 'add_comments') {
+//       \Drupal::messenger()->addMessage('Cache invalidated.');
+//       \Drupal::service('cache.render')->invalidateAll();
+//     }
+//   }
+// }
+
+// /**
+//  * Implements hook_mail().
+//  */
+// function ncbs_emails_mail($key, &$message, $params) {
+//   if ($key === 'thank_you_mail') {
+//     $message['subject'] = $params['subject'];
+//     $message['body'] = [$params['message']];
+//     $message['headers'] = [
+//       'Content-Type' => 'text/html; charset=UTF-8; format=flowed',
+//       'MIME-Version' => '1.0',
+//     ];
+
+//     if (!empty($params['cc'])) {
+//       $message['headers']['Cc'] = $params['cc'];
+//     }
+//   }
+// }

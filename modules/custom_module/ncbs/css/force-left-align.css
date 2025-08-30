@@ -1,0 +1,9 @@
+/* Only left-align this specific field */
+.views-field-all-application-comments {
+  text-align: left !important;
+  vertical-align: top !important;
+}
+
+.views-field-all-application-comments * {
+  text-align: left !important;
+}

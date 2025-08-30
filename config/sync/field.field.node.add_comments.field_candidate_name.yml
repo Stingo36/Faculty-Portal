@@ -1,0 +1,19 @@
+uuid: 6c4f6bec-3ff6-4595-85ab-9267f521f71f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_candidate_name
+    - node.type.add_comments
+id: node.add_comments.field_candidate_name
+field_name: field_candidate_name
+entity_type: node
+bundle: add_comments
+label: 'Candidate Name'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

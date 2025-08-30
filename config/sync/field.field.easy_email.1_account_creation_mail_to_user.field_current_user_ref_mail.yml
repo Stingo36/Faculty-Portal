@@ -1,0 +1,29 @@
+uuid: 72766a09-0520-4021-bfca-ba662d6daf66
+langcode: en
+status: true
+dependencies:
+  config:
+    - easy_email.easy_email_type.1_account_creation_mail_to_user
+    - field.storage.easy_email.field_current_user_ref_mail
+id: easy_email.1_account_creation_mail_to_user.field_current_user_ref_mail
+field_name: field_current_user_ref_mail
+entity_type: easy_email
+bundle: 1_account_creation_mail_to_user
+label: 'Current User Reference Mail'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    filter:
+      type: _none
+    include_anonymous: true
+field_type: entity_reference

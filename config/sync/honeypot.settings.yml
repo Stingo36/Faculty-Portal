@@ -1,0 +1,38 @@
+_core:
+  default_config_hash: 9bVDfWSa_In6VzTXmy04jJ_3ZQobihKjO9isuuUCPaw
+protect_all_forms: false
+unprotected_forms:
+  - user_login_form
+  - search_form
+  - search_block_form
+  - views_exposed_form
+  - honeypot_settings_form
+log: false
+element_name: url
+time_limit: 5
+expire: 300
+form_settings:
+  user_register_form: false
+  user_pass: false
+  contact_message_feedback_form: false
+  contact_message_personal_form: false
+  node_academic_qualification_form: false
+  node_add_comments_form: false
+  node_article_form: false
+  node_basic_information_form: false
+  node_blog_form: false
+  node_list_of_referees__form: false
+  node_meetings_of_minutes_form: false
+  node_other_relevant_information_form: false
+  node_page_form: false
+  node_programs_form: false
+  node_referee_feedback_form_form: false
+  node_research_proposal_form: false
+  node_seminar_details_form: false
+  node_send_email_form: false
+  node_slider_form: false
+  node_submit_application_form: false
+  node_update_publications_form: false
+  node_work_experience_form: false
+  comment_comment_form: false
+  comment_review_form: false

@@ -1,0 +1,137 @@
+<?php
+
+namespace Drupal\ncbs\Plugin\views\field;
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\views\Plugin\views\field\FieldPluginBase;
+use Drupal\views\ResultRow;
+
+/**
+ * A handler to provide a field that displays all application comments.
+ *
+ * @ingroup views_field_handlers
+ *
+ * @ViewsField("all_application_comments")
+ */
+class AllApplicationComments extends FieldPluginBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function usesGroupBy() {
+    return FALSE;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function query() {
+    // Disable default query behavior.
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function defineOptions() {
+    $options = parent::defineOptions();
+    $options['hide_alter_empty'] = ['default' => FALSE];
+    return $options;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildOptionsForm(&$form, FormStateInterface $form_state) {
+    parent::buildOptionsForm($form, $form_state);
+  }
+
+  /**
+   * Renders comment output for a given reference field.
+   *
+   * @param \Drupal\node\NodeInterface $node
+   *   The main node.
+   * @param string $reference_field
+   *   The entity reference field holding comment nodes.
+   * @param string $title
+   *   The section title like DEAN COMMENTS, etc.
+   *
+   * @return string
+   *   Rendered HTML.
+   */
+  protected function renderComments($node, $reference_field, $title) {
+    $output = '';
+    $has_output = FALSE;
+
+    if ($node->hasField($reference_field) && !$node->get($reference_field)->isEmpty()) {
+      $comment_references = $node->get($reference_field)->referencedEntities();
+
+      foreach ($comment_references as $comment_entity) {
+        if ($comment_entity->getEntityTypeId() === 'node') {
+          $comments = $comment_entity->get('field_add_comments')->getValue();
+          $dates = $comment_entity->get('field_comment_date')->getValue();
+          $names = $comment_entity->get('field_comment_name')->getValue();
+
+          $username = isset($names[0]['value']) ? htmlspecialchars($names[0]['value']) : 'Unknown';
+
+          $count = max(count($comments), count($dates));
+          if ($count > 0) {
+            $output .= '<strong>' . htmlspecialchars($title) . '</strong><br>';
+            $output .= '<u><i>Comment by ' . $username . '</i></u><br>';
+            for ($i = 0; $i < $count; $i++) {
+              $date = isset($dates[$i]['value']) ? $dates[$i]['value'] : '';
+              $comment = isset($comments[$i]['value']) ? $comments[$i]['value'] : '';
+              if (!empty($comment)) {
+                $output .= htmlspecialchars($date) . ' - ' . nl2br(htmlspecialchars($comment)) . '<br>';
+              }
+            }
+            $has_output = TRUE;
+          }
+          else {
+            $output .= '<strong>' . htmlspecialchars($title) . '</strong><br>';
+            $output .= 'No comments from ' . $username . '<br>';
+          }
+        }
+      }
+    }
+    else {
+      $output .= '<strong>' . htmlspecialchars($title) . '</strong><br>';
+      $output .= 'No comments from user<br>';
+    }
+
+    return $output;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function render(ResultRow $values) {
+    $current_user = \Drupal::currentUser();
+
+    if ($current_user->hasRole('admin') || $current_user->hasRole('administrator')) {
+      $entity = $values->_entity;
+
+      if ($entity && $entity->getEntityTypeId() === 'node') {
+        $node = \Drupal::entityTypeManager()->getStorage('node')->load($entity->id());
+
+        if ($node && $node->bundle() === 'submit_application') {
+          $output = '';
+          $output .= $this->renderComments($node, 'field_dean_comment_reference', 'DEAN COMMENTS');
+          $output .= $this->renderComments($node, 'field_director_comments', 'DIRECTOR COMMENTS');
+          $output .= $this->renderComments($node, 'field_overall_comments', 'OVERALL COMMENTS');
+
+          return [
+            '#type' => 'inline_template',
+            '#template' => '{{ content|raw }}',
+            '#context' => ['content' => $output],
+            '#attributes' => ['style' => 'text-align: left !important;'],
+          ];
+        }
+      }
+    }
+
+    return [
+      '#markup' => '',
+    ];
+  }
+
+}

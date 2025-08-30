@@ -1,0 +1,12 @@
+name: 'Paragraphs table'
+type: module
+description: 'This module provides both a field formatter and a widget for the Paragraphs entity type'
+core_version_requirement: ^8.8 || ^9 || ^10.1
+package: Paragraphs
+dependencies:
+  - paragraphs:paragraphs
+
+# Information added by Drupal.org packaging script on 2024-07-11
+version: '8.x-1.23'
+project: 'paragraphs_table'
+datestamp: 1720727994

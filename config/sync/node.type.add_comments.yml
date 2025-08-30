@@ -1,0 +1,25 @@
+uuid: 8e7b0b6f-b107-4352-82e7-674a6486fa7d
+langcode: en
+status: true
+dependencies:
+  module:
+    - autotitle
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+  autotitle:
+    enabled: false
+    field: _none
+    fallback_title: '[current-user:roles] - Commented by: [node:author]'
+    headings:
+      h1: h1
+name: 'Add Comments'
+type: add_comments
+description: 'Content Type to add Comments'
+help: null
+new_revision: false
+preview_mode: 0
+display_submitted: true

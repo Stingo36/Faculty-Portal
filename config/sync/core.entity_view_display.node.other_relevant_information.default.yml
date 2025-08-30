@@ -1,0 +1,48 @@
+uuid: 76401fd4-e177-429c-b8a1-a9f7e6ce23d1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.other_relevant_information.field_any_other_relevant_informa
+    - field.field.node.other_relevant_information.field_awards_and_fellowships
+    - field.field.node.other_relevant_information.field_details_of_grants_obtained
+    - field.field.node.other_relevant_information.field_new_research_areas
+    - field.field.node.other_relevant_information.field_phd_details_such_as_univer
+    - field.field.node.other_relevant_information.field_please_tick_one_or_more_of
+    - field.field.node.other_relevant_information.field_research_accomplishments_p
+    - field.field.node.other_relevant_information.field_supervisor_experience
+    - field.field.node.other_relevant_information.field_teaching_experience_if_any
+    - node.type.other_relevant_information
+  module:
+    - options
+    - user
+id: node.other_relevant_information.default
+targetEntityType: node
+bundle: other_relevant_information
+mode: default
+content:
+  field_new_research_areas:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_please_tick_one_or_more_of:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_any_other_relevant_informa: true
+  field_awards_and_fellowships: true
+  field_details_of_grants_obtained: true
+  field_phd_details_such_as_univer: true
+  field_research_accomplishments_p: true
+  field_supervisor_experience: true
+  field_teaching_experience_if_any: true
+  langcode: true
+  links: true

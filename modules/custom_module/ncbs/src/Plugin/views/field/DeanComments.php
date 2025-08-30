@@ -1,0 +1,26 @@
+<?php
+
+namespace Drupal\ncbs\Plugin\views\field;
+
+use Drupal\views\Annotation\ViewsField;
+
+/**
+ * @ViewsField("dean_comment_ref")
+ */
+class DeanComments extends BaseComments {
+
+  /**
+   * The field name to retrieve.
+   *
+   * @var string
+   */
+  protected $fieldName = 'field_dean_comment_reference';
+
+  /**
+   * The role to be added in the create link.
+   *
+   * @var string
+   */
+  protected $role = 'dean';
+
+}

@@ -1,0 +1,24 @@
+uuid: 05568f7f-8824-4ed1-875b-8089987695f5
+langcode: en
+status: true
+dependencies:
+  module:
+    - autotitle
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+  autotitle:
+    enabled: false
+    field: _none
+    fallback_title: 'Untitled []'
+    headings: {  }
+name: 'Meetings of Minutes'
+type: meetings_of_minutes
+description: 'Content type to Display meetings and general information'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: true

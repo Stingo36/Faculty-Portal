@@ -1,0 +1,22 @@
+uuid: 28f4bfae-5955-4ece-aeea-3ae1c0f8b175
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.work_experience
+id: node.work_experience.promote
+field_name: promote
+entity_type: node
+bundle: work_experience
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

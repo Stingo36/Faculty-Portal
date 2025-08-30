@@ -1,0 +1,26 @@
+uuid: 7b142c8d-435c-4195-a4f2-38a510e43df1
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - bootstrap5
+id: bootstrap5_tabs
+theme: bootstrap5
+region: content
+weight: -3
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: true
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: "<front>\r\n/user/register\r\n/user/password"

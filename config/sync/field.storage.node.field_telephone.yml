@@ -1,0 +1,21 @@
+uuid: 002e8add-cfe9-4d63-a5a7-c409903f7e7a
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_telephone
+field_name: field_telephone
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

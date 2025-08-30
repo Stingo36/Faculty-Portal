@@ -1,0 +1,96 @@
+{#
+  User login form with clean hardcoded nav tabs.
+#}
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+      <div class="card shadow-sm" style="border-radius: 0.5rem;">
+        <div class="card-body" style="padding: 0 2rem;">
+
+{% if not user.isAuthenticated() %}
+  <div class="tab-block-anonymous mb-4 w-100">
+    <ul class="nav nav-tabs w-100">
+      <li class="nav-item w-100 text-center">
+        <a href="{{ path('user.login') }}" class="nav-link {% if path('<current>') == path('user.login') %}active{% endif %}">Login</a>
+      </li>
+      <li class="nav-item w-100 text-center">
+        <a href="{{ path('user.register') }}" class="nav-link {% if path('<current>') == path('user.register') %}active{% endif %}">Create New Account</a>
+      </li>
+      <li class="nav-item w-100 text-center">
+        <a href="{{ path('user.pass') }}" class="nav-link {% if path('<current>') == path('user.pass') %}active{% endif %}">Reset Password</a>
+      </li>
+    </ul>
+  </div>
+{% endif %}
+
+
+<h2 class="card-title text-center mb-4" style="font-size: 1.75rem; color: #1f4e9d;">
+  Create New Account <br>
+  <small style="font-size: 1.5rem; color: #ee1818;">(Only for Candidates)</small>
+</h2>
+
+
+          {{ title_prefix }}
+          {{ title_suffix }}
+
+          <form{{ attributes.addClass('needs-validation') }} novalidate>
+            {{ children }}
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<style>
+
+  .card-title{
+    margin-top:20px
+  }
+.tab-block-anonymous ul.nav-tabs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 0;
+  list-style: none;
+  gap: 1rem;
+  border: none;
+}
+
+.tab-block-anonymous .nav-item {
+  flex: 1; /* 👈 Makes all nav-items equal width */
+  text-align: center;
+}
+
+.tab-block-anonymous .nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  width: 100%; /* 👈 Full width of its flex container */
+  font-weight: 600;
+  padding: 0;
+  color: #1f4e9d;
+  background-color: #fff;
+  border: none;
+  border-radius: 0.25rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  box-shadow: none;
+}
+
+.tab-block-anonymous .nav-link:hover {
+  background-color: #e7edf8;
+  color: #1f4e9d;
+}
+
+.tab-block-anonymous .nav-link.active {
+  background-color: #1f4e9d;
+  color: #ffffff;
+  font-weight: 700;
+}
+</style>

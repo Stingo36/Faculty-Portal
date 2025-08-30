@@ -1,0 +1,5 @@
+name: NCBS CUSTOM CSV
+type: module
+description: Creates a custom CSV based on Views.
+package: Custom
+core_version_requirement: ^9 || ^10

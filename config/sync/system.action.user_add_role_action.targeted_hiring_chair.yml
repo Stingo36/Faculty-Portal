@@ -1,0 +1,14 @@
+uuid: 508964d1-a523-456a-bb70-67d57c08c93b
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.targeted_hiring_chair
+  module:
+    - user
+id: user_add_role_action.targeted_hiring_chair
+label: 'Add the Targeted Hiring Chair role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: targeted_hiring_chair

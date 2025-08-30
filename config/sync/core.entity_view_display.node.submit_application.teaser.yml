@@ -1,0 +1,83 @@
+uuid: 8518e9ea-4457-4fd1-a036-9b37e10f9efb
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.submit_application.body
+    - field.field.node.submit_application.field_academic_qualification_ref
+    - field.field.node.submit_application.field_admin_comment_reference
+    - field.field.node.submit_application.field_assessment_committee_coref
+    - field.field.node.submit_application.field_basic_information_referenc
+    - field.field.node.submit_application.field_board_member_comment_refer
+    - field.field.node.submit_application.field_date_received
+    - field.field.node.submit_application.field_dean_comment_reference
+    - field.field.node.submit_application.field_director_comment_reference
+    - field.field.node.submit_application.field_faculty_member_comment_ref
+    - field.field.node.submit_application.field_faculty_search_comit_coref
+    - field.field.node.submit_application.field_form_submitted
+    - field.field.node.submit_application.field_list_of_referees_ref
+    - field.field.node.submit_application.field_other_relevant_info_ref
+    - field.field.node.submit_application.field_prescreen_comment_ref
+    - field.field.node.submit_application.field_program_name
+    - field.field.node.submit_application.field_promotion_committee_coref
+    - field.field.node.submit_application.field_research_proposal_ref
+    - field.field.node.submit_application.field_seminar_details_ref
+    - field.field.node.submit_application.field_send_email_reference
+    - field.field.node.submit_application.field_session_key
+    - field.field.node.submit_application.field_status
+    - field.field.node.submit_application.field_status_update
+    - field.field.node.submit_application.field_update_publications_ref
+    - field.field.node.submit_application.field_user_reference
+    - field.field.node.submit_application.field_work_experience_ref
+    - field.field.node.submit_application.field_yip_search_committee_coref
+    - node.type.submit_application
+  module:
+    - text
+    - user
+id: node.submit_application.teaser
+targetEntityType: node
+bundle: submit_application
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_academic_qualification_ref: true
+  field_admin_comment_reference: true
+  field_assessment_committee_coref: true
+  field_basic_information_referenc: true
+  field_board_member_comment_refer: true
+  field_date_received: true
+  field_dean_comment_reference: true
+  field_director_comment_reference: true
+  field_faculty_member_comment_ref: true
+  field_faculty_search_comit_coref: true
+  field_form_submitted: true
+  field_list_of_referees_ref: true
+  field_other_relevant_info_ref: true
+  field_prescreen_comment_ref: true
+  field_program_name: true
+  field_promotion_committee_coref: true
+  field_research_proposal_ref: true
+  field_seminar_details_ref: true
+  field_send_email_reference: true
+  field_session_key: true
+  field_status: true
+  field_status_update: true
+  field_update_publications_ref: true
+  field_user_reference: true
+  field_work_experience_ref: true
+  field_yip_search_committee_coref: true
+  langcode: true

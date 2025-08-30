@@ -1,0 +1,492 @@
+{#
+  Set dynamic classes for the article element based on node properties
+#}
+{% set classes = [
+  'node',
+  'node--type-' ~ node.bundle|clean_class,
+  node.isPromoted() ? 'node--promoted',
+  node.isSticky() ? 'node--sticky',
+  not node.isPublished() ? 'node--unpublished',
+  view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+] %}
+
+{{ attach_library('bootstrap5/node') }}
+
+<article{{ attributes.addClass(classes) }}>
+
+  {{ title_prefix }}
+  {% if label and not page %}
+    <h2{{ title_attributes }}>
+      <a href="{{ url }}" rel="bookmark">{{ label }}</a>
+    </h2>
+  {% endif %}
+  {{ title_suffix }}
+
+  {# === BASIC INFORMATION SECTION === #}
+  {% if _context['node'].getType() == 'basic_information' %}
+    <div{{ content_attributes.addClass('node__content', 'bg-white') }}>
+      <div class="table-responsive">
+        <table class="table table-borderless align-middle text-center" style="width: 100%;">
+          <thead style="background-color: #16395D;">
+            <tr>
+              {% for key, field in content %}
+                {# Skip internal keys and the “other” fields so they don’t get their own column #}
+                {% if field|render|trim is not empty 
+                      and key|first != '#' 
+                      and key not in ['field_other', 'field_other_gender'] %}
+                  <th class="fw-semibold py-3 text-white align-middle text-center" style="background-color: #16395D;">
+                    {{ field['#title']|default(key|replace({'field_': ''})|replace({'_': ' '})|capitalize) }}
+                  </th>
+                {% endif %}
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody class="text-center align-middle">
+            <tr>
+              {% for key, field in content %}
+                {% if field|render|trim is not empty 
+                      and key|first != '#' 
+                      and key not in ['field_other', 'field_other_gender'] %}
+                  <td class="py-3">
+                    {# Inject “other” values into the nationality column #}
+                    {% if key == 'field_nationality' %}
+                      {% set val = node.field_nationality.value is iterable 
+                                    ? node.field_nationality.value[0] 
+                                    : node.field_nationality.value %}
+                      {% if val|lower == 'other' and node.field_other.value %}
+                        {{ node.field_other.value }}
+                      {% else %}
+                        {{ val }}
+                      {% endif %}
+
+                    {# Inject “other” values into the gender column #}
+                    {% elseif key == 'field_gender' %}
+                      {% set gen = node.field_gender.value is iterable 
+                                    ? node.field_gender.value[0] 
+                                    : node.field_gender.value %}
+                      {% if gen|lower == 'other' and node.field_other_gender.value %}
+                        {{ node.field_other_gender.value }}
+                      {% else %}
+                        {{ gen }}
+                      {% endif %}
+
+                    {# Default render for all other fields #}
+                    {% else %}
+                      {{ field }}
+                    {% endif %}
+                  </td>
+                {% endif %}
+              {% endfor %}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+      {# === PUBLICATIONS SECTION === #}
+  {% elseif _context['node'].getType() == 'update_publications' %}
+    <div class="bg-white">
+        <div class="table-responsive">
+          <table class="table table-borderless align-middle text-center" style="width: 100%;">
+            <thead>
+              <tr>
+                {% for header in update_publications_headers %}
+                  <th class="fw-semibold py-3 text-white align-middle text-center" style="background-color: #16395D;">
+                    {{ header }}
+                  </th>
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in update_publications_rows %}
+                <tr class="border-bottom">
+                  {% for cell in row %}
+                    <td class="py-3">{{ cell|raw }}</td>
+
+                  {% endfor %}
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+    </div>
+  {# === ACADEMIC QUALIFICATION SECTION === #}
+  {% elseif _context['node'].getType() == 'academic_qualification' %}
+    <div class="bg-white">
+      <div class="table-responsive">
+        <table class="table table-borderless align-middle text-center" style="width: 100%;">
+          <thead>
+            <tr>
+              {% if academic_qualification_headers is not empty %}
+                {% for header in academic_qualification_headers %}
+                  <th class="fw-semibold py-3 text-white align-middle text-center" style="background-color: #16395D;">
+                    {{ header }}
+                  </th>
+                {% endfor %}
+              {% else %}
+                <th class="py-3 text-muted text-center">No academic qualifications added.</th>
+              {% endif %}
+            </tr>
+          </thead>
+          <tbody>
+            {% if academic_qualification_rows is not empty %}
+              {% for row in academic_qualification_rows %}
+                <tr class="border-bottom">
+                  {% for cell in row %}
+                    <td class="py-3">
+                      {{ cell }}
+                    </td>
+                  {% endfor %}
+                </tr>
+              {% endfor %}
+            {% else %}
+              <tr>
+                <td class="py-3 text-muted text-center" colspan="7">No academic qualifications added.</td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {# === WORK EXPERIENCE SECTION === #}
+  {% elseif _context['node'].getType() == 'work_experience' %}
+    <div class="bg-white">
+        <div class="table-responsive">
+          <table class="table table-borderless align-middle text-center" style="width: 100%;">
+            <thead>
+              <tr>
+                {% for header in work_experience_headers %}
+                  <th class="fw-semibold py-3 text-white align-middle text-center" style="background-color: #16395D;">
+                    {{ header }}
+                  </th>
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in work_experience_rows %}
+                <tr class="border-bottom">
+                  {% for cell in row %}
+                    <td class="py-3">{{ cell }}</td>
+                  {% endfor %}
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  {# === OTHER RELEVANT INFORMATION === #}
+
+
+
+{% elseif _context['node'].getType() == 'other_relevant_information' %}
+  <div{{ content_attributes.addClass('node__content', 'bg-white') }}>
+    <div class="table-responsive">
+      <table class="table table-borderless align-middle text-center" style="width: 100%;">
+        <tbody>
+          <tr>
+            <th class="fw-semibold py-3 text-white align-middle text-center" style="background-color: #16395D;">
+              Research Areas
+            </th>
+          </tr>
+          <tr class="border-bottom">
+            <td class="py-3 text-start">
+
+{# {% if node.field_new_research_areas is not empty %} #}
+{# newly added  #}
+{% if node.field_new_research_areas|length > 0 %}
+
+  {# ✅ Initialize grouping #}
+  {% set grouped = {} %}
+  {% set standalone = [] %}
+
+  {% for item in node.field_new_research_areas %}
+    {% set term_label = item.entity.label %}
+    {% set parent_entity = item.entity.parent.entity ?? null %}
+
+    {% if parent_entity %}
+      {% set parent_label = parent_entity.label %}
+      {% set grouped = grouped|merge({ (parent_label): (grouped[parent_label]|default([]))|merge([term_label]) }) %}
+    {% else %}
+      {% set standalone = standalone|merge([term_label]) %}
+    {% endif %}
+  {% endfor %}
+
+  {# ✅ Render grouped child terms under parents #}
+  {% for parent_label, terms in grouped %}
+    <div class="fw-bold mb-1">{{ parent_label }}</div>
+    <ul class="mb-3">
+      {% for term in terms %}
+        <li>{{ term }}</li>
+      {% endfor %}
+    </ul>
+  {% endfor %}
+
+  {# ✅ Render standalone top-level terms #}
+  {% for term in standalone %}
+    <div class="fw-bold mb-3">{{ term }}</div>
+  {% endfor %}
+
+{% elseif user_parent_terms is not empty %}
+  {% for parent_label in user_parent_terms %}
+    <div class="fw-bold mb-1">{{ parent_label }}</div>
+  {% endfor %}
+
+{% else %}
+  <span class="text-muted">N/A</span>
+{% endif %}
+
+{# newly added end #}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {# {% elseif _context['node'].getType() == 'other_relevant_information' %}
+    <div{{ content_attributes.addClass('node__content', 'bg-white') }}>
+      <div class="table-responsive">
+        <table class="table table-borderless align-middle text-center" style="width: 100%;">
+          <tbody>
+            <tr>
+              <th class="fw-semibold py-3 text-white align-middle text-center" style="background-color: #16395D;">
+                Research Areas
+              </th>
+            </tr>
+            <tr class="border-bottom">
+              <td class="py-3 text-start">
+
+                {% if node.field_new_research_areas is not empty %}
+                  {% set grouped = {} %}
+                  {% for item in node.field_new_research_areas %}
+                    {% set parent = item.entity.parent.entity.label ?? 'Uncategorized' %}
+                    {% set term = item.entity.label %}
+                    {% set grouped = grouped|merge({ (parent): (grouped[parent]|default([]))|merge([term]) }) %}
+                  {% endfor %}
+
+                  {% for parent_label, terms in grouped %}
+                    <div class="fw-bold mb-1">{{ parent_label }}</div>
+                    <ul class="mb-3">
+                      {% for term in terms %}
+                        <li>{{ term }}</li>
+                      {% endfor %}
+                    </ul>
+                  {% endfor %}
+
+                {% elseif user_parent_terms is not empty %}
+                  {% for parent_label in user_parent_terms %}
+                    <div class="fw-bold mb-1">{{ parent_label }}</div>
+                  {% endfor %}
+
+                {% else %}
+                  <span class="text-muted">N/A</span>
+                {% endif %}
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div> #}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  {# === REFEREE LIST === #}
+  {% elseif _context['node'].getType() == 'list_of_referees_' %}
+    {% set hide_feedback = 'user' in user.roles %}
+    <div class="bg-white">
+      <div class="table-responsive">
+        <table class="table table-borderless align-middle text-center" style="width: 100%;">
+          <thead>
+            <tr class="border-bottom">
+              <th class="fw-semibold py-3 text-white align-middle text-center" style="background-color: #16395D;" style="background-color: #16395D;">Prefix</th>
+              <th class="fw-semibold py-3 text-white align-middle text-center" style="background-color: #16395D;" style="background-color: #16395D;">Name</th>
+              <th class="fw-semibold py-3 text-white align-middle text-center" style="background-color: #16395D;" style="background-color: #16395D;">Position</th>
+              <th class="fw-semibold py-3 text-white align-middle text-center" style="background-color: #16395D;" style="background-color: #16395D;">Email</th>
+              <th class="fw-semibold py-3 text-white align-middle text-center" style="background-color: #16395D;" style="background-color: #16395D;">Phone</th>
+              <th class="fw-semibold py-3 text-white align-middle text-center" style="background-color: #16395D;" style="background-color: #16395D;">Address</th>
+              <th class="fw-semibold py-3 text-white align-middle text-center" style="background-color: #16395D;" style="background-color: #16395D;">Type</th>
+              {% if not hide_feedback %}
+                <th class="fw-semibold py-3 text-white align-middle text-center" style="background-color: #16395D;" style="background-color: #16395D;">Referee Feedback</th>
+              {% endif %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for paragraph in node.field_list_of_referees_ %}
+              <tr class="border-bottom">
+                <td class="py-3">{{ paragraph.entity.field_prefix.value }}</td>
+                <td class="py-3">{{ paragraph.entity.field_name.value }}</td>
+                <td class="py-3">{{ paragraph.entity.field_position.value }}</td>
+                <td class="py-3">{{ paragraph.entity.field_email.value }}</td>
+                <td class="py-3">{{ paragraph.entity.field_phone.value }}</td>
+                <td class="py-3">{{ paragraph.entity.field_address.value }}</td>
+                <td class="py-3">{{ paragraph.entity.field_type.value }}</td>
+                {% if not hide_feedback %}
+                  {% set feedback_entity = paragraph.entity.field_referee_feedback_reference.entity %}
+                  <td class="py-3">
+                    {% if feedback_entity and feedback_entity.field_feedback_text.value %}
+                      {{ feedback_entity.field_feedback_text.value }}
+                    {% else %}
+                      <span class="text-muted">No Feedback</span>
+                    {% endif %}
+                  </td>
+                {% endif %}
+              </tr>
+            {% else %}
+              <tr>
+                <td class="py-3 text-muted text-center" colspan="{{ hide_feedback ? '7' : '8' }}">No referees added.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  {# === RESEARCH PROPOSALS SECTION === #}
+  {% elseif _context['node'].getType() == 'research_proposal' %}
+    <div class="bg-white">
+      <div class="table-responsive">
+        <table class="table table-borderless align-middle text-center" style="width: 100%;">
+          <thead>
+            <tr class="border-bottom">
+              <th class="fw-semibold py-3 text-white align-middle text-center" style="background-color: #16395D; align-middle text-center" style="background-color: #16395D;">Research Proposal</th>
+              <th class="fw-semibold py-3 text-white align-middle text-center" style="background-color: #16395D; align-middle text-center" style="background-color: #16395D;">Attachment</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for paragraph in node.field_research_proposal %}
+              <tr class="border-bottom">
+                <td class="py-3">{{ paragraph.entity.field_research_proposal_brief.value }}</td>
+                <td class="py-3">
+                  {% if paragraph.entity.field_research.entity and paragraph.entity.field_research.entity.uri.value is not empty %}
+                    <a href="{{ file_url(paragraph.entity.field_research.entity.uri.value) }}" target="_blank">Download</a>
+                  {% else %}
+                    <span class="text-muted">No Attachment</span>
+                  {% endif %}
+                </td>
+              </tr>
+            {% else %}
+              <tr>
+                <td class="py-3 text-muted text-center" colspan="2">No research proposals added.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  {# === DEFAULT CONTENT RENDERING === #}
+  {% else %}
+    {{ content }}
+  {% endif %}
+</article>

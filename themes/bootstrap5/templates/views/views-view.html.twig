@@ -1,0 +1,121 @@
+{#
+/**
+ * @file
+ * Custom Views template with conditional styling (skip for who_s_online and Views UI).
+ */
+#}
+
+{% set skip_custom_css = id == 'who_s_online' or app.request.get('_route') starts with 'views_ui.' %}
+
+{% set classes = [
+  'view',
+  'view-' ~ id|clean_class,
+  'view-id-' ~ id,
+  'view-display-id-' ~ display_id,
+  dom_id ? 'js-view-dom-id-' ~ dom_id,
+] %}
+
+{% if not skip_custom_css %}
+  <style>
+    .custom-application-view {
+      border-radius: 10px;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .custom-application-view h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #222;
+    }
+
+    .view-content {
+      background-color: #fff;
+      border-radius: 10px;
+    }
+
+    .view-empty {
+      background-color: #fff3cd;
+      border: 1px solid #ffeeba;
+      padding: 1rem;
+      border-radius: 8px;
+      color: #856404;
+    }
+
+    .view-filters {
+      margin-bottom: 1.5rem;
+    }
+
+
+    .btn-primary:hover {
+      background-color: #5876d4;
+      border-color: #4c67be;
+    }
+  </style>
+{% endif %}
+
+<div{{ attributes.addClass(classes).addClass(not skip_custom_css ? 'custom-application-view' : '') }}>
+  {{ title_prefix }}
+  {% if title %}
+    <h2>{{ title }}</h2>
+  {% endif %}
+  {{ title_suffix }}
+
+  {% if header %}
+    <div class="view-header mb-3">
+      {{ header }}
+    </div>
+  {% endif %}
+
+  {% if exposed %}
+    <div class="view-filters">
+      {{ exposed }}
+    </div>
+  {% endif %}
+
+  {% if attachment_before %}
+    <div class="attachment attachment-before mb-3">
+      {{ attachment_before }}
+    </div>
+  {% endif %}
+
+  {% if rows %}
+    <div class="view-content table-responsive">
+      {{ rows }}
+    </div>
+  {% elseif empty %}
+    <div class="view-empty mt-3">
+      {{ empty }}
+    </div>
+  {% endif %}
+
+  {% if pager %}
+    <div class="mt-4">
+      {{ pager }}
+    </div>
+  {% endif %}
+
+  {% if attachment_after %}
+    <div class="attachment attachment-after mt-3">
+      {{ attachment_after }}
+    </div>
+  {% endif %}
+
+  {% if more %}
+    <div class="mt-3">
+      {{ more }}
+    </div>
+  {% endif %}
+
+  {% if footer %}
+    <div class="view-footer mt-4">
+      {{ footer }}
+    </div>
+  {% endif %}
+
+  {% if feed_icons %}
+    <div class="feed-icons mt-2">
+      {{ feed_icons }}
+    </div>
+  {% endif %}
+</div>

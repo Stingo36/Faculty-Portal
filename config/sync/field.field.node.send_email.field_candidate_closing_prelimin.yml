@@ -1,0 +1,27 @@
+uuid: f4c4657a-6e3a-4cb8-8d34-a58510b1d9cf
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_candidate_closing_prelimin
+    - filter.format.full_html
+    - node.type.send_email
+  module:
+    - text
+id: node.send_email.field_candidate_closing_prelimin
+field_name: field_candidate_closing_prelimin
+entity_type: node
+bundle: send_email
+label: 'Candidate Closing Preliminary'
+description: "Candidate Closing Preliminary\t"
+required: false
+translatable: false
+default_value:
+  -
+    value: '<p>Dear Dr.,<br><br>Thank you for applying for a faculty position at NCBS. Unfortunately, I regret to inform you that your application cannot be shortlisted for further processing. Your application was one of many that were reviewed during the screening process. The quality of the applications received was exceptionally high, making it a challenging selection process for us. We apologize for the delayed response, as we assess each application in comparison to others simultaneously. The number of open positions is limited, resulting in intense competition, and only a small number of applications can be advanced.<br>Our decision is not a reflection of your abilities, or potential as a faculty member. It is solely based on our current requirements. We appreciate your interest in NCBS and wish you every success in your career.<br><br>Best regards,<br>Uma Ramakrishnan<br>Dean of Faculty<br>NCBS-TIFR<br>&nbsp;</p>'
+    format: full_html
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - full_html
+field_type: text_long

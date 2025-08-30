@@ -1,0 +1,42 @@
+uuid: 1dbf2eb9-4008-424a-af22-571c75bb3919
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_user_list_faculty
+    - paragraphs.paragraphs_type.comments
+id: paragraph.comments.field_user_list_faculty
+field_name: field_user_list_faculty
+entity_type: paragraph
+bundle: comments
+label: 'User list'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    filter:
+      type: role
+      role:
+        faculty_member: faculty_member
+        content_editor: '0'
+        administrator: '0'
+        user: '0'
+        board_member: '0'
+        faculty_search_committee: '0'
+        yip_search_committee: '0'
+        assessment_committee: '0'
+        promotion_committee: '0'
+        dean: '0'
+        director: '0'
+        admin: '0'
+    include_anonymous: true
+field_type: entity_reference

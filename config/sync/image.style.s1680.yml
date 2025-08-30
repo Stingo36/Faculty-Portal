@@ -1,0 +1,17 @@
+uuid: 7f2c5a59-8817-44f6-b716-0a0eac26c151
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: nrN-pDOD_6Zx4k0La6whQWhDRuJ5m25Q5PMUT6-ko-Y
+name: s1680
+label: s1680
+effects:
+  b683faff-9371-4e8e-9d3b-a351c989aafb:
+    uuid: b683faff-9371-4e8e-9d3b-a351c989aafb
+    id: image_scale
+    weight: 1
+    data:
+      width: 1680
+      height: null
+      upscale: false

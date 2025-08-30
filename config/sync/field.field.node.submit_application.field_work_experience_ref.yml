@@ -1,0 +1,29 @@
+uuid: 48787636-4319-4a8e-bc9f-9f04c01c5e9b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_work_experience_ref
+    - node.type.submit_application
+    - node.type.work_experience
+id: node.submit_application.field_work_experience_ref
+field_name: field_work_experience_ref
+entity_type: node
+bundle: submit_application
+label: 'Work Experience Reference'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      work_experience: work_experience
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

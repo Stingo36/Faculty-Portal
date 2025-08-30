@@ -1,0 +1,30 @@
+{
+  "name": "drupal/views_field_permissions",
+  "description": "Set field permissions to view fields in views.",
+  "type": "drupal-module",
+  "homepage": "https://www.drupal.org/project/views_field_permissions",
+  "license": "GPL-2.0+",
+  "authors": [
+    {
+      "name": "Colan Schwartz",
+      "role": "Maintainer",
+      "homepage": "https://www.drupal.org/u/colan"
+    },
+    {
+      "name": "Mikhail Lebedev",
+      "role": "Maintainer",
+      "homepage": "https://www.drupal.org/u/mlebedev"
+    },
+    {
+      "name": "Siva Karthik Reddy",
+      "role": "Maintainer",
+      "homepage": "https://www.drupal.org/u/sivakarthik229"
+    }
+  ],
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/views_field_permissions",
+    "source": "https://git.drupalcode.org/project/views_field_permissions.git"
+  },
+  "minimum-stability": "dev",
+  "require": {}
+}

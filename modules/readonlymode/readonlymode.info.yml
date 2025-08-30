@@ -1,0 +1,11 @@
+name: "Read Only Mode"
+description: "This module will lock your site for any form postings."
+package: Administration
+type: module
+core_version_requirement: ^8 || ^9 || ^10
+configure: system.site_maintenance_mode
+
+# Information added by Drupal.org packaging script on 2023-03-08
+version: '8.x-1.2'
+project: 'readonlymode'
+datestamp: 1678289110

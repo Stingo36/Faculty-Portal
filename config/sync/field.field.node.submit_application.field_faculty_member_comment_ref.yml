@@ -1,0 +1,29 @@
+uuid: 65ffc44a-a8ad-40d9-90e5-479e0e9e237d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_faculty_member_comment_ref
+    - node.type.add_comments
+    - node.type.submit_application
+id: node.submit_application.field_faculty_member_comment_ref
+field_name: field_faculty_member_comment_ref
+entity_type: node
+bundle: submit_application
+label: 'Faculty Member comment reference'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      add_comments: add_comments
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

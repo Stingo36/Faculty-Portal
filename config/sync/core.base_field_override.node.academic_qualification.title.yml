@@ -1,0 +1,18 @@
+uuid: 9270c1c5-0a8c-437f-98ea-cd3dcddb3edc
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.academic_qualification
+id: node.academic_qualification.title
+field_name: title
+entity_type: node
+bundle: academic_qualification
+label: 'Qualification degree'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

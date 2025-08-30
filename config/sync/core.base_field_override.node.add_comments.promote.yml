@@ -1,0 +1,22 @@
+uuid: be8987f2-d69c-4780-8b73-0874dfbe90a8
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.add_comments
+id: node.add_comments.promote
+field_name: promote
+entity_type: node
+bundle: add_comments
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

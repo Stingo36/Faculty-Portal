@@ -1,0 +1,29 @@
+uuid: 1e3b770b-60de-41e9-8a16-965d06f31442
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.meetings_of_minutes
+  module:
+    - system
+    - views
+  theme:
+    - bootstrap5
+id: bootstrap5_views_block__meetings_of_minutes_block_1
+theme: bootstrap5
+region: content
+weight: 0
+provider: null
+plugin: 'views_block:meetings_of_minutes-block_1'
+settings:
+  id: 'views_block:meetings_of_minutes-block_1'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /settings

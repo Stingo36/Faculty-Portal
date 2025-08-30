@@ -1,0 +1,21 @@
+uuid: 56319d1a-4eb0-43ea-a1d8-d9ea03860f6e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_publication_type
+    - paragraphs.paragraphs_type.publications
+  module:
+    - options
+id: paragraph.publications.field_publication_type
+field_name: field_publication_type
+entity_type: paragraph
+bundle: publications
+label: 'Publication type'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

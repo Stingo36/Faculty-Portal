@@ -1,0 +1,19 @@
+uuid: a74b683f-1e75-4dd9-a805-c98addffb3f6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_class
+    - paragraphs.paragraphs_type.education_
+id: paragraph.education_.field_class
+field_name: field_class
+entity_type: paragraph
+bundle: education_
+label: Class
+description: '(Enter %marks, Rank, Class/Div)'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

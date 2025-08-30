@@ -1,0 +1,24 @@
+uuid: 47d93ab7-3fcb-462a-a4b8-d8e11ccc9f3a
+langcode: en
+status: true
+dependencies:
+  module:
+    - autotitle
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+  autotitle:
+    enabled: true
+    field: _none
+    fallback_title: 'Program - [node:field_program_name]'
+    headings: {  }
+name: Programs
+type: programs
+description: 'Content type to add Programs'
+help: null
+new_revision: true
+preview_mode: 0
+display_submitted: true

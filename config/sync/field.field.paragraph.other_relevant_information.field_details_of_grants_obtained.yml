@@ -1,0 +1,19 @@
+uuid: 9e9e9c7f-b617-4a8e-ae8a-616b21805b76
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_details_of_grants_obtained
+    - paragraphs.paragraphs_type.other_relevant_information
+id: paragraph.other_relevant_information.field_details_of_grants_obtained
+field_name: field_details_of_grants_obtained
+entity_type: paragraph
+bundle: other_relevant_information
+label: 'Details of grants obtained(if any). Indicate Funding agency, title of the project,date of commencement and completion and extent of funding'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

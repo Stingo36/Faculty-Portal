@@ -1,0 +1,58 @@
+uuid: ed840f87-d58b-48a9-b7fe-84104d10e333
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.programs.field_date
+    - taxonomy.vocabulary.programs
+  module:
+    - datetime_range
+    - field_layout
+    - layout_discovery
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
+id: taxonomy_term.programs.default
+targetEntityType: taxonomy_term
+bundle: programs
+mode: default
+content:
+  field_date:
+    type: daterange_default
+    weight: 27
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  publish_on:
+    type: datetime_timestamp
+    weight: 53
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  scheduler_settings:
+    weight: 50
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  description: true
+  path: true
+  status: true
+  unpublish_on: true

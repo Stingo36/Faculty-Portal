@@ -1,0 +1,57 @@
+.custom-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin: 10px 0;
+  padding: 14px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  border: 2px solid transparent;
+}
+
+/* Hover effect */
+.custom-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+/* Existing content (view/edit) */
+.custom-btn.filled {
+  background-color: #eaf4fd;
+  color: #0a4b78;
+  border-color: #b5d9f3;
+}
+
+/* Create new content */
+.custom-btn.edit {
+  /* background-color: #eaf4fd;
+  color: #0a4b78; */
+  border-color: #eaf4fd;
+}
+
+/* Warnings (like change password) */
+.custom-btn.warning {
+  /* background-color: #fff9e6;
+  color: #a17800; */
+  border-color: #eaf4fd;
+}
+
+/* Logout or danger actions */
+.custom-btn.danger {
+  border-color: #eaf4fd;
+}
+
+/* Visited state */
+.custom-btn:visited {
+  opacity: 0.95;
+}
+
+/* Highlight current/selected */
+.custom-btn.active {
+  background-color: #003e63 !important;
+  color: white !important;
+  border-color: #002c47 !important;
+}

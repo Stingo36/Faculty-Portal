@@ -1,0 +1,60 @@
+uuid: 23388029-255e-443d-b509-c0184e1ca644
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.add_comments.field_add_comments_
+    - field.field.node.add_comments.field_candidate_name
+    - field.field.node.add_comments.field_check_pending_flag
+    - field.field.node.add_comments.field_comment_name
+    - node.type.add_comments
+  module:
+    - entity_reference_revisions
+    - user
+id: node.add_comments.default
+targetEntityType: node
+bundle: add_comments
+mode: default
+content:
+  field_add_comments_:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_candidate_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_check_pending_flag:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_comment_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  langcode: true

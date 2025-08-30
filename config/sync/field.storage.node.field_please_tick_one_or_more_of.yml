@@ -1,0 +1,43 @@
+uuid: 1a58cc97-cd1c-493a-8b84-a5339952b22c
+langcode: en
+status: true
+dependencies:
+  module:
+    - field_permissions
+    - node
+    - options
+third_party_settings:
+  field_permissions:
+    permission_type: public
+id: node.field_please_tick_one_or_more_of
+field_name: field_please_tick_one_or_more_of
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: 'Biochemistry, Biophysics and Bioinformatics'
+      label: 'Biochemistry, Biophysics and Bioinformatics'
+    -
+      value: 'Cellular organization and signaling'
+      label: 'Cellular organization and signaling'
+    -
+      value: 'Genetics and Development'
+      label: 'Genetics and Development'
+    -
+      value: Neurobiology
+      label: Neurobiology
+    -
+      value: 'Ecology and Evolution'
+      label: 'Ecology and Evolution'
+    -
+      value: 'Theory, Simulation and Modelling of Biological Systems'
+      label: 'Theory, Simulation and Modelling of Biological Systems'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,55 @@
+uuid: 38d38ae2-2280-4c1c-852e-d3c21289f207
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_list_of_referees_
+    - node.type.list_of_referees_
+    - paragraphs.paragraphs_type.referee_details
+  module:
+    - entity_reference_revisions
+id: node.list_of_referees_.field_list_of_referees_
+field_name: field_list_of_referees_
+entity_type: node
+bundle: list_of_referees_
+label: 'List of Referees '
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      referee_details: referee_details
+    negate: 0
+    target_bundles_drag_drop:
+      comments:
+        weight: 7
+        enabled: false
+      education_:
+        weight: 5
+        enabled: false
+      other_relevant_information:
+        weight: 9
+        enabled: false
+      publications:
+        weight: 6
+        enabled: false
+      referee_details:
+        weight: 7
+        enabled: true
+      research_proposals:
+        weight: 8
+        enabled: false
+      seminar_host:
+        weight: 16
+        enabled: false
+      status_value:
+        weight: 17
+        enabled: false
+      work_experience:
+        weight: 18
+        enabled: false
+field_type: entity_reference_revisions

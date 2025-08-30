@@ -1,0 +1,53 @@
+uuid: b5badce9-4a52-40c3-a89f-44544457f9b0
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.user.compact
+    - field.field.user.user.field_gender
+    - field.field.user.user.field_prefix_user
+    - field.field.user.user.field_remainder_sent
+    - field.field.user.user.field_review_candidates
+    - field.field.user.user.field_temp_password
+    - field.field.user.user.field_user_academic_qualifi_ref
+    - field.field.user.user.field_user_basic_info_ref
+    - field.field.user.user.field_user_full_name
+    - field.field.user.user.field_user_list_of_referees_ref
+    - field.field.user.user.field_user_other_rel_info_ref
+    - field.field.user.user.field_user_research_programs
+    - field.field.user.user.field_user_research_proposal_ref
+    - field.field.user.user.field_user_seminar_details_ref
+    - field.field.user.user.field_user_session_key
+    - field.field.user.user.field_user_submit_app_ref
+    - field.field.user.user.field_user_update_pub_ref
+    - field.field.user.user.field_user_work_experience_ref
+  module:
+    - user
+_core:
+  default_config_hash: 00zr_RBdTjPjBGITD3h4c1ESQZimjdVCcHGt1trLqIY
+id: user.user.compact
+targetEntityType: user
+bundle: user
+mode: compact
+content: {  }
+hidden:
+  display_name: true
+  field_gender: true
+  field_prefix_user: true
+  field_remainder_sent: true
+  field_review_candidates: true
+  field_temp_password: true
+  field_user_academic_qualifi_ref: true
+  field_user_basic_info_ref: true
+  field_user_full_name: true
+  field_user_list_of_referees_ref: true
+  field_user_other_rel_info_ref: true
+  field_user_research_programs: true
+  field_user_research_proposal_ref: true
+  field_user_seminar_details_ref: true
+  field_user_session_key: true
+  field_user_submit_app_ref: true
+  field_user_update_pub_ref: true
+  field_user_work_experience_ref: true
+  langcode: true
+  member_for: true

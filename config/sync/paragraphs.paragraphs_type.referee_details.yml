@@ -1,0 +1,10 @@
+uuid: 15d9d29d-417d-45c2-9d8f-02f856fdcf6a
+langcode: en
+status: true
+dependencies: {  }
+id: referee_details
+label: 'Referee Details'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

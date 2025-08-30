@@ -1,0 +1,51 @@
+{#
+/**
+ * @file
+ * Theme override for each local task tab (single tab item).
+ */
+#}
+
+{%
+  set link_classes = [
+    'nav-link',
+    'px-4',
+    'py-2',
+    is_active ? 'active-tab' : 'text-dark tab-inactive'
+  ]
+%}
+
+<li class="nav-item" role="presentation">
+  <a href="{{ link['#url'] }}" class="{{ link_classes|join(' ') }}" role="tab">
+    {{ link['#title'] }}
+  </a>
+</li>
+
+
+<style>/* Base tab style */
+.nav-tabs .nav-link {
+  border: 2px solid transparent;
+  background-color: transparent;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+/* Active tab — like in your image */
+.nav-tabs .nav-link.active-tab {
+  border: 2px solid #dee2e6;
+  color: #084298;
+}
+
+/* Inactive tab hover */
+.nav-tabs .tab-inactive:hover {
+  background-color: #f8f9fa;
+  border-color: #dee2e6;
+  color: #dee2e6;
+}
+
+/* Ensure tabs wrap nicely on small screens */
+.nav-tabs {
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+</style>

@@ -1,0 +1,29 @@
+uuid: e04b8ee7-0c62-4134-9fb0-8a02a74b8c09
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.academic_qualification
+    - node.type.basic_information
+    - node.type.submit_application
+    - node.type.work_experience
+  module:
+    - field_permissions
+    - node
+id: user
+label: user
+weight: 4
+is_admin: null
+permissions:
+  - 'create academic_qualification content'
+  - 'create basic_information content'
+  - 'create field_prefix_user'
+  - 'create submit_application content'
+  - 'create work_experience content'
+  - 'edit own basic_information content'
+  - 'edit own work_experience content'
+  - 'view own field_prefix_user'
+  - 'view own field_program_name'
+  - 'view own field_type'
+  - 'view own field_user_full_name'
+  - 'view own field_user_research_programs'

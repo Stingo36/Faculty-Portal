@@ -1,0 +1,27 @@
+uuid: 9972d0ad-c45e-419f-b79a-ce5ce289dfcc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_email_body_to_candidate
+    - filter.format.basic_html
+    - node.type.send_email
+  module:
+    - text
+id: node.send_email.field_email_body_to_candidate
+field_name: field_email_body_to_candidate
+entity_type: node
+bundle: send_email
+label: 'Email Body'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: '<p>heyyy</p>'
+    format: basic_html
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - basic_html
+field_type: text_long

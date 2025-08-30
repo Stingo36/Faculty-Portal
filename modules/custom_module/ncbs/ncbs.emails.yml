@@ -1,0 +1,12 @@
+page.user_submission:
+  id: 'page.user_submission'
+  label: 'Page: User Submission Email'
+  module: 'ncbs'
+  key: 'page.user_submission'
+  params:
+    account:
+      type: 'entity:user'
+      label: 'Recipient User'
+    node:
+      type: 'entity:node'
+      label: 'Updated Page'

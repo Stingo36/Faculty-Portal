@@ -1,0 +1,27 @@
+uuid: 4f89159f-7d06-49a6-9fc4-655f039a89ff
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_email_body_referee
+    - filter.format.basic_html
+    - node.type.send_email
+  module:
+    - text
+id: node.send_email.field_email_body_referee
+field_name: field_email_body_referee
+entity_type: node
+bundle: send_email
+label: 'Email Body'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: '<p>&nbsp;</p><p>Dear [[REFEREEPREFIX]] [[REFEREENAME]]</p><p>REFEREE</p><p>Click here [[LINK]]<br><br><strong>Candidate Details:</strong><br>Full Name: [[PREFIX]] [[FULLNAME]]<br>Program:[[PROGRAM]]<br>Email Id: [[USEREMAIL]]</p>'
+    format: basic_html
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - basic_html
+field_type: text_long

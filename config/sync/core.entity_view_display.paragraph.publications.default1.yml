@@ -1,0 +1,47 @@
+uuid: 4b5ae1c9-1bed-47bc-bfc1-8113ccfede49
+langcode: en
+status: false
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.default1
+    - field.field.paragraph.publications.field_name_of_the_journal
+    - field.field.paragraph.publications.field_publication_document
+    - field.field.paragraph.publications.field_publication_type
+    - field.field.paragraph.publications.field_publication_year
+    - paragraphs.paragraphs_type.publications
+  module:
+    - display_machine_name
+    - file
+    - year
+third_party_settings:
+  display_machine_name:
+    enable_display_machine_name: 0
+id: paragraph.publications.default1
+targetEntityType: paragraph
+bundle: publications
+mode: default1
+content:
+  field_name_of_the_journal:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_publication_document:
+    type: file_default
+    label: hidden
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_publication_year:
+    type: year_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  field_publication_type: true

@@ -1,0 +1,21 @@
+uuid: ca2a1a1f-124d-4605-b120-544a71c56100
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_seminar_host
+    - paragraphs.paragraphs_type.seminar_host
+  module:
+    - options
+id: paragraph.seminar_host.field_seminar_host
+field_name: field_seminar_host
+entity_type: paragraph
+bundle: seminar_host
+label: 'Seminar host'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

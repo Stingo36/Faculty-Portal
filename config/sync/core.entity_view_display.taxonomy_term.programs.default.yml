@@ -1,0 +1,28 @@
+uuid: 9748bb83-768c-459e-9efc-9a924e81315b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.programs.field_date
+    - taxonomy.vocabulary.programs
+  module:
+    - datetime_range
+id: taxonomy_term.programs.default
+targetEntityType: taxonomy_term
+bundle: programs
+mode: default
+content:
+  field_date:
+    type: daterange_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+      from_to: both
+      separator: '-'
+    third_party_settings: {  }
+    weight: -3
+    region: content
+hidden:
+  description: true
+  langcode: true

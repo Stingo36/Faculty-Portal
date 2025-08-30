@@ -1,0 +1,7 @@
+uuid: d5674cb0-457e-4c64-bc38-9cc9b2a05bb1
+langcode: en
+status: false
+dependencies: {  }
+formId: node_seminar_details_form
+captchaType: default
+label: node_seminar_details_form

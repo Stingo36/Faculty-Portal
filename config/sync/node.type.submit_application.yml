@@ -1,0 +1,24 @@
+uuid: 1c896626-05fc-4fbe-8cb7-f28c9b8092fa
+langcode: en
+status: true
+dependencies:
+  module:
+    - autotitle
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+  autotitle:
+    enabled: false
+    field: _none
+    fallback_title: 'Submit Application: '
+    headings: {  }
+name: 'Submit Application'
+type: submit_application
+description: null
+help: null
+new_revision: false
+preview_mode: 0
+display_submitted: true

@@ -1,0 +1,47 @@
+{#
+/**
+ * @file
+ * Theme override for an 'input' #type form element.
+ *
+ * Applies Bootstrap 5 styling:
+ * - .btn-outline-secondary for buttons (clean, modern look)
+ * - .form-control for file uploads
+ *
+ * Skips special buttons like "Add more" or media remove
+ */
+#}
+
+{% if attributes.getAttribute('type') == 'file' %}
+  <input{{ attributes.addClass('form-control') }} />
+{% elseif attributes.hasClass('button') and not attributes.hasClass('field-add-more-submit') and not attributes.hasClass('btn') %}
+{% set classes = [
+    'btn',
+    'px-3',
+    'py-2',
+    'fw-medium',
+    'btn-darkblue'  # Custom color class
+] %}
+
+  <input{{ attributes.addClass(classes) }} />
+{% else %}
+  <input{{ attributes }} />
+{% endif %}
+
+{{ children }}
+
+
+<style>
+.btn-darkblue {
+  background-color: #2E446A; /* Color from your image */
+  color: #ffffff;           /* White text */
+  border: none;
+}
+
+.btn-darkblue:hover {
+  background-color: #243756; /* Slightly darker for hover */
+  color: #ffffff;
+}
+
+
+
+</style>

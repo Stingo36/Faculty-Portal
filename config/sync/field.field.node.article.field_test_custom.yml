@@ -1,0 +1,56 @@
+uuid: dcdf62d2-2c8c-45ea-bcc5-653b90e6c4d0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_test_custom
+    - node.type.article
+  module:
+    - custom_field
+id: node.article.field_test_custom
+field_name: field_test_custom
+entity_type: node
+bundle: article
+label: 'test custom'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  field_settings:
+    value:
+      type: select
+      weight: 0
+      check_empty: false
+      widget_settings:
+        label: Category
+        settings:
+          description: ''
+          description_display: after
+          required: false
+          empty_option: '- Select -'
+          allowed_values:
+            -
+              key: SC
+              value: SC
+            -
+              key: ST
+              value: ST
+    value_6671734881571:
+      type: text
+      weight: 0
+      check_empty: false
+      widget_settings:
+        label: AGE
+        settings:
+          description: ''
+          description_display: after
+          size: 60
+          placeholder: ''
+          maxlength: 255
+          maxlength_js: false
+          prefix: ''
+          suffix: ''
+          required: false
+field_type: custom

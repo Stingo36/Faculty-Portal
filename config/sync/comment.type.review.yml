@@ -1,0 +1,10 @@
+uuid: 6e388212-7f9c-4e66-9046-0dcf4b6fb0a4
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: KD_pO1zVAqulBM9XdFKZGJlePdBblnDd9CG9zlVg8RM
+id: review
+label: Review
+target_entity_type_id: commerce_product
+description: 'Reviews in Product.'

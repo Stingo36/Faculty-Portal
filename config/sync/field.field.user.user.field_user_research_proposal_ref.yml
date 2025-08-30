@@ -1,0 +1,30 @@
+uuid: adb12f47-d9ee-420d-a8ed-9fba6848d96b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_user_research_proposal_ref
+    - node.type.research_proposal
+  module:
+    - user
+id: user.user.field_user_research_proposal_ref
+field_name: field_user_research_proposal_ref
+entity_type: user
+bundle: user
+label: 'Research Proposal Ref'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      research_proposal: research_proposal
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

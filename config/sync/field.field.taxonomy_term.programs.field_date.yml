@@ -1,0 +1,21 @@
+uuid: b9e84c5a-dd75-4fa6-8296-230e1f3c37ba
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_date
+    - taxonomy.vocabulary.programs
+  module:
+    - datetime_range
+id: taxonomy_term.programs.field_date
+field_name: field_date
+entity_type: taxonomy_term
+bundle: programs
+label: Date
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: daterange

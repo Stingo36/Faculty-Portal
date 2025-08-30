@@ -1,0 +1,19 @@
+uuid: 0586823b-5fe4-4004-9ede-c13993bc9725
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_remainder_user_id
+    - node.type.remainder_records
+id: node.remainder_records.field_remainder_user_id
+field_name: field_remainder_user_id
+entity_type: node
+bundle: remainder_records
+label: 'User ID'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

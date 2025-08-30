@@ -1,0 +1,21 @@
+uuid: 3d4f51b3-dfba-4be8-9b9c-e419550523ba
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_minimum_referee
+    - taxonomy.vocabulary.research_areas
+  module:
+    - options
+id: taxonomy_term.research_areas.field_minimum_referee
+field_name: field_minimum_referee
+entity_type: taxonomy_term
+bundle: research_areas
+label: 'Minimum Referee'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

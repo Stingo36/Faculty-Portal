@@ -1,0 +1,19 @@
+uuid: 8185cd2c-6241-4807-ad38-58b45d0525b8
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+_core:
+  default_config_hash: 9QVj-PIJ2kYoB_rHSR6mJXMIQj4MoOsayZ7hHHPIn5M
+name: Slider
+type: slider
+description: 'Content type with slides on homepage.'
+help: null
+new_revision: true
+preview_mode: 0
+display_submitted: false

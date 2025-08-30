@@ -1,0 +1,239 @@
+uuid: e952d52d-bcfb-4778-83e5-37cbfffa78ec
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.basic_information.field_access
+    - field.field.node.basic_information.field_are_you_an_oci_card_holder
+    - field.field.node.basic_information.field_centers
+    - field.field.node.basic_information.field_correspondence_address
+    - field.field.node.basic_information.field_current_address
+    - field.field.node.basic_information.field_date_of_birth
+    - field.field.node.basic_information.field_full_name
+    - field.field.node.basic_information.field_gender
+    - field.field.node.basic_information.field_mobile
+    - field.field.node.basic_information.field_mobile_number
+    - field.field.node.basic_information.field_nationality
+    - field.field.node.basic_information.field_other
+    - field.field.node.basic_information.field_other_gender
+    - field.field.node.basic_information.field_recent_passport_photograph
+    - field.field.node.basic_information.field_telephone
+    - field.field.node.basic_information.field_upload_updated_cv
+    - image.style.large
+    - node.type.basic_information
+  module:
+    - datetime
+    - display_machine_name
+    - field_layout
+    - file
+    - hide_revision_field
+    - image
+    - layout_discovery
+    - mobile_number
+third_party_settings:
+  display_machine_name:
+    enable_display_machine_name: 0
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
+id: node.basic_information.default
+targetEntityType: node
+bundle: basic_information
+mode: default
+content:
+  field_access:
+    type: options_select
+    weight: 12
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_are_you_an_oci_card_holder:
+    type: options_select
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_correspondence_address:
+    type: string_textarea
+    weight: 2
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_current_address:
+    type: string_textarea
+    weight: 1
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_date_of_birth:
+    type: datetime_default
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_gender:
+    type: options_select
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_mobile_number:
+    type: mobile_number_default
+    weight: 9
+    region: content
+    settings:
+      countries: {  }
+      default_country: US
+      placeholder: null
+    third_party_settings: {  }
+  field_nationality:
+    type: options_select
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_other:
+    type: string_textfield
+    weight: 4
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      conditional_fields:
+        0682e5a2-82f4-4a09-b6d9-269578b74cbe:
+          entity_type: node
+          bundle: basic_information
+          dependee: field_nationality
+          settings:
+            state: visible
+            reset: false
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: Other
+            effect: show
+            effect_options: {  }
+            selector: ''
+        d361f8d3-a3f8-435c-ba10-59f833067216:
+          entity_type: node
+          bundle: basic_information
+          dependee: field_nationality
+          settings:
+            state: required
+            reset: false
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: Other
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_other_gender:
+    type: string_textfield
+    weight: 7
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      conditional_fields:
+        95ea5654-bfcd-481a-8da3-ae2293ee7a23:
+          entity_type: node
+          bundle: basic_information
+          dependee: field_gender
+          settings:
+            state: visible
+            reset: false
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: other
+            effect: show
+            effect_options: {  }
+            selector: ''
+        a0a8dca9-6ee5-4080-bcb3-1a86b68ac332:
+          entity_type: node
+          bundle: basic_information
+          dependee: field_gender
+          settings:
+            state: required
+            reset: false
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: other
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_recent_passport_photograph:
+    type: image_image
+    weight: 11
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: large
+    third_party_settings: {  }
+  field_telephone:
+    type: string_textfield
+    weight: 8
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_upload_updated_cv:
+    type: file_generic
+    weight: 10
+    region: content
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+  revision_log:
+    type: hide_revision_field_log_widget
+    weight: 13
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+      show: true
+      default: ''
+      permission_based: false
+      allow_user_settings: true
+      hide_revision: false
+    third_party_settings: {  }
+hidden:
+  created: true
+  field_centers: true
+  field_full_name: true
+  field_mobile: true
+  langcode: true
+  path: true
+  promote: true
+  publish_on: true
+  status: true
+  sticky: true
+  title: true
+  uid: true
+  unpublish_on: true

@@ -1,0 +1,19 @@
+uuid: f3f3f30b-c56e-4f14-8592-3865dfe1b78a
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_teaching_experience_if_any
+field_name: field_teaching_experience_if_any
+entity_type: node
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

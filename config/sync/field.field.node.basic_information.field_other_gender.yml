@@ -1,0 +1,19 @@
+uuid: 2381f472-f2a7-4edf-baf6-cc9966d7e058
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_other_gender
+    - node.type.basic_information
+id: node.basic_information.field_other_gender
+field_name: field_other_gender
+entity_type: node
+bundle: basic_information
+label: Other
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

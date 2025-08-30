@@ -1,0 +1,11 @@
+name: Readonly Field Widget
+type: module
+description: Provides a field widget which can display the field formatter version of a field on the edit form
+core: 8.x
+core_version_requirement: ^8 || ^9 || ^10
+package : Fields
+
+# Information added by Drupal.org packaging script on 2022-08-14
+version: '8.x-1.5'
+project: 'readonly_field_widget'
+datestamp: 1660464951

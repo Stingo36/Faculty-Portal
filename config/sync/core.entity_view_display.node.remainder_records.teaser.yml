@@ -1,0 +1,39 @@
+uuid: 10171063-75fa-410d-b359-762df4b611e0
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.remainder_records.body
+    - field.field.node.remainder_records.field_remainder_acc_deleted_on
+    - field.field.node.remainder_records.field_remainder_email_id
+    - field.field.node.remainder_records.field_remainder_sent_on
+    - field.field.node.remainder_records.field_remainder_user_id
+    - node.type.remainder_records
+  module:
+    - text
+    - user
+id: node.remainder_records.teaser
+targetEntityType: node
+bundle: remainder_records
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_remainder_acc_deleted_on: true
+  field_remainder_email_id: true
+  field_remainder_sent_on: true
+  field_remainder_user_id: true
+  langcode: true

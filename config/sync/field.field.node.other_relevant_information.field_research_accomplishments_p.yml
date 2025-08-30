@@ -1,0 +1,19 @@
+uuid: af7b2234-c19a-4535-8afe-ffb3a7d70e31
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_research_accomplishments_p
+    - node.type.other_relevant_information
+id: node.other_relevant_information.field_research_accomplishments_p
+field_name: field_research_accomplishments_p
+entity_type: node
+bundle: other_relevant_information
+label: 'Research accomplishments (Please include details of PhD, postdoctoral or other research experience)'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

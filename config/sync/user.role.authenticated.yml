@@ -1,0 +1,61 @@
+uuid: c673ef20-2ef0-4dd8-8e1e-dde835126d67
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.basic_html
+    - node.type.academic_qualification
+    - node.type.article
+    - node.type.basic_information
+    - node.type.list_of_referees_
+    - node.type.other_relevant_information
+    - node.type.research_proposal
+    - node.type.submit_application
+    - node.type.update_publications
+  module:
+    - comment
+    - field_permissions
+    - file
+    - filter
+    - media
+    - node
+    - search
+    - shortcut
+    - system
+_core:
+  default_config_hash: cFrlqjtkTfvY3RGccjJkPf1SGIfJ942IrxTLWAO4mgA
+id: authenticated
+label: 'Authenticated user'
+weight: 1
+is_admin: false
+permissions:
+  - 'access comments'
+  - 'access content'
+  - 'access shortcuts'
+  - 'create basic_information content'
+  - 'create list_of_referees_ content'
+  - 'create other_relevant_information content'
+  - 'create research_proposal content'
+  - 'create submit_application content'
+  - 'create update_publications content'
+  - 'delete own files'
+  - 'edit own academic_qualification content'
+  - 'edit own article content'
+  - 'edit own basic_information content'
+  - 'edit own list_of_referees_ content'
+  - 'edit own other_relevant_information content'
+  - 'edit own research_proposal content'
+  - 'edit own submit_application content'
+  - 'edit own update_publications content'
+  - 'post comments'
+  - 'search content'
+  - 'skip comment approval'
+  - 'use text format basic_html'
+  - 'view field_prefix_user'
+  - 'view field_session_key'
+  - 'view media'
+  - 'view own field_date_received'
+  - 'view own field_prefix_user'
+  - 'view own field_status'
+  - 'view own field_user_list_dean'
+  - 'view own field_user_list_faculty'

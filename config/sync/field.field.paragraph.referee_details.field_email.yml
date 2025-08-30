@@ -1,0 +1,19 @@
+uuid: 6f2ac9b4-7de5-4bde-8129-8bfcd32d6260
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_email
+    - paragraphs.paragraphs_type.referee_details
+id: paragraph.referee_details.field_email
+field_name: field_email
+entity_type: paragraph
+bundle: referee_details
+label: Email
+description: '(Enter email address with proper format)'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: email

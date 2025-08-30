@@ -1,0 +1,19 @@
+uuid: ef439c39-4785-44c2-931d-cc1f5f45a03d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_mobile
+    - node.type.basic_information
+id: node.basic_information.field_mobile
+field_name: field_mobile
+entity_type: node
+bundle: basic_information
+label: Mobile
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

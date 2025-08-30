@@ -1,0 +1,10 @@
+uuid: 0159381e-dec2-40da-be02-a1a740f2c7c8
+langcode: en
+status: true
+dependencies: {  }
+id: status_value
+label: 'Status value'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

@@ -1,0 +1,21 @@
+uuid: 28bb2b11-19be-41d9-8d28-0fcf01210107
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_please_tick_o
+    - paragraphs.paragraphs_type.other_relevant_information
+  module:
+    - options
+id: paragraph.other_relevant_information.field_please_tick_o
+field_name: field_please_tick_o
+entity_type: paragraph
+bundle: other_relevant_information
+label: 'Please tick one or more of the following areas that most closely describes your research'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

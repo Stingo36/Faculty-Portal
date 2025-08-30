@@ -1,0 +1,105 @@
+uuid: dcac90cc-e42b-40c1-ba4e-b91ac7a60595
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.referee_details.field_address
+    - field.field.paragraph.referee_details.field_email
+    - field.field.paragraph.referee_details.field_email_status
+    - field.field.paragraph.referee_details.field_name
+    - field.field.paragraph.referee_details.field_phone
+    - field.field.paragraph.referee_details.field_position
+    - field.field.paragraph.referee_details.field_prefix
+    - field.field.paragraph.referee_details.field_ref_link
+    - field.field.paragraph.referee_details.field_referee_feedback_reference
+    - field.field.paragraph.referee_details.field_type
+    - paragraphs.paragraphs_type.referee_details
+  module:
+    - link
+    - options
+id: paragraph.referee_details.default
+targetEntityType: paragraph
+bundle: referee_details
+mode: default
+content:
+  field_address:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_email:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_email_status:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_name:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_phone:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_position:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_prefix:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_ref_link:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  field_referee_feedback_reference:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_type:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 6
+    region: content
+hidden: {  }

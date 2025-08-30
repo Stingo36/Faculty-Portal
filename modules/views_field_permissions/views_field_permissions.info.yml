@@ -1,0 +1,10 @@
+name: Views Field Permissions
+description: 'Set field permissions to view fields in views.'
+package: views
+type: module
+core_version_requirement: ^9 || ^10
+
+# Information added by Drupal.org packaging script on 2023-02-16
+version: '8.x-2.0-alpha5'
+project: 'views_field_permissions'
+datestamp: 1676546268

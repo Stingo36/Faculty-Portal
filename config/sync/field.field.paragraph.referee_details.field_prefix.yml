@@ -1,0 +1,21 @@
+uuid: a98608bd-09ad-4d8d-8ea9-dee9b49cfde2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_prefix
+    - paragraphs.paragraphs_type.referee_details
+  module:
+    - options
+id: paragraph.referee_details.field_prefix
+field_name: field_prefix
+entity_type: paragraph
+bundle: referee_details
+label: Prefix
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

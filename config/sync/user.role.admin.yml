@@ -1,0 +1,170 @@
+uuid: 1ef3feb5-67c4-4cdb-b3f2-0f615da97a83
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.email_html
+    - filter.format.full_html
+    - node.type.academic_qualification
+    - node.type.add_comments
+    - node.type.basic_information
+    - node.type.list_of_referees_
+    - node.type.meetings_of_minutes
+    - node.type.other_relevant_information
+    - node.type.programs
+    - node.type.research_proposal
+    - node.type.seminar_details
+    - node.type.send_email
+    - node.type.submit_application
+    - node.type.update_publications
+    - node.type.work_experience
+    - taxonomy.vocabulary.programs
+    - taxonomy.vocabulary.research_areas
+  module:
+    - actions_permissions
+    - captcha
+    - easy_email
+    - field_permissions
+    - field_ui
+    - filter
+    - ncbs
+    - node
+    - symfony_mailer_log
+    - taxonomy
+id: admin
+label: "Dean's Office Admin"
+weight: 16
+is_admin: null
+permissions:
+  - 'access private fields'
+  - 'access taxonomy overview'
+  - 'add email entities'
+  - 'administer account settings'
+  - 'administer email settings'
+  - 'administer email types'
+  - 'administer field permissions'
+  - 'administer permissions'
+  - 'administer taxonomy_term display'
+  - 'administer taxonomy_term fields'
+  - 'administer users'
+  - 'create add_comments content'
+  - 'create field_admin_comment_reference'
+  - 'create field_candidate_closing_after_'
+  - 'create field_candidate_closing_after_vi'
+  - 'create field_candidate_closing_prelimin'
+  - 'create field_candidate_closing_template'
+  - 'create field_candidate_prescreen_temp'
+  - 'create field_candidate_templates'
+  - 'create field_dean_comment_reference'
+  - 'create field_from_email_id'
+  - 'create field_prefix_user'
+  - 'create field_send_email_reference'
+  - 'create field_status'
+  - 'create field_type'
+  - 'create field_user_full_name'
+  - 'create field_user_list_dean'
+  - 'create field_user_list_faculty'
+  - 'create meetings_of_minutes content'
+  - 'create programs content'
+  - 'create send_email content'
+  - 'create terms in programs'
+  - 'create terms in research_areas'
+  - 'edit any academic_qualification content'
+  - 'edit any add_comments content'
+  - 'edit any basic_information content'
+  - 'edit any list_of_referees_ content'
+  - 'edit any meetings_of_minutes content'
+  - 'edit any other_relevant_information content'
+  - 'edit any research_proposal content'
+  - 'edit any seminar_details content'
+  - 'edit any submit_application content'
+  - 'edit any update_publications content'
+  - 'edit any work_experience content'
+  - 'edit field_from_email_id'
+  - 'edit field_prefix_user'
+  - 'edit field_status'
+  - 'edit field_type'
+  - 'edit field_user_full_name'
+  - 'edit field_user_list_dean'
+  - 'edit field_user_list_faculty'
+  - 'edit field_user_research_programs'
+  - 'edit own add_comments content'
+  - 'edit own field_from_email_id'
+  - 'edit own field_status'
+  - 'edit own field_type'
+  - 'edit own field_user_list_dean'
+  - 'edit own field_user_list_faculty'
+  - 'edit own field_user_research_programs'
+  - 'edit own programs content'
+  - 'edit terms in programs'
+  - 'edit terms in research_areas'
+  - 'execute change_application_status node'
+  - 'execute entity:publish_action node'
+  - 'execute entity:publish_action taxonomy_term'
+  - 'execute entity:unpublish_action node'
+  - 'execute entity:unpublish_action taxonomy_term'
+  - 'execute node_unpromote_action node'
+  - 'execute user_add_role_action user'
+  - 'execute user_block_user_action user'
+  - 'execute user_remove_role_action user'
+  - 'execute user_unblock_user_action user'
+  - 'execute vbo_cancel_user_action user'
+  - 'execute views_bulk_operations_delete_entity all'
+  - 'skip CAPTCHA'
+  - 'use text format email_html'
+  - 'use text format full_html'
+  - 'view all email entities'
+  - 'view field_academic_qualification_ref'
+  - 'view field_admin_comment_reference'
+  - 'view field_basic_information_referenc'
+  - 'view field_candidate_closing_after_'
+  - 'view field_candidate_closing_after_vi'
+  - 'view field_candidate_closing_prelimin'
+  - 'view field_candidate_closing_template'
+  - 'view field_candidate_name'
+  - 'view field_candidate_prescreen_temp'
+  - 'view field_candidate_templates'
+  - 'view field_comment_author'
+  - 'view field_comment_date'
+  - 'view field_date_received'
+  - 'view field_dean_comment_reference'
+  - 'view field_email_sent_date'
+  - 'view field_email_status'
+  - 'view field_from_email_id'
+  - 'view field_list_of_referees_ref'
+  - 'view field_other_relevant_info_ref'
+  - 'view field_prefix_user'
+  - 'view field_program_name'
+  - 'view field_ref_link'
+  - 'view field_remainder_acc_deleted_on'
+  - 'view field_remainder_email_id'
+  - 'view field_remainder_sent_on'
+  - 'view field_remainder_user_id'
+  - 'view field_research_proposal_ref'
+  - 'view field_send_email_reference'
+  - 'view field_status'
+  - 'view field_type'
+  - 'view field_update_publications_ref'
+  - 'view field_user_email_id'
+  - 'view field_user_full_name'
+  - 'view field_user_list_dean'
+  - 'view field_user_list_faculty'
+  - 'view field_user_research_programs'
+  - 'view field_work_experience_ref'
+  - 'view own field_candidate_closing_after_'
+  - 'view own field_candidate_closing_after_vi'
+  - 'view own field_candidate_closing_prelimin'
+  - 'view own field_candidate_closing_template'
+  - 'view own field_candidate_prescreen_temp'
+  - 'view own field_candidate_templates'
+  - 'view own field_date_received'
+  - 'view own field_email_sent_date'
+  - 'view own field_from_email_id'
+  - 'view own field_send_email_reference'
+  - 'view own field_status'
+  - 'view own field_type'
+  - 'view own field_user_full_name'
+  - 'view own field_user_list_dean'
+  - 'view own field_user_list_faculty'
+  - 'view own field_user_research_programs'
+  - 'view symfony mailer log entries'

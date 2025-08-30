@@ -1,0 +1,19 @@
+uuid: 84cb13ed-eef3-4a1f-bb6e-fcbbe045e598
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_centers
+    - node.type.basic_information
+id: node.basic_information.field_centers
+field_name: field_centers
+entity_type: node
+bundle: basic_information
+label: Centers
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

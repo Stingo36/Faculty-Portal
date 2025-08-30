@@ -1,0 +1,37 @@
+<?php 
+
+use Drupal\Core\Render\Markup;
+use Drupal\Core\Session\AccountInterface;
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function ncbs_csv_views_pre_render($view) {
+  if ($view->id() === 'view_application') {
+    $display_id = $view->current_display;
+
+    // Check if it's a page display
+    if ($view->getDisplay()->display['display_plugin'] === 'page') {
+      // Get current user
+      $current_user = \Drupal::currentUser();
+
+      // Only show buttons to users with 'admin' or 'administrator' roles
+      if (in_array('admin', $current_user->getRoles()) || in_array('administrator', $current_user->getRoles())) {
+        // Create both buttons
+        $download_single = '<a href="/faculty-portal/csv?display_id=' . $display_id . '" id="download-csv" role="button">Download CSV</a>';
+        $download_all = '<a href="/faculty-portal/csv-all" id="download-csv" role="button">Download All Sheets</a>';
+        $all_comments = '<a href="/faculty-portal/all-comments-field" id="all-comments" role="button">View All Comments</a>';
+
+
+        // Wrap in a flex container
+        $buttons = '<div class="d-flex mb-3">' . $download_single . $download_all . $all_comments . '</div>';
+
+        // Attach to view
+        $view->attachment_before['download_buttons'] = [
+          '#markup' => Markup::create($buttons),
+          '#weight' => -100,
+        ];
+      }
+    }
+  }
+}

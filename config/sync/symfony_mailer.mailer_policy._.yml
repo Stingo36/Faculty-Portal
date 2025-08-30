@@ -1,0 +1,15 @@
+uuid: a6ab38ba-28de-4926-be67-04a9c6a9dbeb
+langcode: en
+status: true
+dependencies:
+  module:
+    - symfony_mailer_log
+_core:
+  default_config_hash: oUtf135g-IPzmggtfsOOX5ZINxbSe5Kno64BN2NUKn0
+id: _
+configuration:
+  mailer_inline_css: {  }
+  symfony_mailer_log: {  }
+  email_theme:
+    theme: _active_fallback
+  mailer_url_to_absolute: {  }

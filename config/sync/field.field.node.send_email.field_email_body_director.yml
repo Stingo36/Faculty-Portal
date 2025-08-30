@@ -1,0 +1,27 @@
+uuid: 7c971be7-18df-4470-ba54-656851664852
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_email_body_director
+    - filter.format.basic_html
+    - node.type.send_email
+  module:
+    - text
+id: node.send_email.field_email_body_director
+field_name: field_email_body_director
+entity_type: node
+bundle: send_email
+label: 'Email Body'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: '<p>DIRECTOR<br>&nbsp;</p><p><strong>Candidate Details:</strong><br>Full Name: [[PREFIX]] [[FULLNAME]]<br>Gender: [[GENDER]]<br>Program:[[PROGRAM]]<br>Email Id: [[USEREMAIL]]</p>'
+    format: basic_html
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - basic_html
+field_type: text_long

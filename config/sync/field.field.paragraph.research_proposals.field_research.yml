@@ -1,0 +1,27 @@
+uuid: 2675407d-0214-445a-9024-5731db3ecb15
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_research
+    - paragraphs.paragraphs_type.research_proposals
+  module:
+    - file
+id: paragraph.research_proposals.field_research
+field_name: field_research
+entity_type: paragraph
+bundle: research_proposals
+label: Research
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'pdf doc'
+  max_filesize: ''
+  description_field: false
+field_type: file

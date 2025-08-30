@@ -1,0 +1,29 @@
+uuid: 218f87af-fb65-4678-8c98-c97b9429f89c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_list_of_referees_ref
+    - node.type.list_of_referees_
+    - node.type.submit_application
+id: node.submit_application.field_list_of_referees_ref
+field_name: field_list_of_referees_ref
+entity_type: node
+bundle: submit_application
+label: 'List of Referees Ref'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      list_of_referees_: list_of_referees_
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

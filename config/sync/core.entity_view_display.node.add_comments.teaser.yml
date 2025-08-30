@@ -1,0 +1,29 @@
+uuid: 37516e76-6888-40f2-a342-f7abd599365c
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.add_comments.field_add_comments_
+    - field.field.node.add_comments.field_candidate_name
+    - field.field.node.add_comments.field_check_pending_flag
+    - field.field.node.add_comments.field_comment_name
+    - node.type.add_comments
+  module:
+    - user
+id: node.add_comments.teaser
+targetEntityType: node
+bundle: add_comments
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_add_comments_: true
+  field_candidate_name: true
+  field_check_pending_flag: true
+  field_comment_name: true
+  langcode: true

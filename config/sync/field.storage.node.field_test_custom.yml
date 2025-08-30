@@ -1,0 +1,38 @@
+uuid: db516ec5-a414-4e37-990e-eeae278ab4fd
+langcode: en
+status: true
+dependencies:
+  module:
+    - custom_field
+    - node
+id: node.field_test_custom
+field_name: field_test_custom
+entity_type: node
+type: custom
+settings:
+  columns:
+    value:
+      name: value
+      type: string
+      max_length: '255'
+      unsigned: 0
+      precision: '10'
+      scale: '2'
+      size: normal
+      datetime_type: datetime
+    value_6671734881571:
+      name: value_6671734881571
+      type: string
+      max_length: '255'
+      unsigned: 0
+      precision: '10'
+      scale: '2'
+      size: normal
+      datetime_type: datetime
+module: custom_field
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

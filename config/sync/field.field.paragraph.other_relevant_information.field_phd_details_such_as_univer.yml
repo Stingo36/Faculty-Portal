@@ -1,0 +1,19 @@
+uuid: b04a3d54-88d3-4dbb-be4e-1356aff5c57b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_phd_details_such_as_univer
+    - paragraphs.paragraphs_type.other_relevant_information
+id: paragraph.other_relevant_information.field_phd_details_such_as_univer
+field_name: field_phd_details_such_as_univer
+entity_type: paragraph
+bundle: other_relevant_information
+label: 'PhD details such as University/Institute Name,Period, Year if award, Thesis Title, Supervisor, Area of Specialisation'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

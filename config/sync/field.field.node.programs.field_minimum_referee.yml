@@ -1,0 +1,19 @@
+uuid: 64dce54a-d780-40e7-9c1d-7fe3146fc46f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_minimum_referee
+    - node.type.programs
+id: node.programs.field_minimum_referee
+field_name: field_minimum_referee
+entity_type: node
+bundle: programs
+label: 'Minimum Referee'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

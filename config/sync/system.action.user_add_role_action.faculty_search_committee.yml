@@ -1,0 +1,14 @@
+uuid: c374b7b6-ebc6-4b9b-bc74-b4277a948602
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.faculty_search_committee
+  module:
+    - user
+id: user_add_role_action.faculty_search_committee
+label: 'Add the Faculty Search Committee role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: faculty_search_committee

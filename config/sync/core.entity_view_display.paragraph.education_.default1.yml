@@ -1,0 +1,66 @@
+uuid: 88602c85-18e5-48a4-ac83-e51e9f249a03
+langcode: en
+status: false
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.default1
+    - field.field.paragraph.education_.field_class
+    - field.field.paragraph.education_.field_institution
+    - field.field.paragraph.education_.field_major_subjects
+    - field.field.paragraph.education_.field_qualification_degree
+    - field.field.paragraph.education_.field_remarks
+    - field.field.paragraph.education_.field_university
+    - field.field.paragraph.education_.field_year_of_pass
+    - paragraphs.paragraphs_type.education_
+  module:
+    - display_machine_name
+    - year
+third_party_settings:
+  display_machine_name:
+    enable_display_machine_name: 0
+id: paragraph.education_.default1
+targetEntityType: paragraph
+bundle: education_
+mode: default1
+content:
+  field_institution:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_qualification_degree:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_remarks:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_university:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_year_of_pass:
+    type: year_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+hidden:
+  field_class: true
+  field_major_subjects: true

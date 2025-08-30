@@ -1,0 +1,24 @@
+uuid: 3e085fe2-dbf0-4e8d-91d8-da6e34877c46
+langcode: en
+status: true
+dependencies:
+  module:
+    - datetime
+    - field_permissions
+    - paragraphs
+third_party_settings:
+  field_permissions:
+    permission_type: public
+id: paragraph.field_to_date
+field_name: field_to_date
+entity_type: paragraph
+type: datetime
+settings:
+  datetime_type: date
+module: datetime
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

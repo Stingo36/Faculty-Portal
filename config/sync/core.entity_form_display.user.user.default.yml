@@ -1,0 +1,220 @@
+uuid: b01df702-1370-41fe-a0a3-69e5318c8dbc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.user.user.field_gender
+    - field.field.user.user.field_prefix_user
+    - field.field.user.user.field_remainder_sent
+    - field.field.user.user.field_review_candidates
+    - field.field.user.user.field_temp_password
+    - field.field.user.user.field_user_academic_qualifi_ref
+    - field.field.user.user.field_user_basic_info_ref
+    - field.field.user.user.field_user_full_name
+    - field.field.user.user.field_user_list_of_referees_ref
+    - field.field.user.user.field_user_other_rel_info_ref
+    - field.field.user.user.field_user_research_programs
+    - field.field.user.user.field_user_research_proposal_ref
+    - field.field.user.user.field_user_seminar_details_ref
+    - field.field.user.user.field_user_session_key
+    - field.field.user.user.field_user_submit_app_ref
+    - field.field.user.user.field_user_update_pub_ref
+    - field.field.user.user.field_user_work_experience_ref
+  module:
+    - display_machine_name
+    - field_group
+    - field_layout
+    - layout_discovery
+    - user
+third_party_settings:
+  field_group:
+    group_application_form_reference:
+      children:
+        - field_user_basic_info_ref
+        - field_user_update_pub_ref
+        - field_user_academic_qualifi_ref
+        - field_user_work_experience_ref
+        - field_user_other_rel_info_ref
+        - field_user_research_proposal_ref
+        - field_user_list_of_referees_ref
+        - field_user_submit_app_ref
+      label: 'Application Form Reference Nodes'
+      region: content
+      parent_name: ''
+      weight: 7
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: open
+        description: ''
+        required_fields: true
+  display_machine_name:
+    enable_display_machine_name: 0
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
+_core:
+  default_config_hash: FaQ9Ptcpxpg30AtiqRDtl_8zbJArHP1LPfug_s59TOA
+id: user.user.default
+targetEntityType: user
+bundle: user
+mode: default
+content:
+  account:
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_prefix_user:
+    type: options_select
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_remainder_sent:
+    type: boolean_checkbox
+    weight: 18
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_review_candidates:
+    type: entity_reference_autocomplete
+    weight: 8
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_temp_password:
+    type: string_textfield
+    weight: 5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_user_academic_qualifi_ref:
+    type: entity_reference_autocomplete
+    weight: 12
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_user_basic_info_ref:
+    type: entity_reference_autocomplete
+    weight: 10
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_user_full_name:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_user_list_of_referees_ref:
+    type: entity_reference_autocomplete
+    weight: 16
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_user_other_rel_info_ref:
+    type: entity_reference_autocomplete
+    weight: 14
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_user_research_programs:
+    type: options_select
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_user_research_proposal_ref:
+    type: entity_reference_autocomplete
+    weight: 15
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_user_seminar_details_ref:
+    type: entity_reference_autocomplete
+    weight: 3
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_user_session_key:
+    type: string_textfield
+    weight: 6
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_user_submit_app_ref:
+    type: entity_reference_autocomplete
+    weight: 17
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_user_update_pub_ref:
+    type: entity_reference_autocomplete
+    weight: 11
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_user_work_experience_ref:
+    type: entity_reference_autocomplete
+    weight: 13
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  contact: true
+  display_name: true
+  field_gender: true
+  langcode: true
+  language: true
+  timezone: true

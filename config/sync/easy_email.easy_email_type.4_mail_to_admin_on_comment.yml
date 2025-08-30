@@ -1,0 +1,31 @@
+uuid: 141168b1-6b75-4db7-b74a-01cba181947f
+langcode: en
+status: true
+dependencies: {  }
+id: 4_mail_to_admin_on_comment
+label: '4. Mail to Admin On Comment'
+key: ''
+recipient:
+  - ambilid@ncbs.res.in
+cc: {  }
+bcc:
+  - sahilst@ext.ncbs.res.in
+fromName: noreply
+fromAddress: noreply@ncbs.res.in
+replyToAddress: ''
+subject: 'Faculty Portal: New Comment by [node:field_comment_name] on [node:field_candidate_name]'
+inboxPreview: ''
+bodyHtml:
+  value: '<p>Dear Dean’s Office,</p><p>[node:author] has posted a comment on <strong>[node:field_candidate_name]</strong>.<br><br>Please login to see full comment.<br><a href="https://www.ncbs.res.in/faculty-portal"><em>https://www.ncbs.res.in/faculty-portal</em></a><br><br><strong>Comment:</strong><br>[latest_comment_html]</p><p>Best Regards,<br>NCBS IT Team</p>'
+  format: basic_html
+bodyPlain: ''
+generateBodyPlain: false
+attachment: {  }
+saveAttachment: false
+attachmentScheme: public
+attachmentDirectory: ''
+saveEmail: true
+allowSavingEmail: true
+purgeEmails: false
+purgeInterval: null
+purgePeriod: null

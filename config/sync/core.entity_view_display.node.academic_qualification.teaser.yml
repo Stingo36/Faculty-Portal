@@ -1,0 +1,32 @@
+uuid: 019863f2-22c1-4472-9142-5926ca4d5f89
+langcode: en
+status: false
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.academic_qualification.field_academic_qualification
+    - node.type.academic_qualification
+  module:
+    - entity_reference_revisions
+    - user
+id: node.academic_qualification.teaser
+targetEntityType: node
+bundle: academic_qualification
+mode: teaser
+content:
+  field_academic_qualification:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  langcode: true

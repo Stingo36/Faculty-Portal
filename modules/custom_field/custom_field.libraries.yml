@@ -1,0 +1,29 @@
+customfield-admin:
+  version: 1.x
+  css:
+    component:
+      css/customfield.admin.css: {}
+
+custom-field-flex:
+  version: 1.x
+  css:
+    component:
+      css/custom-field-flex.css: {}
+
+custom-field-flex-admin:
+  version: 1.x
+  js:
+    js/custom-field-flex.widget-settings.js: {}
+  dependencies:
+    - custom_field/custom-field-flex
+
+custom-field-color-box:
+  version: 1.x
+  js:
+    js/custom_field_color_box.js: {}
+  css:
+    component:
+      css/custom_field_color_box.css: {}
+  dependencies:
+    - core/drupalSettings
+    - core/once

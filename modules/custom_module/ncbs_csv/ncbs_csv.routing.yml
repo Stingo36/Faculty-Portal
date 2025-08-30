@@ -1,0 +1,17 @@
+ncbs_csv.export:
+  path: '/csv'
+  defaults:
+    _controller: '\Drupal\ncbs_csv\Controller\CsvExportController::exportFromView'
+    _title: 'CSV Export from View'
+  requirements:
+    _permission: 'access content'
+
+
+
+ncbs_csv.export_all_displays:
+  path: '/csv-all'
+  defaults:
+    _controller: '\Drupal\ncbs_csv\Controller\CsvAllController::exportAllDisplays'
+    _title: 'Export All View Displays to Excel'
+  requirements:
+    _permission: 'access content'

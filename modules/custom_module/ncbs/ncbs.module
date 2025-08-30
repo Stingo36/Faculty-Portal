@@ -1,0 +1,1740 @@
+<?php
+use Drupal\Component\Utility\Html;
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Access\AccessResult;
+use Drupal\node\NodeInterface;
+use Drupal\Core\Mail\MailManagerInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\node\Entity\Node;
+use Drupal\user\Entity\User;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\Core\Database\Database;
+use Drupal\node\Entity\NodeType;
+use Symfony\Component\HttpFoundation\Request;
+use Drupal\Core\Url;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+use Drupal\Core\Messenger\MessengerInterface;
+
+include_once __DIR__ . '/includes/Validations/FormValidations.inc';
+include_once __DIR__ . '/includes/FormsAlter/UserFormAlter.inc';
+include_once __DIR__ . '/includes/FormsAlter/SendEmail.inc';
+include_once __DIR__ . '/includes/FormsAlter/FormAlter.inc';
+include_once __DIR__ . '/includes/Comments/AddComments.inc';
+
+
+
+
+/* -------------------------------------------------------------------------- */
+/*   //! Entity Insert: Handles cache, comment logic, feedback linking, and   */
+/* -------------------------------------------------------------------------- */
+/**
+ *
+ * ✅ Purpose:
+ * Executes logic when any entity is inserted into the system. It handles:
+ * • Rendered cache invalidation
+ * • Application reference field linking
+ * • Paragraph linkage for referee feedback
+ * • Auto-population of application reference fields
+ *
+ * 🧼 Cache Handling:
+ * ------------------
+ * • If the inserted entity is a `taxonomy_term`, invalidate the `rendered` cache tag.
+ *   – Ensures that reference fields tied to taxonomy terms update correctly.
+ *
+ * 💬 Add Comments Node Handling:
+ * ------------------------------
+ * • If the inserted entity is a node of type `add_comments`, the `AddCommentByRole()` 
+ *   helper function is triggered with:
+ *   – the node entity
+ *   – current user
+ *   – messenger service
+ *   – request stack
+ * • This logic is offloaded to a separate `.inc` file.
+ *
+ * 🧾 Referee Feedback Linking:
+ * ----------------------------
+ * • If the inserted entity is a node of type `referee_feedback_form`:
+ *   – Gets the `id` and `email` from the request query string.
+ *   – Loads the corresponding parent node (application).
+ *   – Iterates through `field_list_of_referees_ref` → referenced nodes.
+ *   – Then drills down into their `field_list_of_referees_` paragraphs.
+ *   – If a paragraph matches the target `email`:
+ *     ◦ Links the new feedback node to the paragraph via `field_referee_feedback_reference`.
+ *     ◦ Saves both paragraph and referenced node.
+ *     ◦ Logs an error on failure to save.
+ *
+ * 📛 Cache Invalidation by Content Type:
+ * --------------------------------------
+ * • Defines a map between certain content types and custom cache tags:
+ *   – E.g., 'basic_information' → 'user:UID:basic_information_nodes'
+ * • If a matching node is inserted, invalidates the associated tag using:
+ *   `cache_tags.invalidator`
+ *
+ * 🧩 Auto-Populate Submit Application Reference Fields:
+ * -----------------------------------------------------
+ * • If a node is inserted by the current user:
+ *   – A match is checked against known content types:
+ *     ◦ academic_qualification → field_academic_qualification_ref
+ *     ◦ work_experience → field_work_experience_ref
+ *     ◦ basic_information → field_basic_information_referenc
+ *     ◦ other_relevant_information → field_other_relevant_info_ref
+ *     ◦ list_of_referees_ → field_list_of_referees_ref
+ *     ◦ research_proposal → field_research_proposal_ref
+ *     ◦ update_publications → field_update_publications_ref
+ *   – A `submit_application` node authored by the same user is looked up.
+ *   – If found, the relevant reference field on the submit_application node 
+ *     is updated with the new node ID and saved.
+ */
+function ncbs_entity_insert(EntityInterface $entity)
+{
+  // Check if a taxonomy term is inserted.
+  if ($entity->getEntityTypeId() === 'taxonomy_term') {
+    // Invalidate rendered cache so reference fields update properly.
+    \Drupal::service('cache_tags.invalidator')->invalidateTags(['rendered']);
+  }
+
+
+
+  // Handle logic for comments and node insertion.
+  if ($entity->bundle() === 'add_comments') {
+    $current_user = \Drupal::currentUser();
+    // Function Called from INC File
+    AddCommentByRole($entity, $current_user, \Drupal::messenger(), \Drupal::service('request_stack'));
+  } 
+  elseif ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'referee_feedback_form') {
+    $current_request = \Drupal::request();
+    $id = $current_request->query->get('id');
+    $email = $current_request->query->get('email');
+
+    if ($id && $email) {
+      $parent_node = Node::load($id);
+
+      if ($parent_node && $parent_node->hasField('field_list_of_referees_ref') && !$parent_node->get('field_list_of_referees_ref')->isEmpty()) {
+        $referenced_nodes = $parent_node->get('field_list_of_referees_ref')->referencedEntities();
+
+        foreach ($referenced_nodes as $referenced_node) {
+          if ($referenced_node->hasField('field_list_of_referees_') && !$referenced_node->get('field_list_of_referees_')->isEmpty()) {
+            $paragraphs = $referenced_node->get('field_list_of_referees_')->referencedEntities();
+
+            foreach ($paragraphs as $paragraph) {
+              if ($paragraph instanceof Paragraph && $paragraph->hasField('field_email')) {
+                foreach ($paragraph->get('field_email')->getValue() as $email_value) {
+                  if (!empty($email_value['value']) && $email_value['value'] === $email) {
+                    if ($paragraph->hasField('field_referee_feedback_reference')) {
+                      $paragraph->set('field_referee_feedback_reference', [
+                        ['target_id' => $entity->id(), 'target_type' => 'node'],
+                      ]);
+                      try {
+                        $paragraph->save();
+                        $referenced_node->save(); // Propagate changes to the parent node.
+                      } catch (\Exception $e) {
+                        \Drupal::logger('ncbs_entity_insert')->error('Error saving data: @error', ['@error' => $e->getMessage()]);
+                      }
+                    }
+
+                    return; // Exit as soon as the match is processed.
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+
+  $content_types = [
+    'basic_information' => 'basic_information_nodes',
+    'academic_qualification' => 'academic_qualification',
+    'other_relevant_information' => 'other_relevant_information',
+    'list_of_referees_' => 'list_of_referees',
+    'update_publications' => 'update_publications',
+    'research_proposal' => 'research_proposal'
+  ];
+
+  if ($entity->getEntityTypeId() === 'node' && isset($content_types[$entity->bundle()])) {
+    $user_id = $entity->getOwnerId();
+    \Drupal::service('cache_tags.invalidator')->invalidateTags(['user:' . $user_id . ':' . $content_types[$entity->bundle()]]);
+  }
+
+  if ($entity->getEntityTypeId() === 'node') {
+    $type = $entity->bundle();
+    $user = \Drupal::currentUser();
+
+    // Handle references for application submission.
+    if ($entity->getOwner()->id() === $user->id()) {
+      $reference_field = match ($type) {
+        'academic_qualification' => 'field_academic_qualification_ref',
+        'work_experience' => 'field_work_experience_ref',
+        'basic_information' => 'field_basic_information_referenc',
+        'other_relevant_information' => 'field_other_relevant_info_ref',
+        'list_of_referees_' => 'field_list_of_referees_ref',
+        'research_proposal' => 'field_research_proposal_ref',
+        'update_publications' => 'field_update_publications_ref',
+        default => null
+      };
+
+      $existing_submission = \Drupal::entityQuery('node')
+        ->condition('type', 'submit_application')
+        ->condition('uid', $user->id())
+        ->range(0, 1)
+        ->accessCheck(TRUE)
+        ->execute();
+
+      if (!empty($existing_submission)) {
+        $submission_id = reset($existing_submission);
+        $submission = Node::load($submission_id);
+        $submission->set($reference_field, $entity->id());
+        $submission->save();
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* -------------------------------------------------------------------------- */
+/*      //! node_access - Controls who can create or update content types     */
+/* -------------------------------------------------------------------------- */
+/**
+ * 1. It blocks edits or new content creation for some types *after* the user submits their application.
+ *
+ *    These types are restricted:
+ *    - academic_qualification
+ *    - other_relevant_information
+ *    - list_of_referees_
+ *    - research_proposal
+ *    - work_experience
+ *    - submit_application
+ *
+ *    Note: `basic_information` and `update_publications` are currently not restricted.
+ *
+ * 2. It allows access if:
+ *    - The user is the **author** of the content.
+ *    - OR the user has one of these privileged roles:
+ *      ['dean', 'director', 'faculty_member', 'admin', 'administrator']
+ *
+ * 3. For *regular users*, if:
+ *    - They are trying to **create or update** a restricted type,
+ *    - AND they’ve already submitted their application,
+ *    - Then access is **denied**.
+ *
+ * 4. If none of these checks match, the function returns "neutral", meaning other rules will decide access.
+ */
+  function ncbs_node_access(NodeInterface $node, $op, AccountInterface $account) {
+    // Define the content types that should be restricted after submission.
+    $restricted_types = [
+      // 'basic_information', // Temporarily excluded or not restricted.
+      'academic_qualification',
+      'other_relevant_information',
+      'list_of_referees_',
+      'research_proposal',
+      'work_experience',
+      // 'update_publications', // Temporarily excluded or not restricted.
+      'submit_application',
+    ];
+
+
+
+      // ✅ NEW: Allow access if user has a privileged role, or is the node author.
+      $allowed_roles = ['dean', 'director', 'faculty_member', 'admin', 'administrator'];
+      if (!array_intersect($allowed_roles, $account->getRoles())) {
+        // User doesn't have a privileged role, so check if they are the node author.
+        if ($node->getOwnerId() !== $account->id()) {
+          // Deny access if not the author.
+          return AccessResult::forbidden()->addCacheableDependency($node);
+        }
+      }
+
+
+
+
+
+    // Check if the current operation is 'create' or 'update' on a restricted type.
+    if (($op === 'update' || $op === 'create') && in_array($node->getType(), $restricted_types)) {
+      // If the user has already submitted the application, deny access.
+      if (check_submit_application($account)) {
+        // Return forbidden access and make it cacheable based on the node.
+        return AccessResult::forbidden()->addCacheableDependency($node);
+      }
+    }
+
+
+
+
+
+
+
+    // If no conditions matched, return a neutral access result (neither allow nor deny).
+    return AccessResult::neutral()->addCacheableDependency($node);
+  }
+
+/* -------------------------------- ncbs_node_access Ends here ------------------------------- */
+
+  /**
+   * ------------------------------------------------------------------------
+   * !Controls access to creation of 'referee_feedback_form' entity bundles.
+   * ------------------------------------------------------------------------
+   *
+   * This function implements custom access control logic for creating
+   * 'referee_feedback_form' entities, based on URL query parameters
+   * (`id` for the application node ID and `email` for the referee's email).
+   *
+   * Access is granted **only if**:
+   * - The provided node ID exists.
+   * - The node has a non-empty 'field_list_of_referees_ref'.
+   * - The nested paragraph in 'field_list_of_referees_' has a matching email.
+   * - No existing feedback reference is present for that email.
+   *
+   * Access is denied with appropriate error messages in all other cases,
+   * including:
+   * - Missing or invalid node ID
+   * - Email not found in paragraph field
+   * - Feedback reference already exists
+   *
+   * Returns:
+   *   - AccessResult::allowed() if a match is found and no feedback exists.
+   *   - AccessResult::forbidden() with messages in all denial cases.
+   *   - AccessResult::neutral() if entity bundle is not 'referee_feedback_form'.
+   */
+  function ncbs_entity_create_access(AccountInterface $account, array $context, $entity_bundle) {
+    if ($entity_bundle !== 'referee_feedback_form') {
+      return AccessResult::neutral();
+    }
+
+    $nid = \Drupal::request()->query->get('id');
+    $email = \Drupal::request()->query->get('email');
+
+    if (!$nid) {
+      \Drupal::messenger()->addError("Access Denied: No node ID provided in URL.");
+      return AccessResult::forbidden();
+    }
+
+    $node = Node::load($nid);
+    if (!$node) {
+      \Drupal::messenger()->addError("Access Denied: Node with ID $nid does not exist.");
+      return AccessResult::forbidden();
+    }
+
+    if (!$node->hasField('field_list_of_referees_ref') || $node->get('field_list_of_referees_ref')->isEmpty()) {
+      \Drupal::messenger()->addError("Access Denied: 'field_list_of_referees_ref' is empty or does not exist.");
+      return AccessResult::forbidden();
+    }
+
+    // Iterate through referenced entities.
+    foreach ($node->get('field_list_of_referees_ref') as $entityRefItem) {
+      $referencedEntity = $entityRefItem->entity;
+      if (!$referencedEntity) {
+        continue;
+      }
+
+      if (!$referencedEntity->hasField('field_list_of_referees_') || $referencedEntity->get('field_list_of_referees_')->isEmpty()) {
+        continue;
+      }
+
+      // Check each paragraph for matching email.
+      foreach ($referencedEntity->get('field_list_of_referees_') as $paragraphItem) {
+        $paragraph = $paragraphItem->entity;
+        if (
+          !$paragraph ||
+          !$paragraph->hasField('field_email') ||
+          $paragraph->get('field_email')->isEmpty()
+        ) {
+          continue;
+        }
+
+        $refereeEmail = $paragraph->get('field_email')->value;
+        
+        if ($refereeEmail === $email) {
+          // If no feedback has been submitted, allow access.
+          if (
+            !$paragraph->hasField('field_referee_feedback_reference') ||
+            $paragraph->get('field_referee_feedback_reference')->isEmpty()
+          ) {
+            \Drupal::messenger()->addMessage("Access Granted: Email '$email' matched, and no feedback reference found.");
+            return AccessResult::allowed();
+          }
+
+          // Feedback already exists — deny access.
+          $feedbackReference = $paragraph->get('field_referee_feedback_reference')->entity;
+          if ($feedbackReference) {
+            \Drupal::messenger()->addError("Access Denied: Email '$email' already has a feedback reference (ID: " . $feedbackReference->id() . ").");
+            return AccessResult::forbidden();
+          }
+        }
+      }
+    }
+
+    \Drupal::messenger()->addError("Access Denied: No matching email found.");
+    return AccessResult::forbidden();
+  }
+
+/* ------------------------ ncbs_entity_create_access Ends here ----------------------- */
+
+
+
+
+// function ncbs_menu_local_tasks_alter(array &$data, $route_name)
+// {
+//   // Ensure 'tabs' exists and is an array before iterating
+//   if (!isset($data['tabs']) || !is_array($data['tabs'])) {
+//     return;
+//   }
+
+//   // Get the current route match to retrieve route parameters
+//   $route_match = \Drupal::routeMatch();
+//   $node = $route_match->getParameter('node');
+
+//   // Check if the parameter is a loaded node entity
+//   if ($node instanceof Node && $node->bundle() === 'submit_application') {
+//     foreach ($data['tabs'] as &$tabs) {
+//       if (is_array($tabs)) {
+//         foreach ($tabs as $key => $tab) {
+//           if (isset($tab['#link']['title']) && $tab['#link']['title'] === 'View') {
+//             unset($tabs[$key]);
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
+
+/**
+ * Invalidates user-specific cache tags when a user logs in.
+ */
+function ncbs_user_login($account)
+{
+  $tags = ['user:' . $account->id() . ':content'];
+  \Drupal::service('cache_tags.invalidator')->invalidateTags($tags);
+  \Drupal::cache('render')->invalidateAll();
+}
+
+
+/* --------------------- //!RELATED TO NODE/CONTENT ACCESS --------------------- */
+
+
+
+
+
+
+/**
+ * Checks if a user has already submitted an application.
+ */
+function check_submit_application(AccountInterface $account)
+{
+  $query = \Drupal::entityQuery('node')
+    ->condition('type', 'submit_application')
+    ->condition('uid', $account->id())
+    ->exists('field_session_key')
+    ->accessCheck(FALSE);
+
+  return !empty($query->execute());
+}
+
+
+/* ------------------------------ //!MAIL FUNCTION ----------------------------- */
+// /**
+//  * Defines email templates for various cases like thank you or general mail.
+//  */
+// use Drupal\Core\Render\Markup;
+
+
+// function ncbs_mail($key, &$message, $params) {
+//   switch ($key) {
+//     case 'thank_you_mail':
+//     case 'admin_notification_mail':
+//     case 'send_email':
+//     case 'role_based_email':
+//     case  'role_based_email_others':
+//     case 'mail':
+
+//       $message['subject'] = $params['subject'];
+//       $message['body'] = [
+//         '#html' => Markup::create($params['message']),
+//       ];
+//       $message['headers'] = [
+//         'Content-Type' => 'text/html; charset=UTF-8',
+//         'MIME-Version' => '1.0',
+//       ];
+//       if (!empty($params['attachments'])) {
+//         foreach ($params['attachments'] as $attachment) {
+//           $message['attachments'][] = [
+//             'filecontent' => $attachment['filecontent'],
+//             'filename' => $attachment['filename'],
+//             'filemime' => $attachment['filemime'],
+//           ];
+//         }
+//       }
+//       break;
+//   }
+// }
+
+
+ use Drupal\Core\Render\Markup;
+
+/**
+ * Implements hook_mail().
+ */
+function ncbs_mail($key, &$message, $params) {
+  $config = \Drupal::config('ncbs.email_settings');
+  $default_from = 'noreply@ncbs.res.in';
+
+  // Default subject and body setup
+  $message['subject'] = $params['subject'] ?? '';
+  $message['body'] = [
+    '#html' => Markup::create($params['message'] ?? ''),
+  ];
+
+  // Determine the correct "From" email based on mail key
+  switch ($key) {
+    case 'role_based_email': // Candidate / Referee
+      $from_email = $config->get('from_email_candidate') ?: $default_from;
+      break;
+
+    case 'role_based_email_others': // Dean / Faculty / Director
+      $from_email = $config->get('from_email_dean') ?: $default_from;
+      break;
+
+    case 'thank_you_mail':         // Fallback to default
+    case 'admin_notification_mail':
+    case 'send_email':
+    case 'mail':
+    default:
+      $from_email = $default_from;
+      break;
+  }
+
+  // Allow overriding from email via params if provided
+  if (!empty($params['from'])) {
+    $from_email = $params['from'];
+  }
+  // Get reply-to from config or fallback
+  $replyto = $config->get('reply_to_email') ?: $default_from;
+
+  // Assign final headers
+  $message['from'] = $from_email;
+  $message['headers'] = [
+    'From' => $from_email,
+    'Reply-To' => $replyto,
+    'Content-Type' => 'text/html; charset=UTF-8',
+    'MIME-Version' => '1.0',
+  ];
+
+  // Handle attachments if provided
+  if (!empty($params['attachments'])) {
+    foreach ($params['attachments'] as $attachment) {
+      $message['attachments'][] = [
+        'filecontent' => $attachment['filecontent'],
+        'filename' => $attachment['filename'],
+        'filemime' => $attachment['filemime'],
+      ];
+    }
+  }
+}
+
+
+
+
+
+
+/* --------------------------------- //!CRONJOB -------------------------------- */
+/**
+ * Cron job to delete users who haven't submitted their session key within 15 days,
+ * and unpublish all their content before deletion.
+ */
+// function ncbs_cron() {
+//   $logger = \Drupal::logger('ncbs_cron');
+//   $current_time = time();
+//   \Drupal::service('page_cache_kill_switch')->trigger();
+
+//   $logger->notice('🚨 Executing UPDATED ncbs_cron');
+//   $logger->notice('🔁 Cron started at @time.', ['@time' => date('Y-m-d H:i:s', $current_time)]);
+
+//   $user_ids = \Drupal::entityQuery('user')
+//     ->condition('status', 1)
+//     ->condition('roles', 'user')
+//     ->accessCheck(FALSE)
+//     ->execute();
+
+//   foreach ($user_ids as $uid) {
+//     $user = \Drupal\user\Entity\User::load($uid);
+//     if (!$user) {
+//       $logger->warning("⚠️ Could not load user $uid.");
+//       continue;
+//     }
+
+//     // Timestamps and age calculation
+//     $created = $user->getCreatedTime();
+//     $diff_seconds = $current_time - $created;
+//     $days_since_created = (int) floor($diff_seconds / 86400);
+//     $session_key = $user->get('field_user_session_key')->getValue();
+
+//     // 📋 Log all time-related data
+//     $logger->notice("👤 User $uid");
+//     $logger->notice("🕒 Created at: $created (" . date('Y-m-d H:i:s', $created) . ")");
+//     $logger->notice("🕓 Current time: $current_time (" . date('Y-m-d H:i:s', $current_time) . ")");
+//     $logger->notice("🧮 Seconds since creation: $diff_seconds");
+//     $logger->notice("📅 Days since created: $days_since_created");
+//     $logger->notice("🔑 Session key: " . json_encode($session_key));
+
+//     // ✅ Step 1: Day 14 – send reminder (only once)
+//     if ($days_since_created === 14 && empty($session_key)) {
+//       $logger->notice("📧 Sending 14-day reminder to user $uid...");
+
+//       $to = $user->getEmail();
+//       $subject = 'Final Reminder to Submit Application';
+//       $body = "Dear {$user->getDisplayName()},\n\nThis is your final reminder to submit your application. Your account will be deleted tomorrow if not completed.\n\nRegards,\nAdmin";
+
+//       $mailManager = \Drupal::service('plugin.manager.mail');
+//       $module = 'ncbs';
+//       $key = 'user_application_reminder';  // Make sure hook_mail uses this!
+//       $params['subject'] = $subject;
+//       $params['message'] = $body;
+//       $langcode = $user->getPreferredLangcode();
+//       $send = true;
+
+//       $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+//       $logger->notice($result['result'] ? "✅ Reminder sent to $to" : "❌ Failed to send to $to");
+
+//       // 🚨 Prevent deletion on same run
+//       continue;
+//     }
+
+//     // ✅ Step 2: Day 15+ – delete only if no session key
+//     if ($days_since_created >= 16 && empty($session_key)) {
+//       $logger->notice("🗑️ User $uid expired (15+ days) and has no session key. Deleting...");
+
+//       // Unpublish & reassign user's nodes
+//       $nids = \Drupal::entityQuery('node')
+//         ->condition('uid', $uid)
+//         ->accessCheck(FALSE)
+//         ->execute();
+
+//       if (!empty($nids)) {
+//         $nodes = \Drupal\node\Entity\Node::loadMultiple($nids);
+//         foreach ($nodes as $node) {
+//           $logger->notice("📦 Unpublishing & reassigning node {$node->id()}");
+//           $node->setUnpublished();
+//           $node->setOwnerId(0);
+//           $node->save();
+//         }
+//       } else {
+//         $logger->notice("📭 User $uid has no content to process.");
+//       }
+
+//       // Delete user
+//       $user->delete();
+//       $logger->notice("✅ User $uid deleted.");
+//       continue;
+//     }
+
+//     // ⏩ Step 3: User has session key or is not yet 14/15 days old
+//     if (!empty($session_key)) {
+//       $logger->notice("⏳ User $uid has a session key. Skipping.");
+//     } elseif ($days_since_created < 14) {
+//       $logger->notice("⏳ User $uid is only $days_since_created day(s) old. Skipping.");
+//     }
+//   }
+
+//   $logger->notice('✅ Cron execution completed at @time.', ['@time' => date('Y-m-d H:i:s')]);
+// }
+
+function ncbs_cron() {
+  $logger = \Drupal::logger('ncbs_cron');
+  $current_time = time();
+  \Drupal::service('page_cache_kill_switch')->trigger();
+
+  $logger->notice('🚨 Executing UPDATED ncbs_cron');
+  $logger->notice('🔁 Cron started at @time.', ['@time' => date('Y-m-d H:i:s', $current_time)]);
+
+  $user_ids = \Drupal::entityQuery('user')
+    ->condition('status', 1)
+    ->condition('roles', 'user')
+    ->accessCheck(FALSE)
+    ->execute();
+
+  foreach ($user_ids as $uid) {
+    $user = \Drupal\user\Entity\User::load($uid);
+    if (!$user) {
+      $logger->warning("⚠️ Could not load user $uid.");
+      continue;
+    }
+
+    // Timestamps and age calculation
+    $created = $user->getCreatedTime();
+    $diff_seconds = $current_time - $created;
+    $days_since_created = (int) floor($diff_seconds / 86400);
+    $session_key = $user->get('field_user_session_key')->getValue();
+
+    $reminder_sent_str = $user->hasField('field_remainder_sent') && !$user->get('field_remainder_sent')->isEmpty()
+      ? (string) $user->get('field_remainder_sent')->value
+      : '0';
+    $reminder_sent = ($reminder_sent_str === '1');
+
+    // 📋 Log all time-related data
+    $logger->notice("👤 User $uid");
+    $logger->notice("🕒 Created at: $created (" . date('Y-m-d H:i:s', $created) . ")");
+    $logger->notice("🕓 Current time: $current_time (" . date('Y-m-d H:i:s', $current_time) . ")");
+    $logger->notice("🧮 Seconds since creation: $diff_seconds");
+    $logger->notice("📅 Days since created: $days_since_created");
+    $logger->notice("🔑 Session key: " . json_encode($session_key));
+    $logger->notice("🔎 field_remainder_sent=" . $reminder_sent_str);
+
+    // ✅ Step 1: Day 14 – send reminder (only once)
+    if ($days_since_created === 14 && empty($session_key) && !$reminder_sent) {
+      $logger->notice("📧 Sending 14-day reminder to user $uid...");
+
+      $to = $user->getEmail();
+      $subject = 'NCBS Faculty Portal - Final Call to Submit Your Application';
+      $body = "Dear {$user->getDisplayName()},<br><br>
+        This is a final reminder to complete and submit your faculty application on the NCBS Faculty Portal.<br><br>
+        If your application is not submitted by tomorrow, your account and any associated data will be permanently deleted.<br><br>
+        If you have already submitted your application, please ignore this message.<br><br>
+        This is an automated email. Please do not reply.<br><br>
+        Regards,<br>
+        NCBS";
+
+      $mailManager = \Drupal::service('plugin.manager.mail');
+      $module = 'ncbs';
+      $key = 'user_application_reminder';  // Make sure hook_mail uses this!
+      $params['subject'] = $subject;
+      $params['message'] = $body;
+      $langcode = $user->getPreferredLangcode();
+      $send = true;
+
+      $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+      // $logger->notice($result['result'] ? "✅ Reminder sent to $to" : "❌ Failed to send to $to");
+      if (!empty($result['result'])) {
+        $logger->notice("✅ Reminder sent to $to");
+
+        // Mark as sent so we don't send again
+        $user->set('field_remainder_sent', 1);
+        $user->save();
+        // Log a remainder_records node.
+        ncbs_create_remainder_record($user, [
+          'title' => "Reminder Records for {$user->getEmail()} (UID {$user->id()})",
+          'sent'  => TRUE,
+        ]);
+      } else {
+        $logger->warning("❌ Failed to send to $to");
+      }
+
+      // 🚨 Prevent deletion on same run
+      continue;
+    }
+
+    // ✅ Step 2: Day 15+ – delete only if no session key
+    if ($days_since_created >= 16 && empty($session_key)) {
+      $logger->notice("🗑️ User $uid expired (15+ days) and has no session key. Deleting...");
+
+      // Unpublish & reassign user's nodes
+      $nids = \Drupal::entityQuery('node')
+        ->condition('uid', $uid)
+        ->accessCheck(FALSE)
+        ->execute();
+
+      $processed = []; // collect nodes you unpublished
+
+      if (!empty($nids)) {
+        $nodes = \Drupal\node\Entity\Node::loadMultiple($nids);
+        foreach ($nodes as $node) {
+          $logger->notice("📦 Unpublishing & reassigning node {$node->id()}");
+          $node->setUnpublished();
+          $node->setOwnerId(0);
+          $node->save();
+          $processed[] = $node;
+        }
+      } else {
+        $logger->notice("📭 User $uid has no content to process.");
+      }
+
+      // Build body HTML with the unpublished nodes list.
+      $body_html = ncbs_render_unpublished_nodes_list($processed);
+
+      // update the record node BEFORE deleting the user.
+      ncbs_update_remainder_record_on_delete($user, $body_html);
+
+      // Delete user
+      $user->delete();
+      $logger->notice("✅ User $uid deleted.");
+      continue;
+    }
+
+    // ⏩ Step 3: User has session key or is not yet 14/15 days old
+    if (!empty($session_key)) {
+      $logger->notice("⏳ User $uid has a session key. Skipping.");
+    } elseif ($days_since_created < 14) {
+      $logger->notice("⏳ User $uid is only $days_since_created day(s) old. Skipping.");
+    }
+  }
+
+  $logger->notice('✅ Cron execution completed at @time.', ['@time' => date('Y-m-d H:i:s')]);
+}
+
+/**
+ * Load the latest 'remainder_records' node for a user (by email).
+ *
+ * @return \Drupal\node\Entity\Node|null
+ */
+function ncbs_load_latest_remainder_record(\Drupal\user\UserInterface $user) {
+  $uid_str = (string) $user->id();
+
+  $nids = \Drupal::entityQuery('node')
+    ->condition('type', 'remainder_records')
+    ->condition('field_remainder_user_id', $uid_str, '=') // exact match on text
+    ->sort('created', 'DESC')
+    ->range(0, 1)
+    ->accessCheck(FALSE)
+    ->execute();
+
+  if (!$nids) {
+    return NULL;
+  }
+  $nodes = \Drupal\node\Entity\Node::loadMultiple($nids);
+  return reset($nodes) ?: NULL;
+}
+
+
+/**
+ * Make a remainder_records node (used on REMINDER send).
+ *
+ * @param \Drupal\user\UserInterface $user
+ * @param array $data ['title', 'sent' => bool, 'deleted' => bool, 'body' => html]
+ * @return \Drupal\node\Entity\Node|null
+ */
+function ncbs_create_remainder_record(\Drupal\user\UserInterface $user, array $data = []) {
+  $t = \Drupal::time()->getRequestTime();
+  $now = \Drupal::service('date.formatter')->format($t, 'custom', 'Y-m-d H:i:s');
+
+  $fields = [
+    'type'  => 'remainder_records',      // CT machine name
+    'title' => $data['title'] ?? "Remainder record for UID {$user->id()} @ {$now}",
+    'status' => 1,
+    'uid' => 1,                          // owner (adjust if you prefer)
+    'field_remainder_email_id' => $user->getEmail(),
+    'field_remainder_user_id' => (string) $user->id(),
+  ];
+
+  if (!empty($data['sent'])) {
+    $fields['field_remainder_sent_on'] = $now;
+  }
+  if (!empty($data['deleted'])) {
+    $fields['field_remainder_acc_deleted_on'] = $now;
+  }
+  if (!empty($data['body'])) {
+    $fields['body'] = [
+      'value' => $data['body'],
+      'format' => 'basic_html',
+    ];
+  }
+
+  try {
+    $node = \Drupal\node\Entity\Node::create($fields);
+    $node->save();
+    return $node;
+  } catch (\Throwable $e) {
+    \Drupal::logger('ncbs_cron')->error('Failed to create remainder_records node: @m', ['@m' => $e->getMessage()]);
+    return NULL;
+  }
+}
+
+/**
+ * Update the latest remainder_records node on DELETE (or create if missing).
+ */
+function ncbs_update_remainder_record_on_delete(\Drupal\user\UserInterface $user, string $body_html = ''): void {
+  $t = \Drupal::time()->getRequestTime();
+  $now = \Drupal::service('date.formatter')->format($t, 'custom', 'Y-m-d H:i:s');
+
+  $node = ncbs_load_latest_remainder_record($user);
+
+  if (!$node) {
+    // No prior record (e.g., reminder never sent) — create one now.
+    ncbs_create_remainder_record($user, [
+      'title'   => "Account deleted: {$user->getEmail()} (UID {$user->id()})",
+      'deleted' => TRUE,
+      'body'    => $body_html,
+    ]);
+    return;
+  }
+
+  try {
+    // If old records were missing the UID text, set it now for consistency.
+    if ($node->hasField('field_remainder_user_id') && $node->get('field_remainder_user_id')->isEmpty()) {
+      $node->set('field_remainder_user_id', (string) $user->id());
+    }
+    $node->set('field_remainder_acc_deleted_on', $now);
+    if ($body_html !== '') {
+      $node->set('body', ['value' => $body_html, 'format' => 'basic_html']);
+    }
+    $node->save();
+  } catch (\Throwable $e) {
+    \Drupal::logger('ncbs_cron')->error('Failed to update remainder_records node: @m', ['@m' => $e->getMessage()]);
+  }
+}
+
+
+/** Utility to render an <ul> of nodes (nid + title). */
+function ncbs_render_unpublished_nodes_list(array $nodes): string {
+  if (!$nodes) {
+    return '<p>No nodes were unpublished.</p>';
+  }
+  $items = [];
+  foreach ($nodes as $node) {
+    $items[] = '<li>NID ' . (int) $node->id() . ' — ' . \Drupal\Component\Utility\Html::escape($node->label()) . '</li>';
+  }
+  return '<p>Unpublished nodes:</p><ul>' . implode('', $items) . '</ul>';
+}
+
+
+
+/* -------------------------------------------------------------------------- */
+/*        //!END Cron job to delete users & unpublish all their content       */
+/* -------------------------------------------------------------------------- */
+
+
+/* -------------------------- //!ENTITY CREATE/UPPDATE ------------------------- */
+
+
+/**
+ * Handles actions after a node is updated, including sending confirmation emails.
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function ncbs_entity_update(EntityInterface $entity) {
+  if ($entity->getEntityTypeId() === 'node') {
+
+    // Check if it's 'submit_application' bundle.
+    if ($entity->bundle() === 'submit_application') {
+      static $is_running = FALSE;
+
+      if ($is_running) {
+        \Drupal::logger('custom_module')->notice('Aborted to prevent infinite loop.');
+        return;
+      }
+
+      $is_running = TRUE;
+     // \Drupal::logger('custom_module')->notice('Processing submit_application node ID: ' . $entity->id());
+
+      $node = Node::load($entity->id());
+
+      if ($node->get('field_form_submitted')->value == 1) {
+        \Drupal::logger('custom_module')->notice('Form is submitted.');
+
+        if (!$node->get('field_session_key')->isEmpty()) {
+          \Drupal::logger('custom_module')->notice('Session key is set.');
+
+          $reference_field = $node->get('field_basic_information_referenc');
+          if (!$reference_field->isEmpty()) {
+            \Drupal::logger('custom_module')->notice('Reference field has values.');
+
+            foreach ($reference_field as $item) {
+              $referenced_node = Node::load($item->target_id);
+
+              if ($referenced_node) {
+                if ($referenced_node->hasField('field_access')) {
+                  $referenced_node->set('field_access', 'edit');
+                  $referenced_node->save();
+
+                  $msg = 'field_access set to edit for referenced node ID: ' . $referenced_node->id();
+                  // \Drupal::messenger()->addMessage($msg);
+                  \Drupal::logger('custom_module')->notice($msg);
+                } else {
+                  \Drupal::logger('custom_module')->warning('field_access not found on node ID: ' . $referenced_node->id());
+                }
+              } else {
+                \Drupal::logger('custom_module')->error('Referenced node not found for target_id: ' . $item->target_id);
+              }
+            }
+          } else {
+            \Drupal::logger('custom_module')->notice('Reference field is empty.');
+          }
+        } else {
+          \Drupal::logger('custom_module')->notice('Session key is empty.');
+        }
+      } else {
+        //\Drupal::logger('custom_module')->notice('Form is not submitted.');
+      }
+    }
+
+    // Case for add_comments bundle
+    // if ($entity instanceof \Drupal\node\NodeInterface && $entity->bundle() === 'add_comments') {
+    //   \Drupal::service('cache.render')->invalidateAll();
+    // }
+
+
+    //ANCHOR - //! as of 19th Aug 2025 related to comments
+
+
+      // if ($entity instanceof \Drupal\node\NodeInterface && $entity->bundle() === 'add_comments') {
+      //   $current_user = \Drupal::currentUser();
+      //   $author_name = $current_user->getDisplayName();
+
+      //   // Get nid from URL and load title
+      //   $nid = \Drupal::request()->query->get('nid');
+      //   $referenced_title = '';
+      //   if (!empty($nid) && is_numeric($nid)) {
+      //     if ($ref_node = Node::load($nid)) {
+      //       $referenced_title = $ref_node->label();
+      //       if ($entity->hasField('field_candidate_name')) {
+      //         $entity->set('field_candidate_name', $referenced_title);
+      //       }
+      //     }
+      //   }
+      //   // Set node title and author
+      //   $entity->setTitle("Commented by {$author_name}" . ($referenced_title ? " on {$referenced_title}" : ''));
+      //   if ($entity->hasField('field_comment_name')) {
+      //     $entity->set('field_comment_name', $author_name);
+      //   }
+
+      //   // Loop through all paragraphs
+      //   if ($entity->hasField('field_add_comments_') && !$entity->get('field_add_comments_')->isEmpty()) {
+      //     foreach ($entity->get('field_add_comments_') as $paragraph_item) {
+      //       $paragraph = $paragraph_item->entity;
+
+      //       if ($paragraph && $paragraph->getEntityTypeId() === 'paragraph') {
+      //         $changed = FALSE;
+
+      //         //ANCHOR
+      //         //! Set author name only if it is blank (even if not NULL)
+      //         if (
+      //           $paragraph->hasField('field_comment_author') &&
+      //           trim((string) $paragraph->get('field_comment_author')->value) === ''
+      //         ) {
+      //           $paragraph->set('field_comment_author', $author_name);
+      //           $changed = TRUE;
+      //         }
+
+      //         //! ENDS HERE
+      //         // Assuming these variables are already defined:
+      //         // $current_user = \Drupal::currentUser();
+      //         // $request = \Drupal::requestStack()->getCurrentRequest();
+      //         // $roles = $current_user->getRoles();
+      //         // $url_role = $request->query->get('role');
+
+      //         // // Set comment author only if the field is empty
+      //         // if (
+      //         //   $paragraph->hasField('field_comment_author') &&
+      //         //   trim((string) $paragraph->get('field_comment_author')->value) === ''
+      //         // ) {
+      //         //   if (in_array('administrator', $roles) || in_array('admin', $roles)) {
+      //         //     // Admin override for faculty_member
+      //         //     if ($url_role === 'faculty_member' && $paragraph->hasField('field_user_list_faculty')) {
+      //         //       $faculty_user = $paragraph->get('field_user_list_faculty')->entity;
+      //         //       if ($faculty_user) {
+      //         //         $paragraph->set('field_comment_author', $faculty_user->getDisplayName());
+      //         //         $changed = TRUE;
+      //         //       }
+      //         //     }
+      //         //     // Admin override for dean
+      //         //     elseif ($url_role === 'dean' && $paragraph->hasField('field_user_list_dean')) {
+      //         //       $dean_user = $paragraph->get('field_user_list_dean')->entity;
+      //         //       if ($dean_user) {
+      //         //         $paragraph->set('field_comment_author', $dean_user->getDisplayName());
+      //         //         $changed = TRUE;
+      //         //       }
+      //         //     }
+      //         //     else {
+      //         //       $paragraph->set('field_comment_author', $author_name);
+      //         //       $changed = TRUE;
+      //         //     }
+      //         //   }
+      //         //   else {
+      //         //     $paragraph->set('field_comment_author', $author_name);
+      //         //     $changed = TRUE;
+      //         //   }
+      //         // }
+
+      //         // Set datetime only if blank (ignores existing values even if "empty")
+      //         if (
+      //           $paragraph->hasField('field_comment_date') &&
+      //           trim((string) $paragraph->get('field_comment_date')->value) === ''
+      //         ) {
+      //           $current_time = \Drupal::service('date.formatter')->format(time(), 'custom', 'Y-m-d H:i:s');
+      //           $paragraph->set('field_comment_date', $current_time);
+      //           $changed = TRUE;
+      //         }
+
+      //         // Role-based references (set only if field is empty)
+      //         if (
+      //           in_array('faculty_member', $current_user->getRoles()) &&
+      //           $paragraph->hasField('field_user_list_faculty') &&
+      //           $paragraph->get('field_user_list_faculty')->isEmpty()
+      //         ) {
+      //           $paragraph->set('field_user_list_faculty', ['target_id' => $current_user->id()]);
+      //           $changed = TRUE;
+      //         }
+
+      //         if (
+      //           in_array('dean', $current_user->getRoles()) &&
+      //           $paragraph->hasField('field_user_list_dean') &&
+      //           $paragraph->get('field_user_list_dean')->isEmpty()
+      //         ) {
+      //           $paragraph->set('field_user_list_dean', ['target_id' => $current_user->id()]);
+      //           $changed = TRUE;
+      //         }
+
+      //         if ($changed) {
+      //           $paragraph->save();
+      //         }
+      //       }
+      //     }
+      //   }
+
+      //   \Drupal::service('cache.render')->invalidateAll();
+      // }
+
+
+
+    //! Ends here
+
+
+
+    //! as of 21st Aug 2025
+
+
+
+  if ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'add_comments') {
+
+    // Re-entrancy guard without returning (so other CT logic can still run after).
+    static $in_progress = FALSE;
+
+    if (!$in_progress) {
+      $in_progress = TRUE;
+
+      $messenger = \Drupal::messenger();
+
+      $account      = \Drupal::currentUser();
+      $author_name  = $account->getDisplayName();
+      $author_uid   = (int) $account->id();
+      $request_time = \Drupal::time()->getRequestTime();
+      $now_text     = \Drupal::service('date.formatter')->format($request_time, 'custom', 'Y-m-d H:i:s');
+      $roles        = $account->getRoles();
+
+      // Proceed only if field exists (no return; just skip the block if missing).
+      if ($entity->hasField('field_add_comments_')) {
+
+        // AFTER (current state).
+        $after_items = $entity->get('field_add_comments_')->getValue();
+        $after_ids = [];
+        foreach ($after_items as $item) {
+          if (!empty($item['target_id'])) {
+            $after_ids[] = (int) $item['target_id'];
+          }
+        }
+
+        // BEFORE (original state).
+        $before_ids = [];
+        if (isset($entity->original) && $entity->original instanceof NodeInterface && $entity->original->hasField('field_add_comments_')) {
+          foreach ($entity->original->get('field_add_comments_')->getValue() as $item) {
+            if (!empty($item['target_id'])) {
+              $before_ids[] = (int) $item['target_id'];
+            }
+          }
+        }
+
+        // Debug info.
+       // $messenger->addStatus('🔎 field_add_comments_: before=' . count($before_ids) . ', after=' . count($after_ids));
+        // if ($after_ids)  { $messenger->addStatus('➡️ After IDs: ' . implode(', ', $after_ids)); }
+        // if ($before_ids) { $messenger->addStatus('⬅️ Before IDs: ' . implode(', ', $before_ids)); }
+
+        // New paragraphs by target_id.
+        $new_ids = array_values(array_diff($after_ids, $before_ids));
+        if ($new_ids) {
+         // $messenger->addStatus('🆕 New paragraph IDs detected: ' . implode(', ', $new_ids));
+
+          /** @var \Drupal\paragraphs\ParagraphInterface[] $new_paragraphs */
+          $paragraph_storage = \Drupal::entityTypeManager()->getStorage('paragraph');
+          $new_paragraphs = $paragraph_storage->loadMultiple($new_ids);
+
+          $pid_to_new_rid = [];
+          foreach ($new_paragraphs as $pid => $paragraph) {
+            if (!$paragraph) {
+              $messenger->addWarning("⚠️ Paragraph $pid failed to load; skipping.");
+              continue;
+            }
+
+            // If you need to limit to a specific paragraph bundle, you can add:
+            // if (method_exists($paragraph, 'bundle') && $paragraph->bundle() !== 'comments') { continue; }
+
+            // Ensure paragraph owner if empty.
+            if (method_exists($paragraph, 'getOwnerId') && method_exists($paragraph, 'setOwnerId') && !$paragraph->getOwnerId()) {
+              $paragraph->setOwnerId($author_uid);
+            }
+
+            // field_comment_author: user ref OR text, set only if empty.
+            if ($paragraph->hasField('field_comment_author') && $paragraph->get('field_comment_author')->isEmpty()) {
+              $def = $paragraph->getFieldDefinition('field_comment_author');
+              if ($def && $def->getType() === 'entity_reference' && $def->getSetting('target_type') === 'user') {
+                $paragraph->set('field_comment_author', ['target_id' => $author_uid]);
+            //    $messenger->addStatus("✍️ [PID {$paragraph->id()}] Set field_comment_author (user) = $author_uid");
+              } else {
+                $paragraph->set('field_comment_author', $author_name);
+           //     $messenger->addStatus("✍️ [PID {$paragraph->id()}] Set field_comment_author (text) = $author_name");
+              }
+            }
+
+            // field_comment_date: set only if empty (your field is text Y-m-d H:i:s).
+            if ($paragraph->hasField('field_comment_date') && $paragraph->get('field_comment_date')->isEmpty()) {
+              $paragraph->set('field_comment_date', $now_text);
+           //   $messenger->addStatus("🗓️ [PID {$paragraph->id()}] Set field_comment_date = $now_text");
+            }
+
+            // Role-based user refs: set only if empty.
+            if (in_array('faculty_member', $roles, TRUE)
+              && $paragraph->hasField('field_user_list_faculty')
+              && $paragraph->get('field_user_list_faculty')->isEmpty()) {
+              $paragraph->set('field_user_list_faculty', $author_uid);
+          //    $messenger->addStatus("👤 [PID {$paragraph->id()}] Set field_user_list_faculty = $author_uid");
+            }
+            if (in_array('dean', $roles, TRUE)
+              && $paragraph->hasField('field_user_list_dean')
+              && $paragraph->get('field_user_list_dean')->isEmpty()) {
+              $paragraph->set('field_user_list_dean', $author_uid);
+              //$messenger->addStatus("👤 [PID {$paragraph->id()}] Set field_user_list_dean = $author_uid");
+            }
+
+            // New revision + save paragraph.
+            if (method_exists($paragraph, 'setNewRevision')) {
+              $paragraph->setNewRevision(TRUE);
+            }
+            if (method_exists($paragraph, 'setRevisionCreationTime')) {
+              $paragraph->setRevisionCreationTime($request_time);
+            }
+            $paragraph->save();
+
+            $new_rid = (int) $paragraph->getRevisionId();
+            $pid_to_new_rid[(int) $paragraph->id()] = $new_rid;
+           // $messenger->addStatus("💾 Saved paragraph ID {$paragraph->id()} → new RID=$new_rid");
+          }
+
+          // Rewire node field items to point to the stamped paragraph revisions.
+          if ($pid_to_new_rid) {
+            $field  = $entity->get('field_add_comments_');
+            $items  = $field->getValue();
+            $changed = FALSE;
+
+            foreach ($items as &$item) {
+              $pid = (int) ($item['target_id'] ?? 0);
+              if ($pid && isset($pid_to_new_rid[$pid])) {
+                $item['target_revision_id'] = $pid_to_new_rid[$pid];
+                $changed = TRUE;
+                //$messenger->addStatus("🔗 Rewired node reference: PID $pid → RID {$pid_to_new_rid[$pid]}");
+              }
+            }
+            unset($item);
+
+            if ($changed) {
+              $field->setValue($items);
+              // Save node so it now points at the stamped paragraph revisions.
+              try {
+                $entity->save();
+               // $messenger->addStatus('✅ Node re-saved to reference stamped paragraph revision(s).');
+              }
+              catch (\Throwable $e) {
+                \Drupal::logger('YOURMODULE')->error('Error saving node after rewiring: @msg', ['@msg' => $e->getMessage()]);
+                $messenger->addError('❌ Error saving node after rewiring: ' . $e->getMessage());
+              }
+            } else {
+              $messenger->addWarning('⚠️ No node field items were rewired (unexpected).');
+            }
+          }
+        } else {
+         //$messenger->addStatus('✅ No new paragraphs added; leaving existing items unchanged.');
+        }
+      } // end: has field_add_comments_
+
+      // release guard
+      $in_progress = FALSE;
+    } // end: not in_progress
+
+  } // end: your condition block (add_comments)
+
+
+
+    //!SECTION ends here
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+  }
+
+  // Reset the loop flag
+  $is_running = FALSE;
+}
+
+
+
+/**
+ * Implements hook_form_FORM_ID_alter() for taxonomy term 'programs' form.
+ */
+function ncbs_form_taxonomy_term_programs_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Hide the Relations section (parent terms, weight).
+  if (isset($form['relations'])) {
+    $form['relations']['#access'] = FALSE;
+  }
+
+  // Hide the Revision section if it exists.
+  if (isset($form['revision_information'])) {
+    $form['revision_information']['#access'] = FALSE;
+  }
+
+  // Redirect to /programs after saving the term.
+  $form['actions']['submit']['#submit'][] = 'ncbs_taxonomy_programs_redirect_submit';
+}
+
+/**
+ * Custom submit handler to redirect after term add/edit.
+ */
+function ncbs_taxonomy_programs_redirect_submit(array &$form, FormStateInterface $form_state) {
+  $form_state->setRedirectUrl(Url::fromUserInput('/programs'));
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /* ------------------------------- EASY EMAIL ------------------------------- */
+// /**
+//  * Implements hook_entity_update().
+//  */
+// function ncbs_entity_update(EntityInterface $entity) {
+//   // Only act on 'page' content type nodes.
+//   if ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'page') {
+
+//     // Set the Easy Email template ID.
+//     $template_id = '1_account_creation_mail_to_user';
+
+//     // Log the template ID being used.
+//     \Drupal::logger('lab_mail')->notice('Using email template: @template', ['@template' => $template_id]);
+
+//     // Load the Easy Email template entity.
+//     $template = \Drupal::entityTypeManager()
+//       ->getStorage('easy_email_type')
+//       ->load($template_id);
+
+//     // If the template is not found, log an error and stop.
+//     if (!$template) {
+//       \Drupal::logger('lab_mail')->error('Easy Email template "@template" not found.', ['@template' => $template_id]);
+//       return;
+//     }
+//         $template_array = $template->toArray();
+
+//     \Drupal::messenger()->addMessage('<pre>' . print_r($template_array, TRUE) . '</pre>');
+
+//     // Get subject and HTML body from the template.
+//     $raw_subject = $template->get('subject');
+//     $raw_body = $template->get('bodyHtml')['value'] ?? '';
+
+//     // Check if the subject or body is empty.
+//     if (empty($raw_subject) || empty($raw_body)) {
+//       \Drupal::logger('lab_mail')->error('Template "@template" missing subject or body.', ['@template' => $template_id]);
+//       return;
+//     }
+
+//   }
+// }
+
+
+
+
+
+
+
+/**
+ * Implements hook_entity_presave().
+ */
+function ncbs_entity_presave(EntityInterface $entity) {
+  // Ensure this runs only for nodes (you can limit to specific bundles if needed)
+  if ($entity->getEntityTypeId() !== 'node') {
+    return;
+  }
+
+  // 1. Check and set the flag field to FALSE
+  if ($entity->hasField('field_check_pending_flag')) {
+    $entity->set('field_check_pending_flag', FALSE);
+  }
+
+  // 2. Get `nid` from the current URL
+  $nid = \Drupal::request()->query->get('nid');
+  if (!$nid || !is_numeric($nid)) {
+    return; // Invalid or missing nid in URL
+  }
+
+  // 3. Load current user
+  $current_user = \Drupal::currentUser();
+  $account = User::load($current_user->id());
+  if (!$account || !$account->hasField('field_review_candidates')) {
+    return;
+  }
+
+  // 4. Get referenced node IDs and remove matching one
+  $field_values = $account->get('field_review_candidates')->getValue();
+  $new_values = [];
+
+  foreach ($field_values as $item) {
+    if ((int) $item['target_id'] !== (int) $nid) {
+      $new_values[] = $item; // Keep only the ones not matching nid
+    }
+  }
+
+  // 5. Update only if there was a change
+  if (count($new_values) !== count($field_values)) {
+    $account->set('field_review_candidates', $new_values);
+    $account->save(); // Safe here, since it's not recursive on the original entity
+  }
+
+
+
+  //!  Presave comment Node Title
+  // Only apply to 'add_comments' node type.
+  // if ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'add_comments') {
+  //   $request = \Drupal::requestStack()->getCurrentRequest();
+  //   $referenced_nid = $request->query->get('nid');
+
+  //   if ($referenced_nid && is_numeric($referenced_nid)) {
+  //     $node = Node::load($referenced_nid);
+
+  //     if ($node) {
+  //       $node_title = $node->getTitle();
+  //       $author = $entity->getOwner();
+  //       $author_name = ($author instanceof User) ? $author->getDisplayName() : 'Anonymous';
+
+  //       $formatted_title = "Candidate Name: $node_title - by - $author_name";
+
+  //       // Set both the node title and the custom field.
+  //       $entity->setTitle($formatted_title);
+  //       $entity->set('field_candidate_name', $node_title); // <- this is your custom field
+
+  //      // \Drupal::messenger()->addMessage("✅ Title set: $formatted_title");
+  //       //\Drupal::messenger()->addMessage("✅ field_candidate_name set to: $node_title");
+  //     }
+  //     else {
+  //       \Drupal::messenger()->addWarning("⚠️ Node with nid $referenced_nid could not be loaded.");
+  //     }
+  //   }
+  //   else {
+  //     \Drupal::messenger()->addWarning("⚠️ Invalid or missing nid in the request.");
+  //   }
+
+  //   // Fallback in case title is still empty
+  //   if ($entity->getTitle() === NULL || $entity->getTitle() === '') {
+  //     $entity->setTitle('Untitled Comment');
+  //     \Drupal::messenger()->addError("❌ Title was empty. Fallback title used.");
+  //   }
+  // }
+
+
+    //ANCHOR - //! as of 19th Augest 2025
+
+    if ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'add_comments') {
+      // $current_user = \Drupal::currentUser();
+      // $author_name = $current_user->getDisplayName();
+      // $current_time = \Drupal::service('date.formatter')->format(time(), 'custom', 'Y-m-d H:i:s');
+      // $user_entity = User::load($current_user->id());
+
+      // // Get nid from URL query (if present).
+      // $nid = \Drupal::request()->query->get('nid');
+      // $referenced_title = '';
+
+      // if (!empty($nid) && is_numeric($nid)) {
+      //   $referenced_node = Node::load($nid);
+      //   if ($referenced_node) {
+      //     $referenced_title = $referenced_node->label();
+
+      //     // Save referenced title to field_candidate_name.
+      //     if ($entity->hasField('field_candidate_name')) {
+      //       $entity->set('field_candidate_name', $referenced_title);
+      //     }
+      //   }
+      // }
+
+      // // Set node title like: Commented by [Author Name] on [Referenced Title].
+      // $entity->setTitle("Commented by {$author_name}" . ($referenced_title ? " on {$referenced_title}" : ''));
+
+      // // Set current author name to field_comment_name.
+      // if ($entity->hasField('field_comment_name')) {
+      //   $entity->set('field_comment_name', $author_name);
+      // }
+
+      // // Handle paragraph field updates.
+      // if ($entity->hasField('field_add_comments_') && !$entity->get('field_add_comments_')->isEmpty()) {
+      //   $paragraph = $entity->get('field_add_comments_')->first()->entity;
+
+      //   if ($paragraph) {
+      //     if ($paragraph->hasField('field_comment_author')) {
+      //       $paragraph->set('field_comment_author', $author_name);
+      //     }
+
+      //     if ($paragraph->hasField('field_comment_date')) {
+      //       $paragraph->set('field_comment_date', $current_time);
+      //     }
+
+      //     if (in_array('faculty_member', $current_user->getRoles()) && $paragraph->hasField('field_user_list_faculty')) {
+      //       $paragraph->set('field_user_list_faculty', $current_user->id());
+      //     }
+
+      //     if (in_array('dean', $current_user->getRoles()) && $paragraph->hasField('field_user_list_dean')) {
+      //       $paragraph->set('field_user_list_dean', $current_user->id());
+      //     }
+      //   }
+      // }
+
+      $account      = \Drupal::currentUser();
+      $author_name  = $account->getDisplayName();
+      $author_uid   = (int) $account->id();
+      $request_time = \Drupal::time()->getRequestTime();
+      $now_text     = \Drupal::service('date.formatter')->format($request_time, 'custom', 'Y-m-d H:i:s');
+
+      // Optional: referenced candidate title from ?nid=
+      $referenced_title = '';
+      if ($nid = \Drupal::request()->query->get('nid')) {
+        if (is_numeric($nid) && ($ref = Node::load($nid))) {
+          $referenced_title = $ref->label();
+          if ($entity->hasField('field_candidate_name')) {
+            $entity->set('field_candidate_name', $referenced_title);
+          }
+        }
+      }
+
+      // Title + submitter name.
+      $entity->setTitle('Commented by ' . $author_name . ($referenced_title ? ' on ' . $referenced_title : ''));
+      if ($entity->hasField('field_comment_name')) {
+        $entity->set('field_comment_name', $author_name);
+      }
+
+      // 🔁 Handle ALL paragraph items (single & multiple)
+      if ($entity->hasField('field_add_comments_') && !$entity->get('field_add_comments_')->isEmpty()) {
+        $roles = $account->getRoles();
+
+        foreach ($entity->get('field_add_comments_')->referencedEntities() as $paragraph) {
+          if (!$paragraph) {
+            continue;
+          }
+
+          // Ensure paragraph owner so preprocess getOwner() works
+          if (method_exists($paragraph, 'setOwnerId') && !$paragraph->getOwnerId()) {
+            $paragraph->setOwnerId($author_uid);
+          }
+
+          // AUTHOR — handle string or user reference
+          if ($paragraph->hasField('field_comment_author')) {
+            $def = $paragraph->getFieldDefinition('field_comment_author');
+            if ($def && $def->getType() === 'entity_reference' && $def->getSetting('target_type') === 'user') {
+              if ($paragraph->get('field_comment_author')->isEmpty()) {
+                $paragraph->set('field_comment_author', ['target_id' => $author_uid]);
+              }
+            } else {
+              if ($paragraph->get('field_comment_author')->isEmpty()) {
+                $paragraph->set('field_comment_author', $author_name);
+              }
+            }
+          }
+
+          // DATE — set when empty
+          if ($paragraph->hasField('field_comment_date') && $paragraph->get('field_comment_date')->isEmpty()) {
+            $paragraph->set('field_comment_date', $now_text);
+          }
+
+          // REPRESENTED (only if empty)
+          if (in_array('faculty_member', $roles, TRUE)
+              && $paragraph->hasField('field_user_list_faculty')
+              && $paragraph->get('field_user_list_faculty')->isEmpty()) {
+            $paragraph->set('field_user_list_faculty', $author_uid);
+          }
+          if (in_array('dean', $roles, TRUE)
+              && $paragraph->hasField('field_user_list_dean')
+              && $paragraph->get('field_user_list_dean')->isEmpty()) {
+            $paragraph->set('field_user_list_dean', $author_uid);
+          }
+
+          // Persist nested changes
+          if (method_exists($paragraph, 'setNewRevision')) {
+            $paragraph->setNewRevision(TRUE);
+          }
+          if (method_exists($paragraph, 'setRevisionCreationTime')) {
+            $paragraph->setRevisionCreationTime($request_time);
+          }
+        }
+
+        // Mark host node as new revision too
+        if (method_exists($entity, 'setNewRevision')) {
+          $entity->setNewRevision(TRUE);
+          if (method_exists($entity, 'setRevisionCreationTime')) {
+            $entity->setRevisionCreationTime($request_time);
+          }
+        }
+      }
+    }
+
+  // ENDS HERE
+
+
+
+}

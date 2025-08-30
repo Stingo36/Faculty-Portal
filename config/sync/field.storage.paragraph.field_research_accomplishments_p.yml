@@ -1,0 +1,19 @@
+uuid: 3507718f-bb6e-4ab4-8d29-40a6bff2d1f7
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.field_research_accomplishments_p
+field_name: field_research_accomplishments_p
+entity_type: paragraph
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

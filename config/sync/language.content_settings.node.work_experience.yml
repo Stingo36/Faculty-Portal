@@ -1,0 +1,11 @@
+uuid: 65c442f6-79c5-4aa8-bc0c-1ad38ac0439a
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.work_experience
+id: node.work_experience
+target_entity_type_id: node
+target_bundle: work_experience
+default_langcode: site_default
+language_alterable: false

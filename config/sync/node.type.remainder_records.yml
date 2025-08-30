@@ -1,0 +1,24 @@
+uuid: 0b972461-b7d3-4be2-99f3-cea4368df016
+langcode: en
+status: true
+dependencies:
+  module:
+    - autotitle
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+  autotitle:
+    enabled: false
+    field: _none
+    fallback_title: 'Untitled []'
+    headings: {  }
+name: 'Remainder Records'
+type: remainder_records
+description: 'Content type to save remainder and deleted records of users'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: true

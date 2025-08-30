@@ -1,0 +1,34 @@
+uuid: 96da7435-3631-40cb-80a2-9e336d4df5db
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_class
+    - ncbs
+    - system
+    - user
+  theme:
+    - bootstrap5
+id: bootstrap5_ncbsrefidblock
+theme: bootstrap5
+region: content
+weight: 0
+provider: null
+plugin: ncbs_ref_block
+settings:
+  id: ncbs_ref_block
+  label: 'Application Preview'
+  label_display: visible
+  provider: ncbs
+visibility:
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      anonymous: anonymous
+  request_path:
+    id: request_path
+    negate: false
+    pages: /node/add/referee_feedback_form

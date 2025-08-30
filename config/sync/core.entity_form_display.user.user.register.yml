@@ -1,0 +1,87 @@
+uuid: be811a6a-ab39-4136-a271-5e79c3b352b7
+langcode: en
+status: false
+dependencies:
+  config:
+    - core.entity_form_mode.user.register
+    - field.field.user.user.field_gender
+    - field.field.user.user.field_prefix_user
+    - field.field.user.user.field_remainder_sent
+    - field.field.user.user.field_review_candidates
+    - field.field.user.user.field_temp_password
+    - field.field.user.user.field_user_academic_qualifi_ref
+    - field.field.user.user.field_user_basic_info_ref
+    - field.field.user.user.field_user_full_name
+    - field.field.user.user.field_user_list_of_referees_ref
+    - field.field.user.user.field_user_other_rel_info_ref
+    - field.field.user.user.field_user_research_programs
+    - field.field.user.user.field_user_research_proposal_ref
+    - field.field.user.user.field_user_seminar_details_ref
+    - field.field.user.user.field_user_session_key
+    - field.field.user.user.field_user_submit_app_ref
+    - field.field.user.user.field_user_update_pub_ref
+    - field.field.user.user.field_user_work_experience_ref
+  module:
+    - field_layout
+    - layout_discovery
+    - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
+_core:
+  default_config_hash: FaQ9Ptcpxpg30AtiqRDtl_8zbJArHP1LPfug_s59TOA
+id: user.user.register
+targetEntityType: user
+bundle: user
+mode: register
+content:
+  account:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  display_name:
+    type: text_textfield
+    weight: -1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_gender:
+    type: options_select
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  language:
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  timezone:
+    weight: 7
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  contact: true
+  field_prefix_user: true
+  field_remainder_sent: true
+  field_review_candidates: true
+  field_temp_password: true
+  field_user_academic_qualifi_ref: true
+  field_user_basic_info_ref: true
+  field_user_full_name: true
+  field_user_list_of_referees_ref: true
+  field_user_other_rel_info_ref: true
+  field_user_research_programs: true
+  field_user_research_proposal_ref: true
+  field_user_seminar_details_ref: true
+  field_user_session_key: true
+  field_user_submit_app_ref: true
+  field_user_update_pub_ref: true
+  field_user_work_experience_ref: true
+  langcode: true

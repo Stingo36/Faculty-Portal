@@ -1,0 +1,40 @@
+uuid: 118ba7c1-ba83-454b-959a-341033c33def
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_academic_qualification
+    - node.type.academic_qualification
+    - paragraphs.paragraphs_type.education_
+  module:
+    - entity_reference_revisions
+id: node.academic_qualification.field_academic_qualification
+field_name: field_academic_qualification
+entity_type: node
+bundle: academic_qualification
+label: 'Academic Qualification'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      education_: education_
+    negate: 0
+    target_bundles_drag_drop:
+      education_:
+        weight: 5
+        enabled: true
+      publications:
+        weight: 6
+        enabled: false
+      referee_details:
+        weight: 7
+        enabled: false
+      research_proposals:
+        weight: 8
+        enabled: false
+field_type: entity_reference_revisions

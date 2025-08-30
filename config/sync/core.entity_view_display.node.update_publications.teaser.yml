@@ -1,0 +1,23 @@
+uuid: 806cc027-a97d-4136-8fa4-80647fa35cdd
+langcode: en
+status: false
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.update_publications.field_update_publications
+    - node.type.update_publications
+  module:
+    - user
+id: node.update_publications.teaser
+targetEntityType: node
+bundle: update_publications
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_update_publications: true
+  langcode: true

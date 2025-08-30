@@ -1,0 +1,19 @@
+uuid: 497fc537-f8a1-4ccc-a244-46ec945af422
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_awards_and_fellowships
+field_name: field_awards_and_fellowships
+entity_type: node
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

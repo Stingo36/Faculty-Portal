@@ -1,0 +1,31 @@
+uuid: 83a67b78-4ba6-4b13-a5ad-d24ccb0f3dcd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.seminar_host.field_faculty_list
+    - field.field.paragraph.seminar_host.field_seminar_host
+    - paragraphs.paragraphs_type.seminar_host
+  module:
+    - options
+id: paragraph.seminar_host.default
+targetEntityType: paragraph
+bundle: seminar_host
+mode: default
+content:
+  field_faculty_list:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_seminar_host:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden: {  }

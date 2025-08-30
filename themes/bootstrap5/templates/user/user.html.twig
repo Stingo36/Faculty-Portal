@@ -1,0 +1,109 @@
+<!-- My Details Heading -->
+<br>
+<h5 class="fw-bold mb-2">My Details</h5>
+
+<div class="bg-white mb-4" style="overflow-x: auto;">
+  <div class="table-responsive" style="min-width: 768px;">
+    <table class="table table-borderless align-middle mb-0" style="width: 100%; white-space: nowrap;">
+      <thead>
+        <tr>
+          <th style="background-color: #16395D;" class="text-center fw-semibold py-3 text-white">Prefix</th>
+          <th style="background-color: #16395D;" class="text-center fw-semibold py-3 text-white">Username</th>
+          <th style="background-color: #16395D;" class="text-center fw-semibold py-3 text-white">Full Name</th>
+          <th style="background-color: #16395D;" class="text-center fw-semibold py-3 text-white">Email</th>
+          <th style="background-color: #16395D;" class="text-center fw-semibold py-3 text-white">Role</th>
+          {% if 'user' in user_roles %}
+            <th style="background-color: #16395D;" class="text-center fw-semibold py-3 text-white">Program</th>
+            <th style="background-color: #16395D;" class="text-center fw-semibold py-3 text-white">Registered On</th>
+            {% if user_days_remaining is defined %}
+              <th style="background-color: #16395D;" class="text-center fw-semibold py-3 text-white">Days Remaining</th>
+            {% endif %}
+          {% endif %}
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="border-bottom">
+          <td class="text-center py-3">{{ content.field_prefix_user }}</td>
+          <td class="text-center py-3">{{ user.getDisplayName() }}</td>
+          <td class="text-center py-3">{{ content.field_user_full_name }}</td>
+          <td class="text-center py-3">{{ user.getEmail() }}</td>
+          <td class="text-center py-3">{{ user_role_labels|join('<br>')|raw }}</td>
+          {% if 'user' in user_roles %}
+            <td class="text-center py-3">
+              {% for item in user.field_user_research_programs %}
+                {{ item.entity.label }}{% if not loop.last %}, {% endif %}
+              {% endfor %}
+            </td>
+            <td class="text-center py-3">{{ user_created_date }}</td>
+            {% if user_days_remaining is defined %}
+              <td class="text-center py-3">
+                {{ user_days_remaining }} days (until {{ user_expiry_date }})
+              </td>
+            {% endif %}
+          {% endif %}
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+
+{% if 'Faculty Member' in user_role_labels or 'Dean' in user_role_labels or 'Director' in user_role_labels %}
+	<h5 class="fw-bold mb-2">Pending Tasks</h5>
+	<div class="bg-white">
+		<div style="overflow-x: auto;">
+			<div class="table-responsive">
+				{% if review_candidates_data is not empty %}
+					<table class="table align-middle mb-0" style="min-width: 768px; width: 100%; table-layout: fixed;">
+						<thead>
+							<tr>
+								<th style="background-color: #16395D;" class="text-center fw-semibold py-3 text-white text-wrap">Applicant Name</th>
+								<th style="background-color: #16395D;" class="text-center fw-semibold py-3 text-white text-wrap">Program</th>
+								<th style="background-color: #16395D;" class="text-center fw-semibold py-3 text-white text-wrap">Status</th>
+								<th style="background-color: #16395D;" class="text-center fw-semibold py-3 text-white text-wrap">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for item in review_candidates_data %}
+								<tr>
+									<td class="text-center py-3 text-wrap">{{ item.label }}</td>
+									<td class="text-center py-3 text-wrap">{{ item.program }}</td>
+									<td class="text-center py-3 text-wrap">{{ item.status }}</td>
+<td class="text-center py-3 text-wrap" style="min-width: 240px;">
+  <div class="d-grid gap-2" style="margin: 0 auto;">
+    <a href="{{ path('entity.node.canonical', {'node': item.nid}) }}" 
+       class="btn btn-sm btn-outline-primary w-100" 
+       style="height: 38px; font-size: 0.875rem; display: flex; align-items: center; justify-content: center; margin: 0;">
+      View Full Application
+    </a>
+
+    {% if item.action_link %}
+      <a href="{{ item.action_link.url }}" 
+         class="btn btn-sm btn-outline-success w-100" 
+         style="height: 38px; font-size: 0.875rem; display: flex; align-items: center; justify-content: center; margin: 0;">
+        {{ item.action_link.title }}
+      </a>
+    {% endif %}
+
+    <a href="https://www.ncbs.res.in/faculty-portal/pdf/download/{{ item.nid }}" 
+       class="btn btn-sm btn-outline-secondary w-100" 
+       target="_blank" 
+       style="height: 38px; font-size: 0.875rem; display: flex; align-items: center; justify-content: center; margin: 0;">
+      Download CV 
+    </a>
+  </div>
+</td>
+
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				{% else %}
+					<div class="text-muted p-3">No pending tasks.</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endif %}

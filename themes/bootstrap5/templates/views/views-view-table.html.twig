@@ -1,0 +1,174 @@
+{#
+/**
+ * @file
+ * Theme override for displaying a view as a table.
+ */
+#}
+
+<style>
+  .custom-views-table-wrapper {
+    background-color: transparent;
+    padding: 0.5rem;
+    overflow-x: auto;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .custom-views-table-wrapper table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+.custom-views-table-wrapper th,{
+    vertical-align: middle;
+    text-align: center;
+    font-size: 0.95rem;
+    padding: 0.35rem;
+    color: #212121;
+    border-bottom: 1px solid #ddd;
+  }
+
+{# .custom-views-table-wrapper td {
+  vertical-align: middle;
+  text-align: center;
+  font-size: 0.95rem;
+  padding: 0.5rem; /* slightly more padding improves balance */
+  color: #212121;
+  border-bottom: 1px solid #ddd;
+  height: 60px; /* sets uniform height */
+  min-height: 60px;
+  line-height: 1.3;
+} #}
+
+
+  /* Header row styling */
+  .custom-views-table-wrapper thead {
+    background-color: #e8f7ff;
+  }
+
+  .custom-views-table-wrapper th {
+    font-weight: 700;
+    color: #111;
+    background: #edf5fe;
+    color: #163b62;
+    padding: 20px 10px;
+
+  }
+
+  .custom-views-table-wrapper tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  .custom-views-table-wrapper a {
+    color: #3d5afe;
+    text-decoration: none;
+  }
+
+  .custom-views-table-wrapper a:hover {
+    text-decoration: underline;
+  }
+
+  .custom-views-table-wrapper caption {
+    caption-side: top;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+
+  .custom-views-table-wrapper details summary {
+    font-size: 0.875rem;
+    color: #666;
+  }
+</style>
+
+<div class="custom-views-table-wrapper">
+  {% set classes = [
+    'table',
+    'align-middle',
+    'views-table',
+    'views-view-table',
+    'cols-' ~ header|length,
+    responsive ? 'responsive-enabled',
+    sticky ? 'sticky-enabled',
+  ] %}
+
+  <table{{ attributes.addClass(classes) }}>
+    {% if caption_needed %}
+      <caption>
+        {{ caption ?: title }}
+        {% if (summary is not empty) or (description is not empty) %}
+          <details>
+            {% if summary is not empty %}
+              <summary>{{ summary }}</summary>
+            {% endif %}
+            {% if description is not empty %}
+              {{ description }}
+            {% endif %}
+          </details>
+        {% endif %}
+      </caption>
+    {% endif %}
+
+    {% if header %}
+      <thead>
+        <tr>
+          {% for key, column in header %}
+            {% set column_classes = [] %}
+            {% if column.default_classes %}
+              {% set column_classes = ['views-field', 'views-field-' ~ fields[key]] %}
+            {% endif %}
+            <th{{ column.attributes.addClass(column_classes).setAttribute('scope', 'col') }}>
+              {% if column.wrapper_element %}
+                <{{ column.wrapper_element }}>
+                  {% if column.url %}
+                    <a href="{{ column.url }}" title="{{ column.title }}" rel="nofollow">
+                      {{ column.content }}{{ column.sort_indicator }}
+                    </a>
+                  {% else %}
+                    {{ column.content }}{{ column.sort_indicator }}
+                  {% endif %}
+                </{{ column.wrapper_element }}>
+              {% else %}
+                {% if column.url %}
+                  <a href="{{ column.url }}" title="{{ column.title }}" rel="nofollow">
+                    {{ column.content }}{{ column.sort_indicator }}
+                  </a>
+                {% else %}
+                  {{ column.content }}{{ column.sort_indicator }}
+                {% endif %}
+              {% endif %}
+            </th>
+          {% endfor %}
+        </tr>
+      </thead>
+    {% endif %}
+
+    <tbody>
+      {% for row in rows %}
+        <tr{{ row.attributes }}>
+          {% for key, column in row.columns %}
+            {% set column_classes = [] %}
+            {% if column.default_classes %}
+              {% set column_classes = ['views-field'] %}
+              {% for field in column.fields %}
+                {% set column_classes = column_classes|merge(['views-field-' ~ field]) %}
+              {% endfor %}
+            {% endif %}
+            <td{{ column.attributes.addClass(column_classes) }}>
+              {% if column.wrapper_element %}
+                <{{ column.wrapper_element }}>
+                  {% for content in column.content %}
+                    {{ content.separator }}{{ content.field_output }}
+                  {% endfor %}
+                </{{ column.wrapper_element }}>
+              {% else %}
+                {% for content in column.content %}
+                  {{ content.separator }}{{ content.field_output }}
+                {% endfor %}
+              {% endif %}
+            </td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,25 @@
+uuid: 4bc2ce40-59ff-4c39-81fa-1c22e02145ba
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_program_name
+    - node.type.submit_application
+id: node.submit_application.field_program_name
+field_name: field_program_name
+entity_type: node
+bundle: submit_application
+label: 'Program Name'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: views
+  handler_settings:
+    view:
+      view_name: research_programs
+      display_name: entity_reference_1
+      arguments: {  }
+field_type: entity_reference

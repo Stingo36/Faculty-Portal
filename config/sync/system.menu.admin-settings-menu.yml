@@ -1,0 +1,8 @@
+uuid: df74cdec-f200-4b5f-8593-6a4b6fa5b609
+langcode: en
+status: true
+dependencies: {  }
+id: admin-settings-menu
+label: 'Admin Settings Menu'
+description: ''
+locked: false

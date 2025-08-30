@@ -1,0 +1,36 @@
+uuid: 1f17f9dc-b6ee-4e2d-b5bd-133f8f389116
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.symfony_mailer_log.symfony_mailer_log.field_mail_status
+  module:
+    - field_layout
+    - layout_discovery
+    - symfony_mailer_log
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
+id: symfony_mailer_log.symfony_mailer_log.default
+targetEntityType: symfony_mailer_log
+bundle: symfony_mailer_log
+mode: default
+content:
+  field_mail_status:
+    type: string_textfield
+    weight: 3
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+hidden: {  }

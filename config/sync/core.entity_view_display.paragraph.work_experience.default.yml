@@ -1,0 +1,65 @@
+uuid: b08ca919-c527-4109-801b-e48ae0d34a90
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.work_experience.field_designation
+    - field.field.paragraph.work_experience.field_from_date
+    - field.field.paragraph.work_experience.field_institute
+    - field.field.paragraph.work_experience.field_lab_name
+    - field.field.paragraph.work_experience.field_to_date
+    - paragraphs.paragraphs_type.work_experience
+  module:
+    - datetime
+    - display_machine_name
+third_party_settings:
+  display_machine_name:
+    enable_display_machine_name: 0
+id: paragraph.work_experience.default
+targetEntityType: paragraph
+bundle: work_experience
+mode: default
+content:
+  field_designation:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_from_date:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: html_date
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_institute:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_lab_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_to_date:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: html_date
+    third_party_settings: {  }
+    weight: 5
+    region: content
+hidden: {  }

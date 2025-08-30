@@ -1,0 +1,23 @@
+uuid: 4f478d9d-5fa0-4ab4-b2d6-82113e524f9a
+langcode: en
+status: true
+dependencies:
+  module:
+    - field_permissions
+    - node
+    - text
+third_party_settings:
+  field_permissions:
+    permission_type: custom
+id: node.field_candidate_closing_after_vi
+field_name: field_candidate_closing_after_vi
+entity_type: node
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

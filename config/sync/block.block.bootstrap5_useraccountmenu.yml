@@ -1,0 +1,41 @@
+uuid: 17610d0d-2213-4364-ae53-b6e031265620
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.account
+  module:
+    - system
+    - user
+  theme:
+    - bootstrap5
+id: bootstrap5_useraccountmenu
+theme: bootstrap5
+region: sidebar_first
+weight: -5
+provider: null
+plugin: 'system_menu_block:account'
+settings:
+  id: 'system_menu_block:account'
+  label: 'User account menu'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: "/user/login\r\n/user/register\r\n/user/password"
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      faculty_member: faculty_member
+      faculty_search_committee: faculty_search_committee
+      dean: dean
+      director: director
+      targeted_hiring_chair: targeted_hiring_chair

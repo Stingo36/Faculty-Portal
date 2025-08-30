@@ -1,0 +1,18 @@
+uuid: 2ddc598f-64b1-4452-ad5f-4d60c896f79a
+langcode: en
+status: true
+dependencies:
+  theme:
+    - bootstrap5
+id: bootstrap5_primaryadminactions
+theme: bootstrap5
+region: content
+weight: -4
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  label_display: '0'
+  provider: core
+visibility: {  }

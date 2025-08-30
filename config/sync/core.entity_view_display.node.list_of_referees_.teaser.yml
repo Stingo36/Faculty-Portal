@@ -1,0 +1,23 @@
+uuid: 8103523b-8e6f-4a90-922e-0d8408776c4d
+langcode: en
+status: false
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.list_of_referees_.field_list_of_referees_
+    - node.type.list_of_referees_
+  module:
+    - user
+id: node.list_of_referees_.teaser
+targetEntityType: node
+bundle: list_of_referees_
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_list_of_referees_: true
+  langcode: true

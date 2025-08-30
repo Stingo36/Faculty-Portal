@@ -1,0 +1,11 @@
+uuid: d2db40a3-1812-45c0-a533-9baaf6a2b070
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.remainder_records
+id: node.remainder_records
+target_entity_type_id: node
+target_bundle: remainder_records
+default_langcode: site_default
+language_alterable: false

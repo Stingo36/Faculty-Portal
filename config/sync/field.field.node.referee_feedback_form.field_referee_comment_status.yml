@@ -1,0 +1,21 @@
+uuid: 62034cd1-33b4-47d8-9214-6a5a29aac7bd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_referee_comment_status
+    - node.type.referee_feedback_form
+  module:
+    - options
+id: node.referee_feedback_form.field_referee_comment_status
+field_name: field_referee_comment_status
+entity_type: node
+bundle: referee_feedback_form
+label: Status
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

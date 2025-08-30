@@ -1,0 +1,28 @@
+uuid: 8547c690-05f2-45b7-a73b-63576b31a763
+langcode: en
+status: true
+dependencies:
+  config:
+    - comment.type.review
+    - field.field.comment.review.comment_body
+  module:
+    - text
+_core:
+  default_config_hash: TbtUA0diXKUJnsCD3KKgZ56rZgyEOwHGC1WzsHbo7Ys
+id: comment.review.default
+targetEntityType: comment
+bundle: review
+mode: default
+content:
+  comment_body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  links:
+    weight: 100
+    region: content
+hidden:
+  langcode: true

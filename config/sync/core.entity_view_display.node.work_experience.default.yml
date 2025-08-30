@@ -1,0 +1,31 @@
+uuid: b2ed9ace-d7b9-4c3b-b676-f4448eb21caf
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.work_experience.field_work_experience
+    - node.type.work_experience
+  module:
+    - entity_reference_revisions
+    - user
+id: node.work_experience.default
+targetEntityType: node
+bundle: work_experience
+mode: default
+content:
+  field_work_experience:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true

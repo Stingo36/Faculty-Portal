@@ -1,0 +1,11 @@
+uuid: 6dc03fec-7366-4165-b555-16373224a234
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.research_proposal
+id: node.research_proposal
+target_entity_type_id: node
+target_bundle: research_proposal
+default_langcode: site_default
+language_alterable: false

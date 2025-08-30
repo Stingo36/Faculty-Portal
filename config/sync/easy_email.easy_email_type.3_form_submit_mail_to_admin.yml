@@ -1,0 +1,32 @@
+uuid: f096a7c2-2ce1-4ed5-aba6-099f9ffe79ce
+langcode: en
+status: true
+dependencies: {  }
+id: 3_form_submit_mail_to_admin
+label: '3. Form Submit - Mail to Admin'
+key: ''
+recipient:
+  - deansoffice@ncbs.res.in
+cc: {  }
+bcc:
+  - ncbsitteam@ncbs.res.in
+  - jpallavi@ncbs.res.in
+fromName: noreply@ncbs.res.in
+fromAddress: noreply@ncbs.res.in
+replyToAddress: ''
+subject: 'Faculty Portal: [node:author:field_user_full_name] Applied for  [node:field_program_name:entity].'
+inboxPreview: ''
+bodyHtml:
+  value: "<p>Dear Dean's Office,</p><p>User [node:author:field_user_full_name], &nbsp;applied for Program [node:field_program_name:entity].</p><p>Regards&nbsp;<br>NCBS</p>"
+  format: basic_html
+bodyPlain: ''
+generateBodyPlain: false
+attachment: {  }
+saveAttachment: false
+attachmentScheme: public
+attachmentDirectory: ''
+saveEmail: true
+allowSavingEmail: true
+purgeEmails: false
+purgeInterval: null
+purgePeriod: null

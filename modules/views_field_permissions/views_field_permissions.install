@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * @file
+ * Installation file for Views Field Permission.
+ */
+
+use Drupal\views\Views;
+
+/**
+ * Update views config to guarantee compatibility for role-based permission.
+ */
+function views_field_permissions_update_8001() {
+  // Get all views.
+  $views = Views::getAllViews();
+
+  // Loop through views.
+  foreach ($views as $id => $view) {
+    // Set config name.
+    $config_id = "views.view.{$id}";
+
+    // Load configs.
+    $config_factory = \Drupal::configFactory();
+    $config = $config_factory->getEditable($config_id);
+
+    // Get all displays.
+    $displays = $config->get('display');
+
+    // Loop through displays.
+    foreach ($displays as $display) {
+      // Get all fields.
+      $fields = $display['display_options']['fields'] ?? [];
+
+      // Loop through fields.
+      foreach ($fields as $field) {
+        // Check if there's any confirm for views_field_permissions.
+        if (isset($field['views_field_permissions'])) {
+          // Update array with new config.
+          $displays[$display['id']]['display_options']['fields'][$field['id']]['views_field_permissions']['control'] = 'perm';
+        }
+      }
+    }
+
+    // Update config.
+    $config->set('display', $displays);
+
+    // Save config.
+    $config->save(TRUE);
+  }
+}

@@ -1,0 +1,19 @@
+uuid: ac7a3678-2356-4e4e-bd99-d66577f8ac2d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_institution
+    - paragraphs.paragraphs_type.education_
+id: paragraph.education_.field_institution
+field_name: field_institution
+entity_type: paragraph
+bundle: education_
+label: Institution/Department
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

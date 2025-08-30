@@ -1,0 +1,155 @@
+uuid: fab1a8c7-fdda-4484-95af-3d2a1c38b6f9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.basic_information.field_access
+    - field.field.node.basic_information.field_are_you_an_oci_card_holder
+    - field.field.node.basic_information.field_centers
+    - field.field.node.basic_information.field_correspondence_address
+    - field.field.node.basic_information.field_current_address
+    - field.field.node.basic_information.field_date_of_birth
+    - field.field.node.basic_information.field_full_name
+    - field.field.node.basic_information.field_gender
+    - field.field.node.basic_information.field_mobile
+    - field.field.node.basic_information.field_mobile_number
+    - field.field.node.basic_information.field_nationality
+    - field.field.node.basic_information.field_other
+    - field.field.node.basic_information.field_other_gender
+    - field.field.node.basic_information.field_recent_passport_photograph
+    - field.field.node.basic_information.field_telephone
+    - field.field.node.basic_information.field_upload_updated_cv
+    - image.style.thumbnail
+    - node.type.basic_information
+  module:
+    - datetime
+    - display_machine_name
+    - file
+    - image
+    - mobile_number
+    - options
+    - user
+third_party_settings:
+  display_machine_name:
+    enable_display_machine_name: 1
+id: node.basic_information.default
+targetEntityType: node
+bundle: basic_information
+mode: default
+content:
+  field_are_you_an_oci_card_holder:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  field_centers:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_correspondence_address:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_current_address:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_date_of_birth:
+    type: datetime_custom
+    label: hidden
+    settings:
+      timezone_override: ''
+      date_format: Y-m-d
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_full_name:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_gender:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_mobile_number:
+    type: mobile_number_international
+    label: hidden
+    settings:
+      as_link: false
+    third_party_settings: {  }
+    weight: 11
+    region: content
+  field_nationality:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_other:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_other_gender:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_recent_passport_photograph:
+    type: image
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: thumbnail
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 13
+    region: content
+  field_telephone:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  field_upload_updated_cv:
+    type: file_default
+    label: hidden
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 12
+    region: content
+hidden:
+  field_access: true
+  field_mobile: true
+  langcode: true
+  links: true

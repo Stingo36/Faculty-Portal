@@ -1,0 +1,19 @@
+uuid: a1c43854-c0cd-4fbf-8c0c-6b104de25c3e
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_supervisor_experience
+field_name: field_supervisor_experience
+entity_type: node
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

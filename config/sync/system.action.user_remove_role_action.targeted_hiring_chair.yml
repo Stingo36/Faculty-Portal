@@ -1,0 +1,14 @@
+uuid: d7dc726e-ddef-49e6-9343-bc47e48bf2ef
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.targeted_hiring_chair
+  module:
+    - user
+id: user_remove_role_action.targeted_hiring_chair
+label: 'Remove the Targeted Hiring Chair role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: targeted_hiring_chair

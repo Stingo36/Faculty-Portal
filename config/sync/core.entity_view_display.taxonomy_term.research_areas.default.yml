@@ -1,0 +1,25 @@
+uuid: 1412304d-b312-4dd6-9928-0149a69ab4cd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.research_areas.field_end_date
+    - field.field.taxonomy_term.research_areas.field_minimum_referee
+    - field.field.taxonomy_term.research_areas.field_start_date
+    - taxonomy.vocabulary.research_areas
+  module:
+    - display_machine_name
+third_party_settings:
+  display_machine_name:
+    enable_display_machine_name: 1
+id: taxonomy_term.research_areas.default
+targetEntityType: taxonomy_term
+bundle: research_areas
+mode: default
+content: {  }
+hidden:
+  description: true
+  field_end_date: true
+  field_minimum_referee: true
+  field_start_date: true
+  langcode: true

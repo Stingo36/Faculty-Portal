@@ -1,0 +1,29 @@
+uuid: d914c14d-faaa-4e91-ac2e-46ff4a078f38
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_send_email_reference
+    - node.type.send_email
+    - node.type.submit_application
+id: node.submit_application.field_send_email_reference
+field_name: field_send_email_reference
+entity_type: node
+bundle: submit_application
+label: 'Send Email Reference'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      send_email: send_email
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: send_email
+field_type: entity_reference

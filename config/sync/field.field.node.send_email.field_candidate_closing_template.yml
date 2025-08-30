@@ -1,0 +1,21 @@
+uuid: e94ed2e2-9d85-438f-83a1-0e925e04ba4b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_candidate_closing_template
+    - node.type.send_email
+  module:
+    - options
+id: node.send_email.field_candidate_closing_template
+field_name: field_candidate_closing_template
+entity_type: node
+bundle: send_email
+label: 'Candidate Closing Template Type'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

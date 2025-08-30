@@ -1,0 +1,23 @@
+uuid: eeb603f0-a05d-4391-b5f9-efbb94713533
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.work_experience.field_work_experience
+    - node.type.work_experience
+  module:
+    - user
+id: node.work_experience.teaser
+targetEntityType: node
+bundle: work_experience
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_work_experience: true
+  langcode: true

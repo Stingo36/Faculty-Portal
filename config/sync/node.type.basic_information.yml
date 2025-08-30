@@ -1,0 +1,24 @@
+uuid: d6f7c7d9-6876-4be8-9bc4-883ab22d28cb
+langcode: en
+status: true
+dependencies:
+  module:
+    - autotitle
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+  autotitle:
+    enabled: true
+    field: _none
+    fallback_title: 'Basic Information: [node:author:field_user_full_name]'
+    headings: {  }
+name: 'Basic Information'
+type: basic_information
+description: 'Content type to enter Basic Information '
+help: null
+new_revision: false
+preview_mode: 0
+display_submitted: true

@@ -1,0 +1,31 @@
+uuid: dc090927-19dc-41fc-aaff-4834ecf8ac7d
+langcode: en
+status: true
+dependencies: {  }
+id: 2_form_submit_mail_to_user
+label: '2. Form Submit - Mail to user'
+key: ''
+recipient:
+  - '[node:author:mail]'
+cc: {  }
+bcc:
+  - ncbsitteam@ncbs.res.in
+fromName: dean@ncbs.res.in
+fromAddress: dean@ncbs.res.in
+replyToAddress: ''
+subject: 'Acknowledgement from NCBS.'
+inboxPreview: ''
+bodyHtml:
+  value: '<p>Dear [node:author:field_user_full_name],</p><p>Thank you for your application for <strong>[node:field_program_name:entity]</strong> at NCBS, which we received via our online system. &nbsp;We shall be looking closely at the application, and we shall get back to you soon.<br>&nbsp;</p><p>My best wishes to you,<br>Sincerely yours,</p><p>Uma Ramakrishnan<br>Dean of Faculty<br>NCBS-TIFR</p>'
+  format: full_html
+bodyPlain: ''
+generateBodyPlain: false
+attachment: {  }
+saveAttachment: false
+attachmentScheme: public
+attachmentDirectory: ''
+saveEmail: true
+allowSavingEmail: true
+purgeEmails: false
+purgeInterval: null
+purgePeriod: null

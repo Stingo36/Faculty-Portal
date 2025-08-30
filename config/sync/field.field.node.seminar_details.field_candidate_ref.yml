@@ -1,0 +1,29 @@
+uuid: b47d2475-1fc3-4bbf-ad34-2093cd16ebc0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_candidate_ref
+    - node.type.seminar_details
+    - node.type.submit_application
+id: node.seminar_details.field_candidate_ref
+field_name: field_candidate_ref
+entity_type: node
+bundle: seminar_details
+label: 'Candidate Reference'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      submit_application: submit_application
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

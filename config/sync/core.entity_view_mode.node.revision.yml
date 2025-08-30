@@ -1,0 +1,17 @@
+uuid: 6a4e9b0d-9d90-42a4-9e35-b51947a37b9b
+langcode: en
+status: false
+dependencies:
+  module:
+    - node
+  enforced:
+    module:
+      - ds_extras
+      - node
+_core:
+  default_config_hash: 9KZ3WmwficPZQW4KRu0DdKX2V9A1Xiz5LFFm2NHg4_A
+id: node.revision
+label: Revision
+description: ''
+targetEntityType: node
+cache: true

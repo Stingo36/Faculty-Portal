@@ -1,0 +1,21 @@
+uuid: 9a9352e0-7910-45f3-b7f3-dbb8b30de1d8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_email_type
+    - node.type.send_email
+  module:
+    - options
+id: node.send_email.field_email_type
+field_name: field_email_type
+entity_type: node
+bundle: send_email
+label: 'Email Type'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

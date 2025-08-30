@@ -1,0 +1,29 @@
+uuid: 74365d52-26a6-43f2-a210-74a1b21e56fd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_candidates
+    - node.type.meetings_of_minutes
+    - node.type.submit_application
+id: node.meetings_of_minutes.field_candidates
+field_name: field_candidates
+entity_type: node
+bundle: meetings_of_minutes
+label: Candidates
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      submit_application: submit_application
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

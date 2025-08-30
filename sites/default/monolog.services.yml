@@ -1,0 +1,28 @@
+# parameters:
+#   monolog.channel_handlers:
+#     default:
+#       - drupal_file
+
+# services:
+#   monolog.handler.drupal_file:
+#     class: Monolog\Handler\StreamHandler
+#     arguments:
+#       - '/var/log/drupal/drupal.log'
+#       - 'INFO'
+#     tags:
+#       - { name: monolog.handler }
+
+
+parameters:
+  monolog.channel_handlers:
+    access:
+      - access_file_handler
+
+services:
+  monolog.handler.access_file_handler:
+    class: Monolog\Handler\StreamHandler
+    arguments:
+      - '/var/log/drupal/access.log'
+      - 'INFO'
+    tags:
+      - { name: monolog.handler }

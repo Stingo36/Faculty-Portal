@@ -1,0 +1,23 @@
+uuid: 5a7bcddb-46d7-42eb-a4df-d20aa24b75ea
+langcode: en
+status: true
+dependencies: {  }
+id: account_creation
+label: 'Account Creation'
+module: user
+key: register_no_approval_required
+easy_email_type: 1_account_creation_mail_to_user
+param_map:
+  -
+    source: account
+    destination: field_current_user_ref_mail
+copied_fields:
+  from: false
+  reply_to: false
+  to: true
+  cc: false
+  bcc: false
+  subject: false
+  body_html: false
+  body_plain: false
+  attachments: false

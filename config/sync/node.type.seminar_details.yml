@@ -1,0 +1,24 @@
+uuid: 7132e6dc-48fc-4268-9e86-5469865b7745
+langcode: en
+status: true
+dependencies:
+  module:
+    - autotitle
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+  autotitle:
+    enabled: false
+    field: _none
+    fallback_title: 'Seminar Details - [entity:field_user_reference:name]'
+    headings: {  }
+name: 'Seminar Details'
+type: seminar_details
+description: 'Content type to Save Seminar Details'
+help: null
+new_revision: false
+preview_mode: 0
+display_submitted: true

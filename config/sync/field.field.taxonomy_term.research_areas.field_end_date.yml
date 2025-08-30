@@ -1,0 +1,21 @@
+uuid: 02326368-64a1-4efc-a648-2af82df07e05
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_end_date
+    - taxonomy.vocabulary.research_areas
+  module:
+    - datetime
+id: taxonomy_term.research_areas.field_end_date
+field_name: field_end_date
+entity_type: taxonomy_term
+bundle: research_areas
+label: 'End Date'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

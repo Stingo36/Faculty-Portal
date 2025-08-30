@@ -1,0 +1,53 @@
+uuid: 26ffd15a-852f-4c0a-a8cf-e89426557be8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.academic_qualification.field_academic_qualification
+    - node.type.academic_qualification
+  module:
+    - display_machine_name
+    - field_layout
+    - layout_discovery
+    - paragraphs
+third_party_settings:
+  display_machine_name:
+    enable_display_machine_name: 0
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
+id: node.academic_qualification.default
+targetEntityType: node
+bundle: academic_qualification
+mode: default
+content:
+  field_academic_qualification:
+    type: entity_reference_paragraphs
+    weight: 0
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: education_
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+hidden:
+  created: true
+  path: true
+  promote: true
+  publish_on: true
+  status: true
+  sticky: true
+  title: true
+  uid: true
+  unpublish_on: true

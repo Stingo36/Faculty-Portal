@@ -1,0 +1,27 @@
+uuid: 05c58b09-befe-4613-9c67-c01f620d740e
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.referee_feedback_form.field_comment
+    - field.field.node.referee_feedback_form.field_referee_comment_status
+    - field.field.node.referee_feedback_form.field_upload_recommendations
+    - node.type.referee_feedback_form
+  module:
+    - user
+id: node.referee_feedback_form.teaser
+targetEntityType: node
+bundle: referee_feedback_form
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_comment: true
+  field_referee_comment_status: true
+  field_upload_recommendations: true
+  langcode: true

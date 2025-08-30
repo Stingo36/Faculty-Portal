@@ -1,0 +1,55 @@
+uuid: 5d3265e6-51f4-4056-82d0-37e27ada4932
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_seminar_host_details
+    - node.type.seminar_details
+    - paragraphs.paragraphs_type.seminar_host
+  module:
+    - entity_reference_revisions
+id: node.seminar_details.field_seminar_host_details
+field_name: field_seminar_host_details
+entity_type: node
+bundle: seminar_details
+label: 'Seminar Host Details'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      seminar_host: seminar_host
+    negate: 0
+    target_bundles_drag_drop:
+      comments:
+        weight: 10
+        enabled: false
+      education_:
+        weight: 11
+        enabled: false
+      other_relevant_information:
+        weight: 12
+        enabled: false
+      publications:
+        weight: 13
+        enabled: false
+      referee_details:
+        weight: 14
+        enabled: false
+      research_proposals:
+        weight: 15
+        enabled: false
+      seminar_host:
+        weight: 16
+        enabled: true
+      status_value:
+        weight: 17
+        enabled: false
+      work_experience:
+        weight: 18
+        enabled: false
+field_type: entity_reference_revisions

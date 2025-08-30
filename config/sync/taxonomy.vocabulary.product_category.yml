@@ -1,0 +1,11 @@
+uuid: 4f34ced1-a154-419c-9571-a3802ed80840
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: ToiV_3vAS7SOL-rq6B8-_YWsYkKZHOxbZL0Y_dqwF6s
+name: 'Product category'
+vid: product_category
+description: null
+weight: 0
+new_revision: false

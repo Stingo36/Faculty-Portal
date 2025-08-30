@@ -1,0 +1,26 @@
+uuid: 0b5fd0d1-ebfb-430f-8a00-1f7f37231cc9
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.add_comments
+  module:
+    - field_permissions
+    - node
+id: director
+label: Director
+weight: 15
+is_admin: null
+permissions:
+  - 'create add_comments content'
+  - 'edit own add_comments content'
+  - 'view field_admin_comment_reference'
+  - 'view field_comment_author'
+  - 'view field_comment_date'
+  - 'view field_date_received'
+  - 'view field_dean_comment_reference'
+  - 'view field_prefix_user'
+  - 'view field_status'
+  - 'view field_type'
+  - 'view field_user_full_name'
+  - 'view field_user_research_programs'

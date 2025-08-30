@@ -1,0 +1,697 @@
+<!-- FULL BOOTSTRAP 5 TAB TEMPLATE WITH RESPONSIVE SINGLE-LINE TABS -->
+
+<style>
+	.tab-wrapper {
+		max-width: 100%;
+		margin: 0 auto;
+		font-family: "Segoe UI", sans-serif;
+	}
+
+	.custom-tab-nav {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+		gap: 0.25rem;
+		list-style: none;
+		padding: 0;
+		margin: 0 0 1rem;
+		border-bottom: 1px solid #ddd;
+	}
+
+	.custom-tab-btn {
+		width: 100%;
+		background: none;
+		border: none;
+		font-size: 1rem;
+		font-weight: 600;
+		color: #000;
+		padding: 0.75rem 0.5rem;
+		cursor: pointer;
+		transition: color 0.3s, border-bottom 0.3s;
+		white-space: nowrap;
+		border-bottom: 3px solid transparent;
+	}
+
+	.custom-tab-btn:hover {
+		color: #0056b3;
+	}
+
+	.custom-tab-btn.active {
+		border-bottom: 3px solid #0056b3;
+		color: #0056b3;
+	}
+
+	.tab-box {
+		padding: 1.5rem 0;
+	}
+
+	.styled-table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+	.styled-table th {
+		font-weight: 600;
+		text-align: left;
+		padding: 0.75rem 0.5rem;
+		background-color: #f5fafe;
+	}
+
+	.styled-table td {
+		padding: 0.75rem 0.5rem;
+	}
+
+	.styled-table tr:not(:last-child) td {
+		border-bottom: 1px solid #eee;
+	}
+
+	@media(min-width: 768px) {
+		.custom-tab-nav.user-grid {
+			grid-template-columns: repeat(3, 1fr);
+		}
+
+		.custom-tab-nav.admin-grid {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+
+	@media(max-width: 767.98px) {
+		.custom-tab-nav {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		.custom-tab-btn {
+			font-size: 0.85rem;
+			padding: 0.6rem 0.4rem;
+		}
+	}
+
+	@media(max-width: 576px) {
+		.custom-tab-btn {
+			font-size: 0.75rem;
+			padding: 0.5rem 0.3rem;
+		}
+	}
+
+
+
+
+
+/* Only affect very small screens: make tabs horizontally scrollable */
+@media (max-width: 575.98px) {
+  .custom-tab-nav {
+    flex-wrap: nowrap;              /* keep in one row */
+    overflow-x: auto;               /* enable swipe/scroll */
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;          /* firefox */
+  }
+  .custom-tab-nav .nav-item {
+    flex: 0 0 auto;                 /* prevent shrinking */
+    white-space: nowrap;            /* keep labels on one line */
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+</style>
+
+
+<div class="tab-wrapper">
+	{% set is_user = 'user' in user.roles %}
+	<ul class="nav custom-tab-nav {{ is_user ? 'user-grid' : 'admin-grid' }}" id="infoTabs" role="tablist">
+		{% set tabs = [
+      {'id': 'basic', 'label': 'Basic Information'},
+      {'id': 'academic', 'label': 'Academic & Work Experience'},
+      {'id': 'relevant', 'label': 'Research Areas'},
+      {'id': 'referee', 'label': 'Referee Details'},
+      {'id': 'publications', 'label': 'Publications'},
+      {'id': 'research-proposals', 'label': 'Research Proposals'}
+    ] %}
+		{% if not is_user %}
+			{% set tabs = tabs|merge([
+        {'id': 'status', 'label': 'Status Updates'},
+        {'id': 'comments', 'label': 'View Comments'}
+      ]) %}
+		{% endif %}
+
+
+
+ {#	!NEW Code #}
+		{# Check if current URL/path contains the add form route #}
+		{% set current_path = path('<current>') %}
+		{% set on_ref_add = 'node/add/referee_feedback_form' in current_path %}
+
+		{% if on_ref_add %}
+		{# Override tabs ONLY on the add referee form page #}
+		{% set tabs = [
+			{'id': 'basic', 'label': 'Basic Information'},
+			{'id': 'academic', 'label': 'Academic & Work Experience'},
+			{'id': 'relevant', 'label': 'Research Areas'},
+			{'id': 'publications', 'label': 'Publications'},
+			{'id': 'research-proposals', 'label': 'Research Proposals'}
+		] %}
+		{% endif %}
+ {#	!Ends here Code #}
+
+		{% for tab in tabs %}
+			<li class="nav-item" role="presentation">
+				<button class="custom-tab-btn {{ loop.first ? 'active' : '' }}" id="{{ tab.id }}-tab" data-bs-toggle="tab" data-bs-target="#{{ tab.id }}" type="button" role="tab" aria-controls="{{ tab.id }}" aria-selected="{{ loop.first ? 'true' : 'false' }}">
+					{{ tab.label }}
+				</button>
+			</li>
+		{% endfor %}
+	</ul>
+
+	{# ---------- ALL TAB PANES START HERE (INSIDE tab-content) ---------- #}
+	<div
+		class="tab-content tab-box" id="infoTabsContent">
+
+		{# BASIC #}
+
+		<div class="tab-pane fade show active" id="basic" role="tabpanel" aria-labelledby="basic-tab">
+			<div class="table-responsive">
+				<table class="styled-table">
+					<tbody>
+						{% if ui_basic_fields is not empty %}
+							{# Show email row if available #}
+							{% if user_email is defined %}
+								<tr>
+									<th>Email ID</th>
+									<td>
+										{{ user_email }}
+									</td>
+								</tr>
+							{% endif %}
+							{% for field_name, field_data in ui_basic_fields %}
+								{% if field_name != 'field_access' %}
+									<tr>
+										<th>{{ field_data.label }}</th>
+										<td>
+											{# Safely render if it's a render array or plain HTML #}
+											{% if field_data.value is iterable %}
+												{{ field_data.value|render }}
+											{% else %}
+												{{ field_data.value|raw }}
+											{% endif %}
+										</td>
+									</tr>
+								{% endif %}
+							{% endfor %}
+						{% else %}
+							<tr>
+								<td colspan="2">No Basic Information found.</td>
+							</tr>
+						{% endif %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+
+		{# ACADEMIC #}
+		<div class="tab-pane fade" id="academic" role="tabpanel" aria-labelledby="academic-tab">
+			<div class="table-responsive">
+				<h5>Academic Qualifications</h5>
+				{% if data.academic_qualifications is not empty %}
+					<table class="styled-table">
+						<thead>
+							<tr>
+								{% for field in data.academic_qualifications[0] %}
+									<th>{{ field.label }}</th>
+								{% endfor %}
+							</tr>
+						</thead>
+						<tbody>
+							{% for row in data.academic_qualifications %}
+								<tr>
+									{% for field in row %}
+										<td>{{ field.value }}</td>
+									{% endfor %}
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				{% else %}
+					<p>No academic qualifications found.</p>
+				{% endif %}
+			</div>
+			<div class="table-responsive mt-4">
+				<h5>Work Experience</h5>
+				{% if data.work_experience is not empty %}
+					<table class="styled-table">
+						<thead>
+							<tr>
+								{% for field in data.work_experience[0] %}
+									<th>{{ field.label }}</th>
+								{% endfor %}
+							</tr>
+						</thead>
+						<tbody>
+							{% for row in data.work_experience %}
+								<tr>
+									{% for field in row %}
+										<td>{{ field.value }}</td>
+									{% endfor %}
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				{% else %}
+					<p>No work experience found.</p>
+				{% endif %}
+			</div>
+		</div>
+
+		{# RELEVANT #}
+		<div class="tab-pane fade" id="relevant" role="tabpanel" aria-labelledby="relevant-tab">
+			<div class="table-responsive">
+				<table class="styled-table">
+					<tbody>
+						{# Only loop through those fields you actually configured in Manage Display #}
+						{% for key, field in ui_relevant_fields %}
+							{% if key not in ['title', 'uid', 'created'] %}
+								<tr>
+									<th>{{ field.label }}</th>
+									<td>
+										{# Special handling for New Research Areas as a list #}
+										{% if key == 'field_new_research_areas' and field.value %}
+											{% set terms = field.value|split(',') %}
+											<ul class="list-unstyled mb-0">
+												{% for term in terms %}
+													<li>{{ term|trim }}</li>
+												{% endfor %}
+											</ul>
+										{% else %}
+											{{ field.value is iterable ? field.value|render : field.value }}
+										{% endif %}
+									</td>
+								</tr>
+							{% endif %}
+						{% else %}
+							<tr>
+								<td colspan="2">No Research Area available.</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+
+		{# REFEREE #}
+		{# <div class="tab-pane fade" id="referee" role="tabpanel" aria-labelledby="referee-tab">
+					<div class="table-responsive">
+						<table class="styled-table">
+							<thead>
+								<tr>
+									{% if data.referee_details is not empty %}
+										{% for field in data.referee_details[0] %}
+											<th>{{ field.label }}</th>
+										{% endfor %}
+									{% else %}
+										<th colspan="9">No Referee Data</th>
+									{% endif %}
+								</tr>
+							</thead>
+							<tbody>
+								{% for row in data.referee_details %}
+									<tr>
+										{% for field in row %}
+											<td>{{ field.value is iterable ? field.value|render : field.value }}</td>
+										{% endfor %}
+									</tr>
+								{% else %}
+									<tr><td colspan="9">No Referee Details found.</td></tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div> #}
+
+		<div class="tab-pane fade" id="referee" role="tabpanel" aria-labelledby="referee-tab">
+			<div class="table-responsive">
+				<table
+					class="styled-table">
+
+					{# Step 1: Collect all field keys and labels #}
+					{% set all_keys = {} %}
+					{% for row in data.referee_details %}
+						{% for key, field in row %}
+							{% if key not in all_keys %}
+								{% set all_keys = all_keys|merge({ (key): field.label|default('') }) %}
+							{% endif %}
+						{% endfor %}
+					{% endfor %}
+
+					{# Step 2: Header #}
+					<thead>
+						<tr>
+							{% for key, label in all_keys %}
+								<th>{{ label }}</th>
+							{% endfor %}
+						</tr>
+					</thead>
+
+					{# Step 3: Rows #}
+					<tbody>
+						{% for row in data.referee_details %}
+							<tr>
+								{% for key, label in all_keys %}
+									<td>
+										{% if row[key] is defined %}
+											{{ row[key].value|render }}
+										{% else %}
+											&nbsp;
+										{% endif %}
+									</td>
+								{% endfor %}
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="{{ all_keys|length }}">No Referee Details found.</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+
+				</table>
+			</div>
+		</div>
+
+
+		{# PUBLICATIONS #}
+
+
+		<div class="tab-pane fade" id="publications" role="tabpanel" aria-labelledby="publications-tab">
+			<div class="table-responsive">
+				<table class="styled-table">
+					<thead>
+						<tr>
+							{% if data.publications is not empty %}
+								{% for field in data.publications[0] %}
+									<th>{{ field.label }}</th>
+								{% endfor %}
+							{% else %}
+								<th>No Data</th>
+							{% endif %}
+						</tr>
+					</thead>
+					<tbody>
+						{% if data.publications is not empty %}
+							{% for row in data.publications %}
+								<tr>
+									{% for field in row %}
+										<td>{{ field.value is iterable ? field.value|render : field.value }}</td>
+									{% endfor %}
+								</tr>
+							{% endfor %}
+						{% else %}
+							<tr>
+								<td colspan="4">No Publications Details found.</td>
+							</tr>
+						{% endif %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		{# RESEARCH PROPOSALS #}
+		<div class="tab-pane fade" id="research-proposals" role="tabpanel" aria-labelledby="research-proposals-tab">
+			<div class="table-responsive">
+				<table class="styled-table">
+					<thead>
+						<tr>
+							{% for field in data.research_proposals[0] %}
+								<th>{{ field.label }}</th>
+							{% else %}
+								<th>No Data</th>
+							{% endfor %}
+						</tr>
+					</thead>
+					<tbody>
+						{% for row in data.research_proposals %}
+							<tr>
+								{% for field in row %}
+									<td>{{ field.value }}</td>
+								{% endfor %}
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="4">No Research Proposals Details found.</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		{# STATUS UPDATES #}
+		<div class="tab-pane fade" id="status" role="tabpanel" aria-labelledby="status-tab">
+			<div class="table-responsive">
+				<table class="styled-table">
+					<thead>
+						<tr>
+							<th>Previous Status</th>
+							<th>New Status</th>
+							<th>Status Updated On</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for paragraph in ui_status_fields %}
+							{% for entry in paragraph.entries %}
+								<tr>
+									<td>{{entry.previous_status}}</td>
+									<td>{{entry.status}}</td>
+									<td>{{entry.date}}</td>
+								</tr>
+							{% else %}
+								<tr>
+									<td colspan="3">No Entries Found</td>
+								</tr>
+							{% endfor %}
+						{% else %}
+							<tr>
+								<td colspan="3">No Status Updates Found.</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+
+		{# =========================
+		   COMMENTS – Full Twig Code (Dean is privileged)
+		   ========================= #}
+
+		{# --- Macros --- #}
+		{% macro renderCommentTable(title, comments) %}
+			<table class="table fixed-table equal-width-table">
+				<thead>
+					<tr>
+						<th class="table-success" colspan="3" style="text-align: center;">{{ title }}</th>
+					</tr>
+					{% if comments|length > 0 %}
+						<tr>
+							<th>Name</th>
+							<th>Date</th>
+							<th>Comments</th>
+						</tr>
+					{% endif %}
+				</thead>
+
+				<tbody>
+					{% if comments|length > 0 %}
+						{% set rows = [] %}
+
+						{% for c in comments %}
+							{% if c.field_add_comments[0] is defined and c.field_comment_date[0] is defined %}
+								{% set actor = c.created_by|default('') %}
+								{% set represented = c.field_comment_author|default('') %}
+
+								{% if represented and represented|lower|trim != actor|lower|trim %}
+									{% set display_name = actor ~ ' - on behalf of <b>' ~ represented ~ '</b>' %}
+								{% else %}
+									{% set display_name = actor %}
+								{% endif %}
+
+								{% set rows = rows|merge([{
+            'name': display_name,
+            'date': c.field_comment_date[0].value|default(''),
+            'comment': c.field_add_comments[0].value|default('')
+          }]) %}
+							{% endif %}
+						{% endfor %}
+
+						{# Sort newest first on ISO date strings #}
+						{% set sorted = rows|sort((a,b) => b.date <=> a.date) %}
+
+						{% for r in sorted %}
+							<tr>
+								<td>{{ r.name|raw }}</td>
+								<td>{{ r.date }}</td>
+								<td>{{ r.comment }}</td>
+							</tr>
+						{% endfor %}
+
+					{% else %}
+						<tr>
+							<td colspan="3" class="text-center">No data available.</td>
+						</tr>
+					{% endif %}
+				</tbody>
+			</table>
+		{% endmacro %}
+
+
+		{% macro renderCommentTableForUser(title, comments, current_user_name, user_roles, current_user_display) %}
+			{% set me = current_user_display is defined and current_user_display ? current_user_display : current_user_name %}
+
+			<table class="table fixed-table">
+				<thead>
+					<tr>
+						<th class="table-success" colspan="3" style="text-align: center;">{{ title }}</th>
+					</tr>
+					{% if comments|length > 0 %}
+						<tr>
+							<th>Name</th>
+							<th>Date</th>
+							<th>Comments</th>
+						</tr>
+					{% endif %}
+				</thead>
+
+				<tbody>
+					{# Dean is privileged now #}
+					{% set privileged_roles = ['admin', 'administrator', 'director', 'dean', 'targeted_hiring_chair'] %}
+					{% set is_privileged = user_roles|filter(r => r in privileged_roles)|length > 0 %}
+
+					{% set rows = [] %}
+
+					{% for c in comments %}
+						{% if c.field_add_comments[0] is defined and c.field_comment_date[0] is defined %}
+							{% set actor = c.created_by|default('') %}
+							{% set represented = c.field_comment_author|default('') %}
+
+							{% set actor_matches = actor|lower|trim == me|lower|trim %}
+							{% set represented_matches = represented|lower|trim == me|lower|trim %}
+
+							{# Show if privileged OR I wrote it OR it was written on my behalf #}
+							{% if is_privileged or actor_matches or represented_matches %}
+								{% if represented and represented|lower|trim != actor|lower|trim %}
+									{% set display_name = actor ~ ' - on behalf of <b>' ~ represented ~ '</b>' %}
+								{% else %}
+									{% set display_name = actor %}
+								{% endif %}
+
+								{% set rows = rows|merge([{
+              'name': display_name,
+              'date': c.field_comment_date[0].value|default(''),
+              'comment': c.field_add_comments[0].value|default('')
+            }]) %}
+							{% endif %}
+						{% endif %}
+					{% endfor %}
+
+					{# Sort newest first #}
+					{% set sorted = rows|sort((a,b) => b.date <=> a.date) %}
+
+					{% for r in sorted %}
+						<tr>
+							<td>{{ r.name|raw }}</td>
+							<td>{{ r.date }}</td>
+							<td>{{ r.comment }}</td>
+						</tr>
+					{% endfor %}
+
+					{% if rows|length == 0 %}
+						<tr>
+							<td colspan="3" class="text-center">No data available.</td>
+						</tr>
+					{% endif %}
+				</tbody>
+			</table>
+		{% endmacro %}
+
+
+		{# --- Import macros --- #}
+		{% import _self as macros %}
+
+
+		{# =========================
+		   Comment Tab Content Area
+		   Assumes the following are set by preprocess:
+		   - comments (array keyed by field_*_comment_reference)
+		   - user_roles (array)
+		   - current_user_name (string)
+		   - current_user_display (string)
+		   ========================= #}
+
+		<div class="tab-pane fade" id="comments" role="tabpanel" aria-labelledby="comments-tab">
+			<div
+				class="table-responsive">
+
+				{# Dean is now globally privileged #}
+				{% set is_privileged_global = user_roles|filter(r => r in ['admin', 'administrator', 'director', 'dean', 'targeted_hiring_chair'])|length > 0 %}
+
+				{% if is_privileged_global %}
+					{{ macros.renderCommentTable("Admin Comments", (comments.field_admin_comment_reference|default([]))) }}
+					{{ macros.renderCommentTable("Dean's Comments", (comments.field_dean_comment_reference|default([]))) }}
+					{{ macros.renderCommentTable("Faculty Member Comments", (comments.field_faculty_member_comment_ref|default([]))) }}
+					{{ macros.renderCommentTable("Faculty Search Committee Comments", (comments.field_faculty_search_comit_coref|default([]))) }}
+					{{ macros.renderCommentTable("Director Comments", (comments.field_director_comment_reference|default([]))) }}
+					{{ macros.renderCommentTable("Prescreen Comments", (comments.field_prescreen_comment_ref|default([]))) }}
+
+				{% else %}
+					{% if 'faculty_member' in user_roles %}
+						{{ macros.renderCommentTableForUser(
+             "Faculty Member Comments",
+             (comments.field_faculty_member_comment_ref|default([])),
+             current_user_name,
+             user_roles,
+             current_user_display
+        ) }}
+
+					{% elseif 'dean' in user_roles %}
+						{# This path won't normally execute now that deans are privileged,
+						           but leaving it safe if the global check changes later #}
+						{{ macros.renderCommentTableForUser(
+             "Dean's Comments",
+             (comments.field_dean_comment_reference|default([])),
+             current_user_name,
+             user_roles,
+             current_user_display
+        ) }}
+
+					{% elseif 'director' in user_roles %}
+						{{ macros.renderCommentTable("Director Comments", (comments.field_director_comment_reference|default([]))) }}
+
+					{% elseif 'admin' in user_roles or 'administrator' in user_roles %}
+						{{ macros.renderCommentTable("Admin Comments", (comments.field_admin_comment_reference|default([]))) }}
+
+					{% elseif 'faculty_search_committee' in user_roles %}
+						{{ macros.renderCommentTable("Faculty Search Committee Comments", (comments.field_faculty_search_comit_coref|default([]))) }}
+
+					{% elseif 'board_member' in user_roles %}
+						{{ macros.renderCommentTable("Board Member Comments", (comments.field_board_member_comment_refer|default([]))) }}
+					{% endif %}
+				{% endif %}
+
+			</div>
+		</div>
+	</div>
+	{# End of .tab-content #}
+</div>
+{# End of .tab-wrapper #}
+

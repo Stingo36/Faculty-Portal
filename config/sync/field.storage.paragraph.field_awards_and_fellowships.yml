@@ -1,0 +1,19 @@
+uuid: 81e2e8db-69d2-4813-a715-f879c11273f2
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.field_awards_and_fellowships
+field_name: field_awards_and_fellowships
+entity_type: paragraph
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

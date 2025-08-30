@@ -1,0 +1,39 @@
+uuid: ea9a77a3-9198-42e3-937b-7e7ab32669f3
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:settings_block:f5823121-3cf7-432a-8f9b-c4a7a577bedc'
+  module:
+    - block_content
+    - system
+    - user
+  theme:
+    - bootstrap5
+id: bootstrap5_settingstab
+theme: bootstrap5
+region: content
+weight: -1
+provider: null
+plugin: 'block_content:f5823121-3cf7-432a-8f9b-c4a7a577bedc'
+settings:
+  id: 'block_content:f5823121-3cf7-432a-8f9b-c4a7a577bedc'
+  label: 'Settings Tab'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /settings
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      administrator: administrator
+      admin: admin

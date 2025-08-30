@@ -1,0 +1,27 @@
+uuid: 7b31c558-e895-4329-ae70-a391c0816ee9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_seminar_attachemetns
+    - node.type.seminar_details
+  module:
+    - file
+id: node.seminar_details.field_seminar_attachemetns
+field_name: field_seminar_attachemetns
+entity_type: node
+bundle: seminar_details
+label: attachemetns
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: Seminar
+  file_extensions: pdf
+  max_filesize: ''
+  description_field: false
+field_type: file

@@ -1,0 +1,80 @@
+<?php
+
+namespace Drupal\ncbs_csv\Controller;
+
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Drupal\Core\Controller\ControllerBase;
+use Drupal\views\Views;
+use Drupal\node\Entity\Node;
+
+/**
+ * Controller to generate CSV from a View.
+ */
+class CsvExportController extends ControllerBase {
+
+  /**
+   * Export data from the "view_application" view as CSV.
+   */
+  public function exportFromView() {
+    $response = new StreamedResponse(function () {
+      $handle = fopen('php://output', 'w');
+
+      // Define CSV headers (Only Sr No, Name, and Ticked Options).
+      $headers = ['Sr No', 'Name', 'Research Proposal'];
+      fputcsv($handle, $headers);
+
+      // Load the "view_application" view programmatically.
+      $view = Views::getView('view_application');
+      if ($view) {
+        $view->setDisplay('page_2'); // Ensure this matches your View display machine name
+        $view->execute();
+
+        $sr_no = 1; // Start serial number from 1
+        foreach ($view->result as $row) {
+          $entity = $row->_entity;
+          $name = $entity->label(); // Use the name from the entity
+
+          // Initialize Ticked Options
+          $ticked_options = 'N/A';
+
+          // Check if field_other_relevant_info_ref exists
+          if ($entity->hasField('field_other_relevant_info_ref') && !$entity->get('field_other_relevant_info_ref')->isEmpty()) {
+            $other_info_ref_id = $entity->get('field_other_relevant_info_ref')->target_id; // Get referenced entity ID
+
+            // Load referenced entity
+            $referenced_entity = Node::load($other_info_ref_id);
+            if ($referenced_entity && $referenced_entity->hasField('field_please_tick_one_or_more_of') && !$referenced_entity->get('field_please_tick_one_or_more_of')->isEmpty()) {
+              // Extract values correctly from multi-value field
+              $ticked_options_values = [];
+              foreach ($referenced_entity->get('field_please_tick_one_or_more_of')->getValue() as $value) {
+                  if (isset($value['value'])) {
+                      $ticked_options_values[] = $value['value'];
+                  }
+              }
+              // Use "\n" for new line formatting inside the same cell
+              $ticked_options = !empty($ticked_options_values) ? implode("\n", $ticked_options_values) : 'N/A';
+            }
+          }
+
+          // Prepare CSV row.
+          $csv_row = [
+            $sr_no++, // Serial Number
+            $name, // Name
+            $ticked_options, // Extracted field values from referenced entity
+          ];
+          fputcsv($handle, $csv_row);
+        }
+      }
+
+      fclose($handle);
+    });
+
+    // Set response headers to force download.
+    $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+    $response->headers->set('Content-Disposition', 'attachment; filename="view_application_export.csv"');
+    $response->headers->set('Pragma', 'no-cache');
+    $response->headers->set('Expires', '0');
+
+    return $response;
+  }
+}

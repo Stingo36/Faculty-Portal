@@ -1,0 +1,21 @@
+uuid: 42bc03de-3b7c-4c35-9216-b8bc11b5b15b
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.email_html
+  module:
+    - ckeditor5
+format: email_html
+editor: ckeditor5
+settings:
+  toolbar:
+    items:
+      - bold
+      - italic
+      - underline
+  plugins:
+    media_media:
+      allow_view_mode_override: false
+image_upload:
+  status: false

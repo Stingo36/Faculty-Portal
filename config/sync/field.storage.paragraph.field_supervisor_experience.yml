@@ -1,0 +1,19 @@
+uuid: dd767418-d612-448c-a7b4-58c9306b2ca5
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.field_supervisor_experience
+field_name: field_supervisor_experience
+entity_type: paragraph
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

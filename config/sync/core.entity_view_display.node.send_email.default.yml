@@ -1,0 +1,206 @@
+uuid: 2d325591-c09f-4a1c-8825-2833ca4ea44d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.send_email.field_candidate_closing_after_
+    - field.field.node.send_email.field_candidate_closing_after_fu
+    - field.field.node.send_email.field_candidate_closing_after_vi
+    - field.field.node.send_email.field_candidate_closing_prelimin
+    - field.field.node.send_email.field_candidate_closing_template
+    - field.field.node.send_email.field_candidate_prescreen_temp
+    - field.field.node.send_email.field_candidate_ref
+    - field.field.node.send_email.field_candidate_templates
+    - field.field.node.send_email.field_email_body_director
+    - field.field.node.send_email.field_email_body_referee
+    - field.field.node.send_email.field_email_body_to_candidate
+    - field.field.node.send_email.field_email_body_to_dean
+    - field.field.node.send_email.field_email_body_to_faculty
+    - field.field.node.send_email.field_email_sent_date
+    - field.field.node.send_email.field_email_status
+    - field.field.node.send_email.field_email_subject
+    - field.field.node.send_email.field_email_to_dean
+    - field.field.node.send_email.field_email_to_director
+    - field.field.node.send_email.field_email_to_faculties
+    - field.field.node.send_email.field_email_type
+    - field.field.node.send_email.field_from_email_id
+    - field.field.node.send_email.field_user_email_id
+    - node.type.send_email
+  module:
+    - options
+    - text
+    - user
+id: node.send_email.default
+targetEntityType: node
+bundle: send_email
+mode: default
+content:
+  field_candidate_closing_after_:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 121
+    region: content
+  field_candidate_closing_after_fu:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 123
+    region: content
+  field_candidate_closing_after_vi:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 122
+    region: content
+  field_candidate_closing_prelimin:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 120
+    region: content
+  field_candidate_closing_template:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 119
+    region: content
+  field_candidate_prescreen_temp:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 117
+    region: content
+  field_candidate_ref:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_candidate_templates:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 116
+    region: content
+  field_email_body_director:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_email_body_referee:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 111
+    region: content
+  field_email_body_to_candidate:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 114
+    region: content
+  field_email_body_to_dean:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_email_body_to_faculty:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 112
+    region: content
+  field_email_sent_date:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 109
+    region: content
+  field_email_status:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_email_subject:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_email_to_dean:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_email_to_director:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_email_to_faculties:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 113
+    region: content
+  field_email_type:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_from_email_id:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 115
+    region: content
+  field_user_email_id:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 110
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true

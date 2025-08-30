@@ -1,0 +1,55 @@
+uuid: 553cf251-b0ab-4ec6-bf35-f256fa5c8efa
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_research_proposal
+    - node.type.research_proposal
+    - paragraphs.paragraphs_type.research_proposals
+  module:
+    - entity_reference_revisions
+id: node.research_proposal.field_research_proposal
+field_name: field_research_proposal
+entity_type: node
+bundle: research_proposal
+label: 'Research Proposal'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      research_proposals: research_proposals
+    negate: 0
+    target_bundles_drag_drop:
+      comments:
+        weight: 10
+        enabled: false
+      education_:
+        weight: 5
+        enabled: false
+      other_relevant_information:
+        weight: 12
+        enabled: false
+      publications:
+        weight: 6
+        enabled: false
+      referee_details:
+        weight: 7
+        enabled: false
+      research_proposals:
+        weight: 8
+        enabled: true
+      seminar_host:
+        weight: 16
+        enabled: false
+      status_value:
+        weight: 17
+        enabled: false
+      work_experience:
+        weight: 18
+        enabled: false
+field_type: entity_reference_revisions

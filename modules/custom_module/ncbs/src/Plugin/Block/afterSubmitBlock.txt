@@ -1,0 +1,108 @@
+namespace Drupal\ncbs\Plugin\Block;
+
+use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Link;
+use Drupal\Core\Url;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Access\AccessResult;
+
+/**
+ * Provides a 'User Content Status' Block.
+ *
+ * @Block(
+ *   id = "user_content_status_block",
+ *   admin_label = @Translation("User Content Status Block"),
+ *   category = @Translation("Custom")
+ * )
+ */
+class NcbsCustomBlock extends BlockBase {
+
+  /**
+   * Builds the block content.
+   */
+  public function build() {
+    $user = \Drupal::currentUser();
+    $uid = $user->id();
+    $entity_type_manager = \Drupal::entityTypeManager()->getStorage('node');
+
+    // Check if the user has submitted an application.
+    $query = $entity_type_manager->getQuery()
+      ->condition('type', 'submit_application') // Look for 'submit_application' content.
+      ->condition('uid', $uid)                  // Match the user's ID.
+      ->accessCheck(FALSE)                      // Disable access check.
+      ->range(0, 1);
+
+    $nodes = $query->execute();
+    $node_id = !empty($nodes) ? reset($nodes) : NULL;
+    $show_limited_links = FALSE;
+
+    if ($node_id) {
+      $node = $entity_type_manager->load($node_id);
+      if ($node && $node->get('field_session_key')->value) {
+        // If application is submitted, show only "Basic Information" & "Publications"
+        $show_limited_links = TRUE;
+      }
+    }
+
+    // Define the content types and their labels.
+    $content_types = [
+      'basic_information' => 'Basic Information',
+      'update_publications' => 'Publications'
+    ];
+
+    if (!$show_limited_links) {
+      // If application is not submitted, show full list.
+      $content_types += [
+        'academic_qualification' => 'Academic Qualification',
+        'other_relevant_information' => 'Other Relevant Information',
+        'list_of_referees_' => 'List of Referees',
+        'research_proposal' => 'Research Proposal',
+        'submit_application' => 'Submit Application'
+      ];
+    }
+
+    // Initialize the build array.
+    $build = [
+      '#theme' => 'item_list',
+      '#items' => [],
+      '#cache' => [
+        'tags' => [],
+        'contexts' => ['user'],
+      ],
+    ];
+
+    // Generate links.
+    foreach ($content_types as $type => $label) {
+      $query = $entity_type_manager->getQuery()
+        ->condition('type', $type)
+        ->condition('uid', $uid)
+        ->accessCheck(FALSE)
+        ->range(0, 1);
+
+      $nodes = $query->execute();
+      $node_id = !empty($nodes) ? reset($nodes) : NULL;
+
+      if ($node_id) {
+        $url_view = Url::fromRoute('entity.node.canonical', ['node' => $node_id]);
+        $view_link = Link::fromTextAndUrl($this->t('View: ' . $label), $url_view);
+        $build['#items'][] = ['#markup' => $view_link->toString()];
+      } else {
+        $url_add = Url::fromRoute('node.add', ['node_type' => $type]);
+        $add_link = Link::fromTextAndUrl($this->t('Add: ' . $label), $url_add);
+        $build['#items'][] = ['#markup' => $add_link->toString()];
+      }
+
+      // Add cache tags.
+      $build['#cache']['tags'][] = 'user:' . $uid . ':' . $type . '_node';
+    }
+
+    return $build;
+  }
+
+  /**
+   * Determines access to the block.
+   */
+  public function blockAccess(AccountInterface $account) {
+    return AccessResult::allowedIfHasPermission($account, 'access content');
+  }
+}

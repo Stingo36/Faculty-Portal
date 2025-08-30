@@ -1,0 +1,21 @@
+uuid: 2c71552b-c9b7-4104-87a7-d5cf23fab847
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_status_update_date
+    - paragraphs.paragraphs_type.status_value
+  module:
+    - datetime
+id: paragraph.status_value.field_status_update_date
+field_name: field_status_update_date
+entity_type: paragraph
+bundle: status_value
+label: 'Status Updated Date'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

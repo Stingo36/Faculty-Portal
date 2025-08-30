@@ -1,0 +1,18 @@
+uuid: 302099f5-e4db-472e-935b-781b9a0bb4fc
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.add_comments
+  module:
+    - field_permissions
+    - node
+id: prescreen_committee
+label: 'Prescreen Committee'
+weight: 17
+is_admin: null
+permissions:
+  - 'create add_comments content'
+  - 'view field_comment_author'
+  - 'view field_comment_date'
+  - 'view field_type'

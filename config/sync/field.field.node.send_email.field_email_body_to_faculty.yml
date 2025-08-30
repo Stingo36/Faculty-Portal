@@ -1,0 +1,27 @@
+uuid: f809c676-5045-4250-b4ad-a1ee9b60e54f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_email_body_to_faculty
+    - filter.format.basic_html
+    - node.type.send_email
+  module:
+    - text
+id: node.send_email.field_email_body_to_faculty
+field_name: field_email_body_to_faculty
+entity_type: node
+bundle: send_email
+label: 'Email Body'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: '<p>Dear [[USERPREFIX]] [[USERNAME]],</p><p>Prof. Bhalla&nbsp; has requested your comments on&nbsp;<strong> </strong>[[PREFIX]] [[FULLNAME]]''s new application for&nbsp;a [[PROGRAM]] &nbsp;at NCBS. Please could you send your comments.<br>To login : <a href="https://www.ncbs.res.in/faculty-portal/">Click here</a></p><p>Best regards,<br>Ambili<br><br><br><br><br>&nbsp;</p>'
+    format: basic_html
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - basic_html
+field_type: text_long

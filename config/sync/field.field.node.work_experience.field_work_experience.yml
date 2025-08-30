@@ -1,0 +1,52 @@
+uuid: eb722308-b5e4-408e-97c3-5a2b48b6e0b2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_work_experience
+    - node.type.work_experience
+    - paragraphs.paragraphs_type.work_experience
+  module:
+    - entity_reference_revisions
+id: node.work_experience.field_work_experience
+field_name: field_work_experience
+entity_type: node
+bundle: work_experience
+label: 'Work Experience'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      work_experience: work_experience
+    negate: 0
+    target_bundles_drag_drop:
+      comments:
+        weight: 9
+        enabled: false
+      education_:
+        weight: 10
+        enabled: false
+      other_relevant_information:
+        weight: 11
+        enabled: false
+      publications:
+        weight: 12
+        enabled: false
+      referee_details:
+        weight: 13
+        enabled: false
+      research_proposals:
+        weight: 14
+        enabled: false
+      status_value:
+        weight: 15
+        enabled: false
+      work_experience:
+        weight: 16
+        enabled: true
+field_type: entity_reference_revisions

@@ -1,0 +1,108 @@
+uuid: 7bcbba46-8c15-4511-a5f3-14789d98c569
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.seminar_details.field_candidate_ref
+    - field.field.node.seminar_details.field_meeting_schedule
+    - field.field.node.seminar_details.field_seminar_attachemetns
+    - field.field.node.seminar_details.field_seminar_host_details
+    - field.field.node.seminar_details.field_seminar_notice
+    - field.field.node.seminar_details.field_user_reference
+    - field.field.node.seminar_details.field_video_link
+    - node.type.seminar_details
+  module:
+    - display_machine_name
+    - field_layout
+    - file
+    - layout_discovery
+    - link
+    - paragraphs
+    - text
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
+  display_machine_name:
+    enable_display_machine_name: 0
+id: node.seminar_details.default
+targetEntityType: node
+bundle: seminar_details
+mode: default
+content:
+  field_candidate_ref:
+    type: entity_reference_autocomplete
+    weight: 1
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_meeting_schedule:
+    type: text_textarea
+    weight: 5
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_seminar_attachemetns:
+    type: file_generic
+    weight: 6
+    region: content
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+  field_seminar_host_details:
+    type: entity_reference_paragraphs
+    weight: 2
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+  field_seminar_notice:
+    type: text_textarea
+    weight: 4
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_user_reference:
+    type: entity_reference_autocomplete
+    weight: 0
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_video_link:
+    type: link_default
+    weight: 3
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  langcode: true
+  path: true
+  promote: true
+  publish_on: true
+  revision_log: true
+  status: true
+  sticky: true
+  title: true
+  uid: true
+  unpublish_on: true

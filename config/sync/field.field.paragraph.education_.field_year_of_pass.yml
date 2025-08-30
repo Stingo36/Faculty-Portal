@@ -1,0 +1,23 @@
+uuid: 1bfe6cae-57e9-4e77-b83e-035894993ab3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_year_of_pass
+    - paragraphs.paragraphs_type.education_
+  module:
+    - year
+id: paragraph.education_.field_year_of_pass
+field_name: field_year_of_pass
+entity_type: paragraph
+bundle: education_
+label: 'Year of Completion'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 1975
+  max: now
+field_type: year

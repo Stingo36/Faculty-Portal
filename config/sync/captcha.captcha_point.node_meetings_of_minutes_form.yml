@@ -1,0 +1,7 @@
+uuid: 763a2db0-86ea-4b70-af8a-35c9bb0d14cb
+langcode: en
+status: false
+dependencies: {  }
+formId: node_meetings_of_minutes_form
+captchaType: default
+label: node_meetings_of_minutes_form

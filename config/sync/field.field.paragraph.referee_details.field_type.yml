@@ -1,0 +1,23 @@
+uuid: ed997e88-91c3-49cd-8730-5f0de70e8c4d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_type
+    - paragraphs.paragraphs_type.referee_details
+  module:
+    - options
+id: paragraph.referee_details.field_type
+field_name: field_type
+entity_type: paragraph
+bundle: referee_details
+label: Type
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: Referee
+default_value_callback: ''
+settings: {  }
+field_type: list_string

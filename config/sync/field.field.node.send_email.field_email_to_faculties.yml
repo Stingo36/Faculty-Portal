@@ -1,0 +1,40 @@
+uuid: e36ea9a8-275b-4820-b085-4af83979da62
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_email_to_faculties
+    - node.type.send_email
+id: node.send_email.field_email_to_faculties
+field_name: field_email_to_faculties
+entity_type: node
+bundle: send_email
+label: 'Email to Faculties'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    filter:
+      type: role
+      role:
+        faculty_member: faculty_member
+        content_editor: '0'
+        administrator: '0'
+        user: '0'
+        faculty_search_committee: '0'
+        dean: '0'
+        director: '0'
+        admin: '0'
+        prescreen_committee: '0'
+        targeted_hiring_chair: '0'
+    include_anonymous: true
+field_type: entity_reference

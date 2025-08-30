@@ -1,0 +1,37 @@
+uuid: 28a074fd-65f4-4a08-94f7-35645952aa35
+langcode: en
+status: true
+dependencies:
+  module:
+    - field_permissions
+    - node
+    - options
+third_party_settings:
+  field_permissions:
+    permission_type: custom
+id: node.field_candidate_closing_template
+field_name: field_candidate_closing_template
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: Preliminary
+      label: Preliminary
+    -
+      value: 'After Prescreen Interview'
+      label: 'After Prescreen Interview'
+    -
+      value: 'After in-person Visit'
+      label: 'After in-person Visit'
+    -
+      value: 'After Full Faculty meeting'
+      label: 'After Full Faculty meeting'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

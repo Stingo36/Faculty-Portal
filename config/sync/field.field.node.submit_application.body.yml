@@ -1,0 +1,28 @@
+uuid: e951cc44-d9af-4b6b-9a79-5735a91e6edb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.submit_application
+  module:
+    - text
+id: node.submit_application.body
+field_name: body
+entity_type: node
+bundle: submit_application
+label: Body
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: '<div><p style="margin-bottom:0.5rem;"><strong>Use the links on the left to navigate between sections.</strong></p><p style="margin-bottom:0.5rem;"><strong>Please Note:</strong></p><ul style="margin-left:1rem;"><li>If you do not submit your application within <strong>15 days</strong> from the time you register (<em>Under <strong>My Account</strong> you will find the date</em>), it will be <strong>automatically deleted</strong>, and you will need to re-start the procedure.</li><li>Press <strong>Submit Application</strong> only when you complete your application package.</li></ul></div>'
+    summary: ''
+    format: full_html
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+  allowed_formats: {  }
+field_type: text_with_summary

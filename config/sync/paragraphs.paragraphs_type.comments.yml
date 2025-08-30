@@ -1,0 +1,10 @@
+uuid: cd583ad2-f8d4-409a-a142-715f34b74a80
+langcode: en
+status: true
+dependencies: {  }
+id: comments
+label: 'Another Comment'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

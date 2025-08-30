@@ -1,0 +1,19 @@
+uuid: fca1907d-5122-4c1b-8c0b-a68632871c73
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_remarks
+    - paragraphs.paragraphs_type.education_
+id: paragraph.education_.field_remarks
+field_name: field_remarks
+entity_type: paragraph
+bundle: education_
+label: Remarks
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

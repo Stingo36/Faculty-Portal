@@ -1,0 +1,39 @@
+uuid: e9a63f03-b37e-4978-a015-7c45e904e65a
+langcode: en
+status: false
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.other_relevant_information.field_any_other_relevant_informa
+    - field.field.node.other_relevant_information.field_awards_and_fellowships
+    - field.field.node.other_relevant_information.field_details_of_grants_obtained
+    - field.field.node.other_relevant_information.field_new_research_areas
+    - field.field.node.other_relevant_information.field_phd_details_such_as_univer
+    - field.field.node.other_relevant_information.field_please_tick_one_or_more_of
+    - field.field.node.other_relevant_information.field_research_accomplishments_p
+    - field.field.node.other_relevant_information.field_supervisor_experience
+    - field.field.node.other_relevant_information.field_teaching_experience_if_any
+    - node.type.other_relevant_information
+  module:
+    - user
+id: node.other_relevant_information.teaser
+targetEntityType: node
+bundle: other_relevant_information
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_any_other_relevant_informa: true
+  field_awards_and_fellowships: true
+  field_details_of_grants_obtained: true
+  field_new_research_areas: true
+  field_phd_details_such_as_univer: true
+  field_please_tick_one_or_more_of: true
+  field_research_accomplishments_p: true
+  field_supervisor_experience: true
+  field_teaching_experience_if_any: true
+  langcode: true

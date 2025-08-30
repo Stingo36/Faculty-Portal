@@ -1,0 +1,194 @@
+uuid: fa14342d-655c-4614-9c54-9f8adf9fc03a
+langcode: en
+status: true
+dependencies:
+  config:
+    - eca.eca.process_jom9vex
+id: process_jom9vex
+label: '3. Mail on Comment (entity Update)'
+tags:
+  - untagged
+documentation: ''
+filename: ''
+modeldata: |
+  <?xml version="1.0" encoding="UTF-8"?>
+  <bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:qa="http://some-company/schema/bpmn/qa" id="sample-diagram" targetNamespace="http://bpmn.io/schema/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+    <bpmn2:process id="Process_jom9vEX" name="3. Mail on Comment (entity Update)" isExecutable="true" camunda:versionTag="1.1">
+      <bpmn2:startEvent id="Event_0jez9k4" name="Update" camunda:modelerTemplate="org.drupal.event.content_entity:update">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="content_entity:update" />
+          </camunda:properties>
+          <camunda:field name="type">
+            <camunda:string>node add_comments</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+        <bpmn2:outgoing>Flow_03q4l98</bpmn2:outgoing>
+      </bpmn2:startEvent>
+      <bpmn2:task id="Activity_0mybbae" name="Create" camunda:modelerTemplate="org.drupal.action.eca_new_entity">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_new_entity" />
+          </camunda:properties>
+          <camunda:field name="token_name">
+            <camunda:string>SendEmailOnComment</camunda:string>
+          </camunda:field>
+          <camunda:field name="type">
+            <camunda:string>easy_email 4_mail_to_admin_on_comment</camunda:string>
+          </camunda:field>
+          <camunda:field name="langcode">
+            <camunda:string></camunda:string>
+          </camunda:field>
+          <camunda:field name="label">
+            <camunda:string>SendEmailOnComment</camunda:string>
+          </camunda:field>
+          <camunda:field name="published">
+            <camunda:string>no</camunda:string>
+          </camunda:field>
+          <camunda:field name="owner">
+            <camunda:string></camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+        <bpmn2:incoming>Flow_06bn2jv</bpmn2:incoming>
+        <bpmn2:outgoing>Flow_16ky5uv</bpmn2:outgoing>
+      </bpmn2:task>
+      <bpmn2:sequenceFlow id="Flow_03q4l98" name="Current role != deans" camunda:modelerTemplate="org.drupal.condition.eca_current_user_role" sourceRef="Event_0jez9k4" targetRef="Activity_0z9ixrd">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_current_user_role" />
+          </camunda:properties>
+          <camunda:field name="role">
+            <camunda:string>admin</camunda:string>
+          </camunda:field>
+          <camunda:field name="negate">
+            <camunda:string>yes</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+      </bpmn2:sequenceFlow>
+      <bpmn2:task id="Activity_0ospth0" name="Send Email" camunda:modelerTemplate="org.drupal.action.easy_email_send">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="easy_email_send" />
+          </camunda:properties>
+          <camunda:field name="object">
+            <camunda:string>SendEmailOnComment</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+        <bpmn2:incoming>Flow_19vemx5</bpmn2:incoming>
+        <bpmn2:outgoing>Flow_13lt0x6</bpmn2:outgoing>
+      </bpmn2:task>
+      <bpmn2:task id="Activity_129l9mx" name="Save" camunda:modelerTemplate="org.drupal.action.eca_save_entity">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_save_entity" />
+          </camunda:properties>
+          <camunda:field name="object">
+            <camunda:string>SendEmailOnComment</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+        <bpmn2:incoming>Flow_13lt0x6</bpmn2:incoming>
+      </bpmn2:task>
+      <bpmn2:sequenceFlow id="Flow_13lt0x6" sourceRef="Activity_0ospth0" targetRef="Activity_129l9mx" />
+      <bpmn2:task id="Activity_0z9ixrd" name="Switch Account" camunda:modelerTemplate="org.drupal.action.eca_switch_account">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_switch_account" />
+          </camunda:properties>
+          <camunda:field name="user_id">
+            <camunda:string>1</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+        <bpmn2:incoming>Flow_03q4l98</bpmn2:incoming>
+        <bpmn2:outgoing>Flow_06bn2jv</bpmn2:outgoing>
+      </bpmn2:task>
+      <bpmn2:sequenceFlow id="Flow_06bn2jv" sourceRef="Activity_0z9ixrd" targetRef="Activity_0mybbae" />
+      <bpmn2:task id="Activity_11uzjdi" name="Render Twig&#10;Get Latest value" camunda:modelerTemplate="org.drupal.action.eca_render_twig">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_render_twig" />
+          </camunda:properties>
+          <camunda:field name="template">
+            <camunda:string>{% set last = node.field_add_comments_ | last %}
+  {% if last and last.entity and last.entity.hasField('field_comments') %}
+    {{ last.entity.field_comments.processed ?? last.entity.field_comments.value }}
+  {% endif %}</camunda:string>
+          </camunda:field>
+          <camunda:field name="name">
+            <camunda:string></camunda:string>
+          </camunda:field>
+          <camunda:field name="token_name">
+            <camunda:string>latest_comment_html</camunda:string>
+          </camunda:field>
+          <camunda:field name="weight">
+            <camunda:string></camunda:string>
+          </camunda:field>
+          <camunda:field name="value">
+            <camunda:string></camunda:string>
+          </camunda:field>
+          <camunda:field name="use_yaml">
+            <camunda:string>yes</camunda:string>
+          </camunda:field>
+          <camunda:field name="mode">
+            <camunda:string>append</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+        <bpmn2:incoming>Flow_16ky5uv</bpmn2:incoming>
+        <bpmn2:outgoing>Flow_19vemx5</bpmn2:outgoing>
+      </bpmn2:task>
+      <bpmn2:sequenceFlow id="Flow_16ky5uv" sourceRef="Activity_0mybbae" targetRef="Activity_11uzjdi" />
+      <bpmn2:sequenceFlow id="Flow_19vemx5" sourceRef="Activity_11uzjdi" targetRef="Activity_0ospth0" />
+    </bpmn2:process>
+    <bpmndi:BPMNDiagram id="sid-ca906f96-e6cd-447d-8856-b26c054b01c3">
+      <bpmndi:BPMNPlane id="sid-ba740588-f138-4695-ad31-d7c6934ecc5e" bpmnElement="Process_jom9vEX">
+        <bpmndi:BPMNShape id="Activity_0mybbae_di" bpmnElement="Activity_0mybbae">
+          <dc:Bounds x="250" y="160" width="100" height="80" />
+          <bpmndi:BPMNLabel />
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="Activity_0ospth0_di" bpmnElement="Activity_0ospth0">
+          <dc:Bounds x="670" y="160" width="100" height="80" />
+          <bpmndi:BPMNLabel />
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="Activity_129l9mx_di" bpmnElement="Activity_129l9mx">
+          <dc:Bounds x="810" y="160" width="100" height="80" />
+          <bpmndi:BPMNLabel />
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="Activity_0z9ixrd_di" bpmnElement="Activity_0z9ixrd">
+          <dc:Bounds x="100" y="160" width="100" height="80" />
+          <bpmndi:BPMNLabel />
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="Activity_11uzjdi_di" bpmnElement="Activity_11uzjdi">
+          <dc:Bounds x="400" y="160" width="100" height="80" />
+          <bpmndi:BPMNLabel />
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="Event_0jez9k4_di" bpmnElement="Event_0jez9k4">
+          <dc:Bounds x="-128" y="182" width="36" height="36" />
+          <bpmndi:BPMNLabel>
+            <dc:Bounds x="-128" y="225" width="36" height="14" />
+          </bpmndi:BPMNLabel>
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNEdge id="Flow_03q4l98_di" bpmnElement="Flow_03q4l98">
+          <di:waypoint x="-92" y="200" />
+          <di:waypoint x="100" y="200" />
+          <bpmndi:BPMNLabel>
+            <dc:Bounds x="-31" y="206" width="71" height="27" />
+          </bpmndi:BPMNLabel>
+        </bpmndi:BPMNEdge>
+        <bpmndi:BPMNEdge id="Flow_13lt0x6_di" bpmnElement="Flow_13lt0x6">
+          <di:waypoint x="770" y="200" />
+          <di:waypoint x="810" y="200" />
+        </bpmndi:BPMNEdge>
+        <bpmndi:BPMNEdge id="Flow_06bn2jv_di" bpmnElement="Flow_06bn2jv">
+          <di:waypoint x="200" y="200" />
+          <di:waypoint x="250" y="200" />
+        </bpmndi:BPMNEdge>
+        <bpmndi:BPMNEdge id="Flow_16ky5uv_di" bpmnElement="Flow_16ky5uv">
+          <di:waypoint x="350" y="200" />
+          <di:waypoint x="400" y="200" />
+        </bpmndi:BPMNEdge>
+        <bpmndi:BPMNEdge id="Flow_19vemx5_di" bpmnElement="Flow_19vemx5">
+          <di:waypoint x="500" y="200" />
+          <di:waypoint x="670" y="200" />
+        </bpmndi:BPMNEdge>
+      </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+  </bpmn2:definitions>

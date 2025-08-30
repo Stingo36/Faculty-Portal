@@ -1,0 +1,24 @@
+# Composer-managed directories
+/core/
+/vendor/
+/modules/contrib/
+/themes/contrib/
+/profiles/contrib/
+/libraries/
+
+# Environment-specific & secrets
+/sites/*/files/
+/sites/*/private/
+/sites/*/settings*.php
+/sites/*/services.yml
+/sites/development.services.yml
+
+# IDE / OS / temp
+.vscode/
+.idea/
+*.log
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
+

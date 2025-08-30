@@ -1,0 +1,24 @@
+uuid: 934e8e2a-a2ff-43e5-8a00-c69487f6b38d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_content
+    - filter.format.full_html
+    - node.type.meetings_of_minutes
+  module:
+    - text
+id: node.meetings_of_minutes.field_content
+field_name: field_content
+entity_type: node
+bundle: meetings_of_minutes
+label: Content
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - full_html
+field_type: text_long

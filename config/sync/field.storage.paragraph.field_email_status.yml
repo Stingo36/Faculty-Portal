@@ -1,0 +1,34 @@
+uuid: 43cb69f5-f7cb-4bc6-9d38-4363b148776c
+langcode: en
+status: true
+dependencies:
+  module:
+    - field_permissions
+    - options
+    - paragraphs
+third_party_settings:
+  field_permissions:
+    permission_type: custom
+id: paragraph.field_email_status
+field_name: field_email_status
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: Pending
+      label: Pending
+    -
+      value: Sent
+      label: Sent
+    -
+      value: 'Reminder Sent'
+      label: 'Reminder Sent'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

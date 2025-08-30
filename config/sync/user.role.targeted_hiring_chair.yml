@@ -1,0 +1,26 @@
+uuid: 713e7675-fc45-4d1c-b598-f8ac2d065100
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.add_comments
+  module:
+    - field_permissions
+    - node
+id: targeted_hiring_chair
+label: 'Targeted Hiring Chair'
+weight: 18
+is_admin: null
+permissions:
+  - 'create add_comments content'
+  - 'edit own add_comments content'
+  - 'view field_admin_comment_reference'
+  - 'view field_comment_author'
+  - 'view field_comment_date'
+  - 'view field_date_received'
+  - 'view field_dean_comment_reference'
+  - 'view field_program_name'
+  - 'view field_status'
+  - 'view field_type'
+  - 'view field_user_full_name'
+  - 'view field_user_research_programs'

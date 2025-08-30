@@ -1,0 +1,90 @@
+uuid: f4715ca9-76ab-4572-ba12-2493a88266d1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.seminar_details.field_candidate_ref
+    - field.field.node.seminar_details.field_meeting_schedule
+    - field.field.node.seminar_details.field_seminar_attachemetns
+    - field.field.node.seminar_details.field_seminar_host_details
+    - field.field.node.seminar_details.field_seminar_notice
+    - field.field.node.seminar_details.field_user_reference
+    - field.field.node.seminar_details.field_video_link
+    - node.type.seminar_details
+  module:
+    - entity_reference_revisions
+    - file
+    - link
+    - text
+    - user
+id: node.seminar_details.default
+targetEntityType: node
+bundle: seminar_details
+mode: default
+content:
+  field_candidate_ref:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_meeting_schedule:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_seminar_attachemetns:
+    type: file_default
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_seminar_host_details:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_seminar_notice:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_user_reference:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_video_link:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+hidden:
+  langcode: true

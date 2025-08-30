@@ -1,0 +1,29 @@
+uuid: d8f41e78-c67f-4e89-8a12-28865252c80e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_update_publications_ref
+    - node.type.submit_application
+    - node.type.update_publications
+id: node.submit_application.field_update_publications_ref
+field_name: field_update_publications_ref
+entity_type: node
+bundle: submit_application
+label: 'Update Publications ref'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      update_publications: update_publications
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

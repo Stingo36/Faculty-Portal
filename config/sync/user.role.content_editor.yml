@@ -1,0 +1,47 @@
+uuid: bcc781fe-01d9-41c0-b5e3-b3899bf5fe03
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.article
+    - taxonomy.vocabulary.tags
+  module:
+    - comment
+    - contextual
+    - field_permissions
+    - file
+    - help
+    - node
+    - path
+    - system
+    - taxonomy
+    - toolbar
+_core:
+  default_config_hash: NtMgnXp0miNtJhag07NSjwdCm4zpJwhlDFs1HgyL4wI
+id: content_editor
+label: 'Content editor'
+weight: 2
+is_admin: false
+permissions:
+  - 'access administration pages'
+  - 'access content overview'
+  - 'access contextual links'
+  - 'access files overview'
+  - 'access help pages'
+  - 'access toolbar'
+  - 'administer url aliases'
+  - 'create article content'
+  - 'create terms in tags'
+  - 'create url aliases'
+  - 'delete article revisions'
+  - 'delete own article content'
+  - 'delete own files'
+  - 'edit own article content'
+  - 'edit own comments'
+  - 'edit terms in tags'
+  - 'revert all revisions'
+  - 'view all revisions'
+  - 'view field_comment_author'
+  - 'view field_user_full_name'
+  - 'view own unpublished content'
+  - 'view the administration theme'

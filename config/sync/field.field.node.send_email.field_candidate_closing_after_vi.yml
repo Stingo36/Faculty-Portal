@@ -1,0 +1,27 @@
+uuid: 6e6b97e9-9dec-49dc-aac2-7e277500e837
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_candidate_closing_after_vi
+    - filter.format.full_html
+    - node.type.send_email
+  module:
+    - text
+id: node.send_email.field_candidate_closing_after_vi
+field_name: field_candidate_closing_after_vi
+entity_type: node
+bundle: send_email
+label: "Candidate Closing After in-person Visit\t\t"
+description: "Candidate Closing After in-person Visit\t"
+required: false
+translatable: false
+default_value:
+  -
+    value: '<p><br>Dear Dr. ______</p><p>We would like to express our gratitude for your interest in a Faculty position at NCBS and for taking the time to visit our centre to discuss your research interests. Your talk was thoroughly enjoyed, and we appreciated the exchange of ideas that took place during your visit.</p><p>After careful consideration and discussion among our faculty, we regret to inform you that we are unable to offer you a faculty appointment at this time. This decision was based solely on the fact that NCBS is a small centre with limited positions, and we must carefully consider the composition of our faculty in each area. We want to emphasize that this decision was a difficult one, as we are impressed by the high quality of your research.</p><p>We recognize your exceptional qualifications and wish you the very best in your search for a faculty position that aligns with your potential and research interests. If there is anything we can do to assist you in this pursuit, please do not hesitate to let us know.</p><p>Thank you again for your interest in NCBS and we hope to keep in touch with you.</p><p>My best wishes to you,</p><p>Sincerely yours,</p><p><br>Uma Ramakrishnan &nbsp; &nbsp;&nbsp;<br>Dean of Faculty<br>NCBS-TIFR.<br>&nbsp;</p>'
+    format: full_html
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - full_html
+field_type: text_long

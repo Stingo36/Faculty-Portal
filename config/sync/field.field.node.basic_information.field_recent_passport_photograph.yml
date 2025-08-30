@@ -1,0 +1,38 @@
+uuid: 57bd2101-eb06-41f5-922d-5fb5f65138cc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_recent_passport_photograph
+    - node.type.basic_information
+  module:
+    - image
+id: node.basic_information.field_recent_passport_photograph
+field_name: field_recent_passport_photograph
+entity_type: node
+bundle: basic_information
+label: 'Recent passport photograph'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'png gif jpg jpeg'
+  max_filesize: ''
+  max_resolution: ''
+  min_resolution: ''
+  alt_field: false
+  alt_field_required: false
+  title_field: false
+  title_field_required: false
+  default_image:
+    uuid: ''
+    alt: ''
+    title: ''
+    width: null
+    height: null
+field_type: image

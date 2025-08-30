@@ -1,0 +1,19 @@
+uuid: e87291ee-a2c1-4e5f-8976-146d26924093
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_other
+    - node.type.basic_information
+id: node.basic_information.field_other
+field_name: field_other
+entity_type: node
+bundle: basic_information
+label: 'If other, please mention your nationality'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

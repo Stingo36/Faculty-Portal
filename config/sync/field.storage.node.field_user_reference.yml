@@ -1,0 +1,24 @@
+uuid: c773fada-ca93-4988-a5c8-dee98d96892c
+langcode: en
+status: true
+dependencies:
+  module:
+    - field_permissions
+    - node
+    - user
+third_party_settings:
+  field_permissions:
+    permission_type: custom
+id: node.field_user_reference
+field_name: field_user_reference
+entity_type: node
+type: entity_reference
+settings:
+  target_type: user
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

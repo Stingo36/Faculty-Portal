@@ -1,0 +1,53 @@
+uuid: 8271973f-deba-4eb4-b915-d44f453db8ae
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.meetings_of_minutes.field_candidates
+    - field.field.node.meetings_of_minutes.field_content
+    - field.field.node.meetings_of_minutes.field_mom_date
+    - node.type.meetings_of_minutes
+  module:
+    - datetime
+    - display_machine_name
+    - text
+    - user
+third_party_settings:
+  display_machine_name:
+    enable_display_machine_name: 0
+id: node.meetings_of_minutes.default
+targetEntityType: node
+bundle: meetings_of_minutes
+mode: default
+content:
+  field_candidates:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_content:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_mom_date:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  langcode: true

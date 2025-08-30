@@ -1,0 +1,29 @@
+uuid: a6ca3d16-3113-423e-9e42-af2442caa955
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_basic_information_referenc
+    - node.type.basic_information
+    - node.type.submit_application
+id: node.submit_application.field_basic_information_referenc
+field_name: field_basic_information_referenc
+entity_type: node
+bundle: submit_application
+label: 'Basic Information Reference'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      basic_information: basic_information
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

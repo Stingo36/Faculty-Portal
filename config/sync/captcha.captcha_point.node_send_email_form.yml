@@ -1,0 +1,7 @@
+uuid: 022e8f6a-92d6-471a-840e-51a41f661781
+langcode: en
+status: false
+dependencies: {  }
+formId: node_send_email_form
+captchaType: default
+label: node_send_email_form

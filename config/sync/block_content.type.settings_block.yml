@@ -1,0 +1,8 @@
+uuid: e729089b-10f3-424c-b970-220d97af9442
+langcode: en
+status: true
+dependencies: {  }
+id: settings_block
+label: 'Settings Block'
+revision: true
+description: 'Block to Display Links under Settings tab for admin'

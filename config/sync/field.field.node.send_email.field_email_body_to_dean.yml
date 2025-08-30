@@ -1,0 +1,27 @@
+uuid: 9bde0370-0b7d-4bb4-b588-6cc31e65c596
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_email_body_to_dean
+    - filter.format.basic_html
+    - node.type.send_email
+  module:
+    - text
+id: node.send_email.field_email_body_to_dean
+field_name: field_email_body_to_dean
+entity_type: node
+bundle: send_email
+label: 'Email Body'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: '<p>Dear DEAN,</p><p><strong>Candidate Details:</strong><br>Full Name: [[PREFIX]] [[FULLNAME]]<br>Program:[[PROGRAM]]<br>Email Id: [[USEREMAIL]]</p><p>&nbsp;</p>'
+    format: basic_html
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - basic_html
+field_type: text_long

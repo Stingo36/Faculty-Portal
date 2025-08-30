@@ -1,0 +1,23 @@
+uuid: dae4e5e2-1333-4682-8097-af47782489b7
+langcode: en
+status: true
+dependencies:
+  module:
+    - field_permissions
+    - node
+    - text
+third_party_settings:
+  field_permissions:
+    permission_type: public
+id: node.field_email_body_to_faculty
+field_name: field_email_body_to_faculty
+entity_type: node
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

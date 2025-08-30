@@ -1,0 +1,35 @@
+uuid: 2f1b8dea-3761-40ec-85d1-b57bf976c889
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.update_publications.field_update_publications
+    - node.type.update_publications
+  module:
+    - display_machine_name
+    - entity_reference_revisions
+    - user
+third_party_settings:
+  display_machine_name:
+    enable_display_machine_name: 0
+id: node.update_publications.default
+targetEntityType: node
+bundle: update_publications
+mode: default
+content:
+  field_update_publications:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true

@@ -1,0 +1,7 @@
+services:
+  ncbs.pdf_generator:
+    class: Drupal\ncbs\Service\PdfGenerator
+    arguments:
+      - '@file_system'
+      - '@logger.factory'
+

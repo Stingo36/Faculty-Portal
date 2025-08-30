@@ -1,0 +1,27 @@
+uuid: 868a5360-a1b8-47e9-ac56-670320f86cb8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_candidate_prescreen_temp
+    - filter.format.full_html
+    - node.type.send_email
+  module:
+    - text
+id: node.send_email.field_candidate_prescreen_temp
+field_name: field_candidate_prescreen_temp
+entity_type: node
+bundle: send_email
+label: 'Candidate Prescreen Template'
+description: 'This is Prescreen Invitation Template to Candidate'
+required: false
+translatable: false
+default_value:
+  -
+    value: '<p>Dear Dr.</p><p>Thank you for applying for a faculty position at NCBS.</p><p>Our faculty search committee which met recently was impressed with your track record and the &nbsp; &nbsp; &nbsp;quality of your research. I am happy to inform you that your application has been shortlisted for the next stage.</p><p>In order for us to assess your application further, we would like to have an informal discussion (via Zoom/other online meeting formats) with you about your work and your research proposal. During this call we would like a very brief (15-minute, slide-based ) overview of your work, followed by a discussion with you for about half an hour. This will also give you an opportunity to get to know our expectations should you be invited to visit the campus for a formal seminar.</p><p>We would like to suggest following time slot (IST):<br>XX<br>XX<br>A confirmation will be sent soonest based on the availability of appropriate faculty. &nbsp; &nbsp;&nbsp;<br>I look forward to hearing from you.</p><p>Sincerely yours,</p><p><br>Uma Ramakrishnan &nbsp; &nbsp;&nbsp;<br>Dean of Faculty, NCBS</p>'
+    format: full_html
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - full_html
+field_type: text_long

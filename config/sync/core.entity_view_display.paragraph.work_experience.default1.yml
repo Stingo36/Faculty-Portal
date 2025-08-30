@@ -1,0 +1,44 @@
+uuid: 4ccc5772-e8da-4207-82f9-65ba366f94d2
+langcode: en
+status: false
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.default1
+    - field.field.paragraph.work_experience.field_designation
+    - field.field.paragraph.work_experience.field_from_date
+    - field.field.paragraph.work_experience.field_institute
+    - field.field.paragraph.work_experience.field_lab_name
+    - field.field.paragraph.work_experience.field_to_date
+    - paragraphs.paragraphs_type.work_experience
+id: paragraph.work_experience.default1
+targetEntityType: paragraph
+bundle: work_experience
+mode: default1
+content:
+  field_designation:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_institute:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_lab_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+hidden:
+  field_from_date: true
+  field_to_date: true

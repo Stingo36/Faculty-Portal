@@ -1,0 +1,90 @@
+paragraphs_item.ajax:
+  path: '/paragraphs_item/ajax/{field_name}/{host_type}/{host_id}'
+  defaults:
+    _controller: '\Drupal\paragraphs_table\Controller\AjaxController::ajax'
+  methods:  [GET]
+  requirements:
+    _custom_access: '\Drupal\paragraphs_table\Controller\ParagraphAccessController::accessItem'
+paragraphs_item.json:
+  path: '/paragraphs_item/json/{field_name}/{host_type}/{host_id}'
+  defaults:
+    _controller: '\Drupal\paragraphs_table\Controller\AjaxController::json'
+  methods:  [GET]
+  requirements:
+    _custom_access: '\Drupal\paragraphs_table\Controller\ParagraphAccessController::accessItem'
+paragraphs_item.jsonData:
+  path: '/paragraphs_item/jsondata/{field_name}/{host_type}/{host_id}'
+  defaults:
+    _controller: '\Drupal\paragraphs_table\Controller\AjaxController::jsondata'
+  methods:  [GET]
+  requirements:
+    _custom_access: '\Drupal\paragraphs_table\Controller\ParagraphAccessController::accessItem'
+
+entity.paragraphs_item.canonical:
+  path: '/paragraphs_item/{paragraph}'
+  defaults:
+    _controller: '\Drupal\paragraphs_table\Controller\ParagraphsItemController::page'
+    _title_callback: '\Drupal\paragraphs_table\Controller\ParagraphsItemController::pageTitle'
+  requirements:
+    _custom_access: '\Drupal\paragraphs_table\Controller\ParagraphAccessController::accessParagraph'
+  options:
+    parameters:
+      paragraph:
+        type: 'entity:paragraph'
+
+paragraphs_item.add_page:
+  path: '/paragraphs_item/add/{paragraph_type}/{entity_type}/{entity_field}/{entity_id}'
+  defaults:
+    _title_callback: '\Drupal\paragraphs_table\Controller\ParagraphsItemController::addPageTitle'
+    _controller: '\Drupal\paragraphs_table\Controller\ParagraphsItemController::add'
+    operation: 'create'
+  requirements:
+    _custom_access: '\Drupal\paragraphs_table\Controller\ParagraphAccessController::accessAdd'
+    #_permission: 'access content'
+  options:
+    parameters:
+      paragraph_type:
+        type: entity:paragraphs_type
+
+entity.paragraphs_item.edit_form:
+  path: '/paragraphs_item/{paragraph}/edit'
+  defaults:
+    _entity_form: 'paragraph.entity_edit'
+  requirements:
+    _custom_access: '\Drupal\paragraphs_table\Controller\ParagraphAccessController::access'
+  options:
+    parameters:
+      paragraph:
+        type: 'entity:paragraph'
+
+entity.paragraphs_item.delete_form:
+  path: '/paragraphs_item/{paragraph}/delete'
+  defaults:
+    _entity_form: 'paragraph.entity_delete'
+  requirements:
+    _custom_access: '\Drupal\paragraphs_table\Controller\ParagraphAccessController::access'
+  options:
+    parameters:
+      paragraph:
+        type: 'entity:paragraph'
+
+entity.paragraphs_item.clone_form:
+  path: '/paragraphs_item/clone/{paragraph}'
+  defaults:
+    _entity_form: 'paragraph.entity_clone'
+  requirements:
+    _custom_access: '\Drupal\paragraphs_table\Controller\ParagraphAccessController::access'
+  options:
+    parameters:
+      paragraph:
+        type: 'entity:paragraph'
+
+paragraphs_table.field_reference:
+  path: '/paragraphs_table/field_reference/{target_type}/{selection_handler}/{selection_settings_key}'
+  defaults:
+    _controller: '\Drupal\paragraphs_table\Controller\AjaxController::fieldReference'
+    _format: json
+  methods: [GET]
+  requirements:
+    # Request from widget form search entity reference.
+    _access: 'TRUE'

@@ -1,0 +1,14 @@
+uuid: 2553afa2-9662-428b-a3f1-9586cf6fe0ce
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.faculty_search_committee
+  module:
+    - user
+id: user_remove_role_action.faculty_search_committee
+label: 'Remove the Faculty Search Committee role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: faculty_search_committee

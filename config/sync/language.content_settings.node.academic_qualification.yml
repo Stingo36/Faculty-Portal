@@ -1,0 +1,11 @@
+uuid: 8f325016-45b4-4483-aab0-fb290d5d3026
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.academic_qualification
+id: node.academic_qualification
+target_entity_type_id: node
+target_bundle: academic_qualification
+default_langcode: site_default
+language_alterable: false

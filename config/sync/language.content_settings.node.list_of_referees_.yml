@@ -1,0 +1,11 @@
+uuid: 5533d6f3-d699-4dc4-b2a6-69ff6a156d5e
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.list_of_referees_
+id: node.list_of_referees_
+target_entity_type_id: node
+target_bundle: list_of_referees_
+default_langcode: site_default
+language_alterable: false

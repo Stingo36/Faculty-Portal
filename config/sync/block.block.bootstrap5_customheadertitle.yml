@@ -1,0 +1,29 @@
+uuid: dfdf6819-58a1-41e8-a1eb-611ed32f46af
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:custom_header:06fcf8c6-c546-44fa-8afe-e7beda316dee'
+  module:
+    - block_class
+    - block_content
+  theme:
+    - bootstrap5
+third_party_settings:
+  block_class:
+    classes: custom-header-class
+id: bootstrap5_customheadertitle
+theme: bootstrap5
+region: header
+weight: -6
+provider: null
+plugin: 'block_content:06fcf8c6-c546-44fa-8afe-e7beda316dee'
+settings:
+  id: 'block_content:06fcf8c6-c546-44fa-8afe-e7beda316dee'
+  label: 'Custom header Title'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

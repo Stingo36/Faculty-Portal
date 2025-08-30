@@ -1,0 +1,99 @@
+uuid: 17981bb1-7dde-4e7d-ad1e-344598c2e96c
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.full
+    - field.field.node.other_relevant_information.field_any_other_relevant_informa
+    - field.field.node.other_relevant_information.field_awards_and_fellowships
+    - field.field.node.other_relevant_information.field_details_of_grants_obtained
+    - field.field.node.other_relevant_information.field_new_research_areas
+    - field.field.node.other_relevant_information.field_phd_details_such_as_univer
+    - field.field.node.other_relevant_information.field_please_tick_one_or_more_of
+    - field.field.node.other_relevant_information.field_research_accomplishments_p
+    - field.field.node.other_relevant_information.field_supervisor_experience
+    - field.field.node.other_relevant_information.field_teaching_experience_if_any
+    - node.type.other_relevant_information
+  module:
+    - display_machine_name
+    - options
+    - user
+third_party_settings:
+  display_machine_name:
+    enable_display_machine_name: 0
+id: node.other_relevant_information.full
+targetEntityType: node
+bundle: other_relevant_information
+mode: full
+content:
+  field_any_other_relevant_informa:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_awards_and_fellowships:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_details_of_grants_obtained:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_new_research_areas:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  field_phd_details_such_as_univer:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_please_tick_one_or_more_of:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_research_accomplishments_p:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_supervisor_experience:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_teaching_experience_if_any:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  langcode: true

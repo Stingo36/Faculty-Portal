@@ -1,0 +1,11 @@
+uuid: cc3400df-a583-4282-8cbd-b8e65e96dfc8
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+id: block_content.token
+label: Token
+description: ''
+targetEntityType: block_content
+cache: true

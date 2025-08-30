@@ -1,0 +1,23 @@
+uuid: 264657bf-7849-495c-baea-3f42f15d82e9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_form_submitted
+    - node.type.submit_application
+id: node.submit_application.field_form_submitted
+field_name: field_form_submitted
+entity_type: node
+bundle: submit_application
+label: 'Form Submitted'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -1,0 +1,39 @@
+uuid: b991351c-679e-4f29-963d-ec2f3225eb1e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_faculty_list
+    - paragraphs.paragraphs_type.seminar_host
+id: paragraph.seminar_host.field_faculty_list
+field_name: field_faculty_list
+entity_type: paragraph
+bundle: seminar_host
+label: 'Faculty List'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    filter:
+      type: role
+      role:
+        faculty_member: faculty_member
+        content_editor: '0'
+        administrator: '0'
+        user: '0'
+        faculty_search_committee: '0'
+        dean: '0'
+        director: '0'
+        admin: '0'
+        prescreen_committee: '0'
+    include_anonymous: true
+field_type: entity_reference

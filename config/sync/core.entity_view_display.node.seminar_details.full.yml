@@ -1,0 +1,58 @@
+uuid: 6bf5dbf2-9789-40c6-801a-75d8b3b1bd2a
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.full
+    - field.field.node.seminar_details.field_candidate_ref
+    - field.field.node.seminar_details.field_meeting_schedule
+    - field.field.node.seminar_details.field_seminar_attachemetns
+    - field.field.node.seminar_details.field_seminar_host_details
+    - field.field.node.seminar_details.field_seminar_notice
+    - field.field.node.seminar_details.field_user_reference
+    - field.field.node.seminar_details.field_video_link
+    - node.type.seminar_details
+  module:
+    - entity_reference_revisions
+    - user
+id: node.seminar_details.full
+targetEntityType: node
+bundle: seminar_details
+mode: full
+content:
+  field_candidate_ref:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_seminar_host_details:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_user_reference:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+hidden:
+  field_meeting_schedule: true
+  field_seminar_attachemetns: true
+  field_seminar_notice: true
+  field_video_link: true
+  langcode: true

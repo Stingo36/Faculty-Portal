@@ -1,0 +1,7 @@
+uuid: bb9ad0e4-eae1-43ac-b6ea-7ee18159f0af
+langcode: en
+status: false
+dependencies: {  }
+formId: node_academic_qualification_form
+captchaType: default
+label: node_academic_qualification_form

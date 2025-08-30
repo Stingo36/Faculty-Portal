@@ -1,0 +1,12 @@
+name: Year
+type: module
+description: Provide field to collect only a year value.
+package: Field types
+core_version_requirement: ^8.8 || ^9 || ^10 || ^11
+dependencies:
+  - drupal:field
+
+# Information added by Drupal.org packaging script on 2024-07-30
+version: '1.0.1'
+project: 'year'
+datestamp: 1722367179

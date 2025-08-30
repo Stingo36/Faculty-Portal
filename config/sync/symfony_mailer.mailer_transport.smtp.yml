@@ -1,0 +1,18 @@
+uuid: c2a95105-9280-4378-adab-69f7cf45e656
+langcode: en
+status: true
+dependencies: {  }
+id: smtp
+label: SMTP
+plugin: smtp
+configuration:
+  user: noreply
+  pass: uhsOiCET
+  host: mail.ncbs.res.in
+  port: 587
+  query:
+    verify_peer: true
+    local_domain: ''
+    restart_threshold: null
+    restart_threshold_sleep: null
+    ping_threshold: null

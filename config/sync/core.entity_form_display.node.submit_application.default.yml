@@ -1,0 +1,406 @@
+uuid: c10caf0c-4843-4484-aaa2-57d464d83a6e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.submit_application.body
+    - field.field.node.submit_application.field_academic_qualification_ref
+    - field.field.node.submit_application.field_admin_comment_reference
+    - field.field.node.submit_application.field_assessment_committee_coref
+    - field.field.node.submit_application.field_basic_information_referenc
+    - field.field.node.submit_application.field_board_member_comment_refer
+    - field.field.node.submit_application.field_date_received
+    - field.field.node.submit_application.field_dean_comment_reference
+    - field.field.node.submit_application.field_director_comment_reference
+    - field.field.node.submit_application.field_faculty_member_comment_ref
+    - field.field.node.submit_application.field_faculty_search_comit_coref
+    - field.field.node.submit_application.field_form_submitted
+    - field.field.node.submit_application.field_list_of_referees_ref
+    - field.field.node.submit_application.field_other_relevant_info_ref
+    - field.field.node.submit_application.field_prescreen_comment_ref
+    - field.field.node.submit_application.field_program_name
+    - field.field.node.submit_application.field_promotion_committee_coref
+    - field.field.node.submit_application.field_research_proposal_ref
+    - field.field.node.submit_application.field_seminar_details_ref
+    - field.field.node.submit_application.field_send_email_reference
+    - field.field.node.submit_application.field_session_key
+    - field.field.node.submit_application.field_status
+    - field.field.node.submit_application.field_status_update
+    - field.field.node.submit_application.field_update_publications_ref
+    - field.field.node.submit_application.field_user_reference
+    - field.field.node.submit_application.field_work_experience_ref
+    - field.field.node.submit_application.field_yip_search_committee_coref
+    - node.type.submit_application
+  module:
+    - display_machine_name
+    - field_group
+    - field_layout
+    - hide_revision_field
+    - layout_discovery
+    - paragraphs_table
+    - readonly_field_widget
+third_party_settings:
+  field_group:
+    group_application_form_reference:
+      children:
+        - field_basic_information_referenc
+        - field_update_publications_ref
+        - field_academic_qualification_ref
+        - field_work_experience_ref
+        - field_list_of_referees_ref
+        - field_other_relevant_info_ref
+        - field_research_proposal_ref
+      label: 'Application Form Reference Nodes'
+      region: content
+      parent_name: ''
+      weight: 6
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: open
+        description: ''
+        required_fields: true
+        open: false
+        weight: 0
+    group_comment:
+      children:
+        - field_admin_comment_reference
+        - field_dean_comment_reference
+        - field_faculty_member_comment_ref
+        - field_faculty_search_comit_coref
+        - field_prescreen_comment_ref
+        - field_director_comment_reference
+        - field_assessment_committee_coref
+        - field_board_member_comment_refer
+        - field_promotion_committee_coref
+        - field_yip_search_committee_coref
+      label: Comment
+      region: content
+      parent_name: ''
+      weight: 7
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: open
+        description: ''
+        required_fields: true
+    group_other_references:
+      children:
+        - field_seminar_details_ref
+        - field_status_update
+        - field_send_email_reference
+        - field_user_reference
+      label: 'Other References'
+      region: content
+      parent_name: ''
+      weight: 8
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
+  display_machine_name:
+    enable_display_machine_name: 0
+id: node.submit_application.default
+targetEntityType: node
+bundle: submit_application
+mode: default
+content:
+  body:
+    type: readonly_field_widget
+    weight: 0
+    region: content
+    settings:
+      label: hidden
+      formatter_type: text_default
+      formatter_settings:
+        text_summary_or_trimmed:
+          trim_length: 600
+        text_trimmed:
+          trim_length: 600
+      show_description: false
+    third_party_settings: {  }
+  field_academic_qualification_ref:
+    type: entity_reference_autocomplete
+    weight: 11
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_admin_comment_reference:
+    type: entity_reference_autocomplete
+    weight: 14
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_assessment_committee_coref:
+    type: entity_reference_autocomplete
+    weight: 20
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_basic_information_referenc:
+    type: entity_reference_autocomplete
+    weight: 9
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_board_member_comment_refer:
+    type: entity_reference_autocomplete
+    weight: 21
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_date_received:
+    type: string_textfield
+    weight: 3
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_dean_comment_reference:
+    type: entity_reference_autocomplete
+    weight: 15
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_director_comment_reference:
+    type: entity_reference_autocomplete
+    weight: 19
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_faculty_member_comment_ref:
+    type: entity_reference_autocomplete
+    weight: 16
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_faculty_search_comit_coref:
+    type: entity_reference_autocomplete
+    weight: 17
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_form_submitted:
+    type: boolean_checkbox
+    weight: 4
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_list_of_referees_ref:
+    type: entity_reference_autocomplete
+    weight: 13
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_other_relevant_info_ref:
+    type: entity_reference_autocomplete
+    weight: 14
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_prescreen_comment_ref:
+    type: entity_reference_autocomplete
+    weight: 18
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_program_name:
+    type: options_select
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_promotion_committee_coref:
+    type: entity_reference_autocomplete
+    weight: 22
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_research_proposal_ref:
+    type: entity_reference_autocomplete
+    weight: 15
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_seminar_details_ref:
+    type: entity_reference_autocomplete
+    weight: 27
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_send_email_reference:
+    type: entity_reference_autocomplete
+    weight: 29
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_session_key:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_status:
+    type: options_select
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_status_update:
+    type: paragraphs_table_widget
+    weight: 28
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      features:
+        duplicate: duplicate
+      vertical: false
+      paste_clipboard: false
+      show_all: false
+      field_reference: ''
+      duplicate: false
+      form_mode: default
+    third_party_settings: {  }
+  field_update_publications_ref:
+    type: entity_reference_autocomplete
+    weight: 10
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_work_experience_ref:
+    type: entity_reference_autocomplete
+    weight: 12
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_yip_search_committee_coref:
+    type: entity_reference_autocomplete
+    weight: 23
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  revision_log:
+    type: hide_revision_field_log_widget
+    weight: 80
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+      show: true
+      default: ''
+      permission_based: false
+      allow_user_settings: true
+      hide_revision: false
+    third_party_settings: {  }
+hidden:
+  created: true
+  field_user_reference: true
+  langcode: true
+  path: true
+  promote: true
+  publish_on: true
+  status: true
+  sticky: true
+  title: true
+  uid: true
+  unpublish_on: true

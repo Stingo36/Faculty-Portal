@@ -1,0 +1,14 @@
+uuid: b1be49b2-a65d-4cfe-a1e3-1bd2e163210d
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.prescreen_committee
+  module:
+    - user
+id: user_add_role_action.prescreen_committee
+label: 'Add the Prescreen Committee role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: prescreen_committee

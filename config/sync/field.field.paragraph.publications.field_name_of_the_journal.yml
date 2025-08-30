@@ -1,0 +1,19 @@
+uuid: 0e7388e5-c501-495e-9838-b60071088f3a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_name_of_the_journal
+    - paragraphs.paragraphs_type.publications
+id: paragraph.publications.field_name_of_the_journal
+field_name: field_name_of_the_journal
+entity_type: paragraph
+bundle: publications
+label: Citation
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

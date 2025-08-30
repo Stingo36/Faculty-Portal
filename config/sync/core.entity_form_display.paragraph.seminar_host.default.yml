@@ -1,0 +1,36 @@
+uuid: 1d79fc94-1c35-4414-b5d0-e19207d45673
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.seminar_host.field_faculty_list
+    - field.field.paragraph.seminar_host.field_seminar_host
+    - paragraphs.paragraphs_type.seminar_host
+  module:
+    - field_layout
+    - layout_discovery
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
+id: paragraph.seminar_host.default
+targetEntityType: paragraph
+bundle: seminar_host
+mode: default
+content:
+  field_faculty_list:
+    type: options_select
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_seminar_host:
+    type: options_select
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

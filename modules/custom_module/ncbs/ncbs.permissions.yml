@@ -1,0 +1,4 @@
+administer email settings:
+  title: 'Administer email settings'
+  description: 'Manage default email IDs and email settings.'
+  restrict access: true

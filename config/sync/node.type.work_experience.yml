@@ -1,0 +1,24 @@
+uuid: d92e253e-b2ab-416c-886a-d71c31b9fe4f
+langcode: en
+status: true
+dependencies:
+  module:
+    - autotitle
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+  autotitle:
+    enabled: true
+    field: _none
+    fallback_title: 'Work Experience: [node:author:field_user_full_name]'
+    headings: {  }
+name: 'Work Experience'
+type: work_experience
+description: 'Content Type to add work Experience'
+help: 'Work experience obtained after PhD to be included here.'
+new_revision: false
+preview_mode: 0
+display_submitted: true

@@ -1,0 +1,17 @@
+uuid: 2f279b44-6ca7-4d79-b3d6-ac9ea183054c
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: 1K2xbAOr9XIuACVC8X6UIorAmuFLEaI-DNdp2kUaghU
+name: sc844x562
+label: sc844x562
+effects:
+  8e602642-5cc1-4272-824c-76bf36c7a220:
+    uuid: 8e602642-5cc1-4272-824c-76bf36c7a220
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 844
+      height: 562
+      anchor: center-center

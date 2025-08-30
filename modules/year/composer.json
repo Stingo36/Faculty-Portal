@@ -1,0 +1,20 @@
+{
+    "name": "drupal/year",
+    "description": "Custom integer field for collecting only the year portion of a date.",
+    "type": "drupal-module",
+    "keywords": ["Drupal", "Date", "Fields", "Year"],
+    "homepage": "https://drupal.org/project/year",
+    "license": "GPL-2.0-or-later",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Michael Caldwell (justcaldwell)",
+            "homepage": "https://www.drupal.org/u/justcaldwell",
+            "role": "Maintainer"
+        }
+    ],
+    "support": {
+        "issues": "https://www.drupal.org/project/issues/year",
+        "source": "https://git.drupalcode.org/project/year"
+    }
+}

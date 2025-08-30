@@ -1,0 +1,43 @@
+{#
+  Custom node template for content type "add_comments".
+  Displays the "field_add_comments_" paragraph data in a Bootstrap table.
+#}
+
+<article{{ attributes.addClass('node', 'node--type-add-comments') }}>
+
+  {% if node.field_add_comments_.isEmpty() %}
+    <div class="alert alert-light mt-3">No comments have been added yet.</div>
+  {% else %}
+    <div class="container my-4">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead class="bg-light text-muted text-center fw-bold">
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Date</th>
+              <th scope="col">Comment</th>
+            </tr>
+          </thead>
+            <tbody class="text-center">
+              {% for item in node.field_add_comments_ %}
+                {% set p = item.entity %}
+
+                {# Always take the first value; fallback to empty string #}
+                {% set author  = p.field_comment_author.0.value  ?? '' %}
+                {% set dateTxt = p.field_comment_date.0.value    ?? '' %}
+                {% set comment = p.field_comments.0.value        ?? '' %}
+
+                <tr>
+                  <td>{{ author }}</td>
+                  <td>{{ dateTxt ~ '' }}</td>  {# "~ ''" forces string; avoids "Array" #}
+                  <td>{{ comment }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+
+        </table>
+      </div>
+    </div>
+  {% endif %}
+
+</article>

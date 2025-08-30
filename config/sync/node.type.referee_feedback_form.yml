@@ -1,0 +1,24 @@
+uuid: 65eff6f5-662e-46fb-848d-c72a463fd1c4
+langcode: en
+status: true
+dependencies:
+  module:
+    - autotitle
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+  autotitle:
+    enabled: true
+    field: _none
+    fallback_title: 'Referee Feedback'
+    headings: {  }
+name: 'Referee Feedback form'
+type: referee_feedback_form
+description: 'Content Type for Referee to give comment '
+help: null
+new_revision: false
+preview_mode: 0
+display_submitted: true

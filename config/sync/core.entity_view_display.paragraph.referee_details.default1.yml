@@ -1,0 +1,78 @@
+uuid: c785e265-61ae-469a-b3d9-7acbec156541
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.default1
+    - field.field.paragraph.referee_details.field_address
+    - field.field.paragraph.referee_details.field_email
+    - field.field.paragraph.referee_details.field_email_status
+    - field.field.paragraph.referee_details.field_name
+    - field.field.paragraph.referee_details.field_phone
+    - field.field.paragraph.referee_details.field_position
+    - field.field.paragraph.referee_details.field_prefix
+    - field.field.paragraph.referee_details.field_ref_link
+    - field.field.paragraph.referee_details.field_referee_feedback_reference
+    - field.field.paragraph.referee_details.field_type
+    - paragraphs.paragraphs_type.referee_details
+  module:
+    - display_machine_name
+    - options
+third_party_settings:
+  display_machine_name:
+    enable_display_machine_name: 0
+id: paragraph.referee_details.default1
+targetEntityType: paragraph
+bundle: referee_details
+mode: default1
+content:
+  field_address:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_email:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_name:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_phone:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_position:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_type:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 5
+    region: content
+hidden:
+  field_email_status: true
+  field_prefix: true
+  field_ref_link: true
+  field_referee_feedback_reference: true

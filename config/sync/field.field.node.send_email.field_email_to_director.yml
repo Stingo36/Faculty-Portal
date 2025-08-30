@@ -1,0 +1,42 @@
+uuid: 9442206b-1d1c-43a3-9b94-eb38a9222730
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_email_to_director
+    - node.type.send_email
+id: node.send_email.field_email_to_director
+field_name: field_email_to_director
+entity_type: node
+bundle: send_email
+label: 'Email To Director'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    filter:
+      type: role
+      role:
+        director: director
+        content_editor: '0'
+        administrator: '0'
+        user: '0'
+        faculty_member: '0'
+        board_member: '0'
+        faculty_search_committee: '0'
+        yip_search_committee: '0'
+        assessment_committee: '0'
+        promotion_committee: '0'
+        dean: '0'
+        admin: '0'
+    include_anonymous: true
+field_type: entity_reference

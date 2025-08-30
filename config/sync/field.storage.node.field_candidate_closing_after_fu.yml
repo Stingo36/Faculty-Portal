@@ -1,0 +1,23 @@
+uuid: 08357d7f-d362-474f-9b67-d44540941156
+langcode: en
+status: true
+dependencies:
+  module:
+    - field_permissions
+    - node
+    - text
+third_party_settings:
+  field_permissions:
+    permission_type: public
+id: node.field_candidate_closing_after_fu
+field_name: field_candidate_closing_after_fu
+entity_type: node
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

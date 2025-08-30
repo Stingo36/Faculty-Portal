@@ -1,0 +1,21 @@
+uuid: 01cf18e2-deab-4cb3-af5c-955dd6fbe6f2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_candidate_templates
+    - node.type.send_email
+  module:
+    - options
+id: node.send_email.field_candidate_templates
+field_name: field_candidate_templates
+entity_type: node
+bundle: send_email
+label: 'Candidate Templates'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

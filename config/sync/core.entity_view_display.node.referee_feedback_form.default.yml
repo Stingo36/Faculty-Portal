@@ -1,0 +1,47 @@
+uuid: 7fbffd83-d4ed-4b0e-9d80-d684c9125ef7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.referee_feedback_form.field_comment
+    - field.field.node.referee_feedback_form.field_referee_comment_status
+    - field.field.node.referee_feedback_form.field_upload_recommendations
+    - node.type.referee_feedback_form
+  module:
+    - file
+    - options
+    - user
+id: node.referee_feedback_form.default
+targetEntityType: node
+bundle: referee_feedback_form
+mode: default
+content:
+  field_comment:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_referee_comment_status:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_upload_recommendations:
+    type: file_default
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true

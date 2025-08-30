@@ -1,0 +1,30 @@
+uuid: 82e49bb4-78fa-4b9e-aaad-80b9b96fd193
+langcode: en
+status: true
+dependencies: {  }
+id: 1_account_creation_mail_to_user
+label: '1. Account Creation - Mail to user'
+key: ''
+recipient: {  }
+cc: {  }
+bcc:
+  - ncbsitteam@ncbs.res.in
+fromName: dean@ncbs.res.in
+fromAddress: dean@ncbs.res.in
+replyToAddress: ''
+subject: 'NCBS Credentials for - [easy_email:field_current_user_ref_mail:entity:field_user_research_programs:entity]'
+inboxPreview: ''
+bodyHtml:
+  value: '<p>Dear [easy_email:field_current_user_ref_mail:entity:field_user_full_name:value],</p><p>Thank you for registration. Below are your login credentials to access your account:</p><p><strong>Username:</strong> [easy_email:field_current_user_ref_mail:entity:display-name]<br><strong>Password:</strong> [easy_email:field_current_user_ref_mail:entity:field_temp_password:value]<br><em>Please key in the password manually instead of copy-pasting it.</em></p><p>To proceed further, please log in and complete your application by uploading the following documents (also see the attached PDF for details):</p><ol><li>Recent bio-data</li><li>Brief account of your work so far</li><li>Summary of your research plan (3–5 pages)</li><li>List of publications</li><li>Names of 5 to 8 referees whom we may contact for letters</li></ol><p>You may also update your CV at any time using the same login credentials.</p><p>To familiarize yourself with our application process, we encourage you to visit our <a href="https://www.ncbs.res.in/content/special-call-faculty-positions-understanding-origins-human-brain-disorders">Careers Page</a>.</p><p>Please<strong> </strong><a href="https://www.ncbs.res.in/faculty-portal/"><strong>Click here</strong></a><strong> </strong>to login to your account.<br><em>If the above link does not work, please copy and paste the URL into your browser.</em></p><p>My best wishes to you,<br><br>Sincerely yours,</p><p>Uma Ramkrishnan<br>Dean of Faculty, NCBS<br><a href="mailto:dean@ncbs.res.in">dean@ncbs.res.in</a></p>'
+  format: basic_html
+bodyPlain: ''
+generateBodyPlain: false
+attachment: {  }
+saveAttachment: false
+attachmentScheme: public
+attachmentDirectory: ''
+saveEmail: true
+allowSavingEmail: true
+purgeEmails: false
+purgeInterval: null
+purgePeriod: null

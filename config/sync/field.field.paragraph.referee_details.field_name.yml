@@ -1,0 +1,19 @@
+uuid: ad42601f-5067-402f-958f-80925aa82b96
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_name
+    - paragraphs.paragraphs_type.referee_details
+id: paragraph.referee_details.field_name
+field_name: field_name
+entity_type: paragraph
+bundle: referee_details
+label: Name
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

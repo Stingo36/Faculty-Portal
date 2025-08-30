@@ -1,0 +1,215 @@
+uuid: 4cbc4db5-6364-466e-a368-88cfd846783c
+langcode: en
+status: false
+dependencies:
+  config:
+    - core.entity_view_mode.node.full
+    - field.field.node.submit_application.body
+    - field.field.node.submit_application.field_academic_qualification_ref
+    - field.field.node.submit_application.field_admin_comment_reference
+    - field.field.node.submit_application.field_assessment_committee_coref
+    - field.field.node.submit_application.field_basic_information_referenc
+    - field.field.node.submit_application.field_board_member_comment_refer
+    - field.field.node.submit_application.field_date_received
+    - field.field.node.submit_application.field_dean_comment_reference
+    - field.field.node.submit_application.field_director_comment_reference
+    - field.field.node.submit_application.field_faculty_member_comment_ref
+    - field.field.node.submit_application.field_faculty_search_comit_coref
+    - field.field.node.submit_application.field_form_submitted
+    - field.field.node.submit_application.field_list_of_referees_ref
+    - field.field.node.submit_application.field_other_relevant_info_ref
+    - field.field.node.submit_application.field_prescreen_comment_ref
+    - field.field.node.submit_application.field_program_name
+    - field.field.node.submit_application.field_promotion_committee_coref
+    - field.field.node.submit_application.field_research_proposal_ref
+    - field.field.node.submit_application.field_seminar_details_ref
+    - field.field.node.submit_application.field_send_email_reference
+    - field.field.node.submit_application.field_session_key
+    - field.field.node.submit_application.field_status
+    - field.field.node.submit_application.field_status_update
+    - field.field.node.submit_application.field_update_publications_ref
+    - field.field.node.submit_application.field_user_reference
+    - field.field.node.submit_application.field_work_experience_ref
+    - field.field.node.submit_application.field_yip_search_committee_coref
+    - node.type.submit_application
+  module:
+    - options
+    - text
+    - user
+id: node.submit_application.full
+targetEntityType: node
+bundle: submit_application
+mode: full
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_academic_qualification_ref:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_admin_comment_reference:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 25
+    region: content
+  field_assessment_committee_coref:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 30
+    region: content
+  field_basic_information_referenc:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_board_member_comment_refer:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 24
+    region: content
+  field_date_received:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 17
+    region: content
+  field_dean_comment_reference:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 26
+    region: content
+  field_director_comment_reference:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 27
+    region: content
+  field_faculty_member_comment_ref:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 28
+    region: content
+  field_faculty_search_comit_coref:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 32
+    region: content
+  field_list_of_referees_ref:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_other_relevant_info_ref:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_promotion_committee_coref:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 31
+    region: content
+  field_research_proposal_ref:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_session_key:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  field_status:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 11
+    region: content
+  field_update_publications_ref:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_user_reference:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_yip_search_committee_coref:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 29
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_form_submitted: true
+  field_prescreen_comment_ref: true
+  field_program_name: true
+  field_seminar_details_ref: true
+  field_send_email_reference: true
+  field_status_update: true
+  field_work_experience_ref: true
+  langcode: true

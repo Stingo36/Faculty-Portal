@@ -1,0 +1,24 @@
+uuid: fd1d58b2-7500-4350-a8ee-6b74fd880c42
+langcode: en
+status: true
+dependencies:
+  module:
+    - autotitle
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+  autotitle:
+    enabled: true
+    field: _none
+    fallback_title: 'Referees: [node:author:field_user_full_name]'
+    headings: {  }
+name: Referees
+type: list_of_referees_
+description: 'Content type to add Referees '
+help: null
+new_revision: false
+preview_mode: 0
+display_submitted: true

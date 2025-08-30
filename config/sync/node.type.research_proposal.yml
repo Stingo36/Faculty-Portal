@@ -1,0 +1,24 @@
+uuid: 76c47555-f832-4f67-a52d-220414960f15
+langcode: en
+status: true
+dependencies:
+  module:
+    - autotitle
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+  autotitle:
+    enabled: true
+    field: _none
+    fallback_title: 'Research Proposal: [node:author:field_user_full_name]'
+    headings: {  }
+name: 'Research Proposal'
+type: research_proposal
+description: 'Content type to add Research Proposal'
+help: null
+new_revision: false
+preview_mode: 0
+display_submitted: true

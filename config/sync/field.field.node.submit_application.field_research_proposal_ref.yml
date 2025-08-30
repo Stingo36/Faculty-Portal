@@ -1,0 +1,29 @@
+uuid: a6adb154-f205-407e-abf4-bfa00d4d05ae
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_research_proposal_ref
+    - node.type.research_proposal
+    - node.type.submit_application
+id: node.submit_application.field_research_proposal_ref
+field_name: field_research_proposal_ref
+entity_type: node
+bundle: submit_application
+label: 'Research Proposal Ref'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      research_proposal: research_proposal
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

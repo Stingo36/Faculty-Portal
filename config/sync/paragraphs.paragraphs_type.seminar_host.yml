@@ -1,0 +1,10 @@
+uuid: 460162b6-583f-4f2d-99ab-2f940265ac77
+langcode: en
+status: true
+dependencies: {  }
+id: seminar_host
+label: 'Seminar Host'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

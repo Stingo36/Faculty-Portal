@@ -1,0 +1,24 @@
+uuid: 00c7c2f1-7bd8-496b-bb73-b4d77fd8a2f1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.remainder_records
+  module:
+    - text
+id: node.remainder_records.body
+field_name: body
+entity_type: node
+bundle: remainder_records
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+  allowed_formats: {  }
+field_type: text_with_summary

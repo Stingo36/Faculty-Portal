@@ -1,0 +1,19 @@
+uuid: 1c9c80cc-bd9b-4861-8857-83324992eec7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_research_proposal_brief
+    - paragraphs.paragraphs_type.research_proposals
+id: paragraph.research_proposals.field_research_proposal_brief
+field_name: field_research_proposal_brief
+entity_type: paragraph
+bundle: research_proposals
+label: 'Research proposal brief'
+description: '3-5 page research proposal describing your plans for future research over a 5-10 year period. Ensure that you bring out the importance of your general area of research and your specific projects in this context. When writing, please keep in mind that your application will be pursued by biologists trained in diverse fields, different from yours.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

@@ -1,0 +1,24 @@
+uuid: 4ef40d3e-9a02-4248-b61a-10c4f7902c43
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_mom_date
+    - node.type.meetings_of_minutes
+  module:
+    - datetime
+id: node.meetings_of_minutes.field_mom_date
+field_name: field_mom_date
+entity_type: node
+bundle: meetings_of_minutes
+label: Date
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    default_date_type: now
+    default_date: now
+default_value_callback: ''
+settings: {  }
+field_type: datetime

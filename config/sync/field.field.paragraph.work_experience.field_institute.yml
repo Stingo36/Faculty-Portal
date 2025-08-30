@@ -1,0 +1,19 @@
+uuid: 1d89de81-e3bc-4c35-a04e-6b377416921c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_institute
+    - paragraphs.paragraphs_type.work_experience
+id: paragraph.work_experience.field_institute
+field_name: field_institute
+entity_type: paragraph
+bundle: work_experience
+label: Institute
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

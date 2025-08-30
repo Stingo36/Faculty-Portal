@@ -1,0 +1,35 @@
+uuid: 2c8c9165-5fcf-472a-8a80-9a96994d177f
+langcode: en
+status: false
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.seminar_details.field_candidate_ref
+    - field.field.node.seminar_details.field_meeting_schedule
+    - field.field.node.seminar_details.field_seminar_attachemetns
+    - field.field.node.seminar_details.field_seminar_host_details
+    - field.field.node.seminar_details.field_seminar_notice
+    - field.field.node.seminar_details.field_user_reference
+    - field.field.node.seminar_details.field_video_link
+    - node.type.seminar_details
+  module:
+    - user
+id: node.seminar_details.teaser
+targetEntityType: node
+bundle: seminar_details
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_candidate_ref: true
+  field_meeting_schedule: true
+  field_seminar_attachemetns: true
+  field_seminar_host_details: true
+  field_seminar_notice: true
+  field_user_reference: true
+  field_video_link: true
+  langcode: true

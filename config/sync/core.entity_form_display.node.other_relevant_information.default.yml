@@ -1,0 +1,62 @@
+uuid: 56a1ac79-0d5b-49d3-9f6d-543d2176177f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.other_relevant_information.field_any_other_relevant_informa
+    - field.field.node.other_relevant_information.field_awards_and_fellowships
+    - field.field.node.other_relevant_information.field_details_of_grants_obtained
+    - field.field.node.other_relevant_information.field_new_research_areas
+    - field.field.node.other_relevant_information.field_phd_details_such_as_univer
+    - field.field.node.other_relevant_information.field_please_tick_one_or_more_of
+    - field.field.node.other_relevant_information.field_research_accomplishments_p
+    - field.field.node.other_relevant_information.field_supervisor_experience
+    - field.field.node.other_relevant_information.field_teaching_experience_if_any
+    - node.type.other_relevant_information
+  module:
+    - display_machine_name
+    - field_layout
+    - layout_discovery
+third_party_settings:
+  display_machine_name:
+    enable_display_machine_name: 0
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
+id: node.other_relevant_information.default
+targetEntityType: node
+bundle: other_relevant_information
+mode: default
+content:
+  field_new_research_areas:
+    type: options_buttons
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 1
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+hidden:
+  created: true
+  field_any_other_relevant_informa: true
+  field_awards_and_fellowships: true
+  field_details_of_grants_obtained: true
+  field_phd_details_such_as_univer: true
+  field_please_tick_one_or_more_of: true
+  field_research_accomplishments_p: true
+  field_supervisor_experience: true
+  field_teaching_experience_if_any: true
+  path: true
+  promote: true
+  publish_on: true
+  status: true
+  sticky: true
+  title: true
+  uid: true
+  unpublish_on: true

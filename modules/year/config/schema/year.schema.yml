@@ -1,0 +1,37 @@
+field.storage_settings.year:
+  type: mapping
+  label: 'Integer settings'
+  mapping:
+    unsigned:
+      type: boolean
+      label: 'Unsigned'
+    size:
+      type: string
+      label: 'Database storage size'
+
+field.field_settings.year:
+  type: mapping
+  label: 'Integer'
+  mapping:
+    min:
+      type: integer
+      label: 'Minimum'
+    max:
+      type: string
+      label: 'Maximum'
+
+field.value.year:
+  type: mapping
+  label: 'Default value'
+  mapping:
+    value:
+      type: string
+      label: 'Value'
+
+field.widget.settings.year_select:
+  type: mapping
+  label: 'Year select list widget settings'
+  mapping:
+    sort_order:
+      type: string
+      label: 'Sort order'

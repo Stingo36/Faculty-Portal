@@ -1,0 +1,29 @@
+uuid: 49f98eec-3844-460f-bf98-b9c57c0f5e7f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_academic_qualification_ref
+    - node.type.academic_qualification
+    - node.type.submit_application
+id: node.submit_application.field_academic_qualification_ref
+field_name: field_academic_qualification_ref
+entity_type: node
+bundle: submit_application
+label: 'Academic Qualification Reference'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      academic_qualification: academic_qualification
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

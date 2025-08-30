@@ -1,0 +1,35 @@
+uuid: a10f0d4f-8be5-49f5-87eb-b55999e1d128
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.restricted_html
+    - node.type.page
+    - node.type.referee_feedback_form
+  module:
+    - field_permissions
+    - filter
+    - media
+    - node
+    - search
+    - system
+_core:
+  default_config_hash: 6WavjUYXIegP9AAg2zXGx54MWIVoomC3SZhNiqe-Dyk
+id: anonymous
+label: 'Anonymous user'
+weight: 0
+is_admin: false
+permissions:
+  - 'access content'
+  - 'create field_comment'
+  - 'create field_prefix_user'
+  - 'create field_user_full_name'
+  - 'create field_user_research_programs'
+  - 'create page content'
+  - 'create referee_feedback_form content'
+  - 'edit own field_comment'
+  - 'search content'
+  - 'use text format restricted_html'
+  - 'view field_comment'
+  - 'view media'
+  - 'view own field_prefix_user'

@@ -1,0 +1,29 @@
+uuid: 531836d8-8bf7-42fd-83f6-60c67e36e476
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_dean_comment_reference
+    - node.type.add_comments
+    - node.type.submit_application
+id: node.submit_application.field_dean_comment_reference
+field_name: field_dean_comment_reference
+entity_type: node
+bundle: submit_application
+label: 'Dean comment reference'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      add_comments: add_comments
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

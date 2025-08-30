@@ -1,0 +1,29 @@
+uuid: ea8e5b69-a0a4-4a91-b840-91c8773bd716
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_seminar_details_ref
+    - node.type.seminar_details
+    - node.type.submit_application
+id: node.submit_application.field_seminar_details_ref
+field_name: field_seminar_details_ref
+entity_type: node
+bundle: submit_application
+label: 'Seminar Details Ref'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      seminar_details: seminar_details
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

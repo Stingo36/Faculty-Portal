@@ -1,0 +1,19 @@
+uuid: f60c8be3-92df-4536-82fb-5fca6ff239bd
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.field_teaching_experience_if_any
+field_name: field_teaching_experience_if_any
+entity_type: paragraph
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

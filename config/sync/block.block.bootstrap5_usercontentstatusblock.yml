@@ -1,0 +1,28 @@
+uuid: 30e92a47-fcde-479e-b58b-42323a53c42e
+langcode: en
+status: true
+dependencies:
+  module:
+    - ncbs
+    - user
+  theme:
+    - bootstrap5
+id: bootstrap5_usercontentstatusblock
+theme: bootstrap5
+region: sidebar_first
+weight: -4
+provider: null
+plugin: user_content_status_block
+settings:
+  id: user_content_status_block
+  label: 'User Content Status Block'
+  label_display: '0'
+  provider: ncbs
+visibility:
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      user: user

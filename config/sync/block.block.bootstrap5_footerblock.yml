@@ -1,0 +1,25 @@
+uuid: 24dbcf60-d1d8-4cd6-9c03-c0f6e28985b3
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:custom_header:a38c55be-6b93-404b-8695-f6285a88c500'
+  module:
+    - block_content
+  theme:
+    - bootstrap5
+id: bootstrap5_footerblock
+theme: bootstrap5
+region: footer
+weight: 0
+provider: null
+plugin: 'block_content:a38c55be-6b93-404b-8695-f6285a88c500'
+settings:
+  id: 'block_content:a38c55be-6b93-404b-8695-f6285a88c500'
+  label: 'Footer Block'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

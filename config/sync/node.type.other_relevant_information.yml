@@ -1,0 +1,24 @@
+uuid: 2186f194-32e2-43e8-b661-b0559baaf99b
+langcode: en
+status: true
+dependencies:
+  module:
+    - autotitle
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+  autotitle:
+    enabled: true
+    field: _none
+    fallback_title: 'Research Area Application : [node:author:field_user_full_name]'
+    headings: {  }
+name: 'Research Area Application'
+type: other_relevant_information
+description: 'Content type to add Other Relevant Information (later changed to Research Area Application)'
+help: null
+new_revision: false
+preview_mode: 0
+display_submitted: true

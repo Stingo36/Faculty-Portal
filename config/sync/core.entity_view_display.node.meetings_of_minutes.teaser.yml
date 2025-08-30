@@ -1,0 +1,27 @@
+uuid: d0ac076f-ea79-4b02-8ff1-4b2ad3f46775
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.meetings_of_minutes.field_candidates
+    - field.field.node.meetings_of_minutes.field_content
+    - field.field.node.meetings_of_minutes.field_mom_date
+    - node.type.meetings_of_minutes
+  module:
+    - user
+id: node.meetings_of_minutes.teaser
+targetEntityType: node
+bundle: meetings_of_minutes
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_candidates: true
+  field_content: true
+  field_mom_date: true
+  langcode: true

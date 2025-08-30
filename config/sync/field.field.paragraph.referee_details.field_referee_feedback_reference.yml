@@ -1,0 +1,29 @@
+uuid: 7284b561-0329-46d2-a728-977a0baa8ea8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_referee_feedback_reference
+    - node.type.referee_feedback_form
+    - paragraphs.paragraphs_type.referee_details
+id: paragraph.referee_details.field_referee_feedback_reference
+field_name: field_referee_feedback_reference
+entity_type: paragraph
+bundle: referee_details
+label: Feedback
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      referee_feedback_form: referee_feedback_form
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

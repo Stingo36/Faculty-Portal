@@ -1,0 +1,109 @@
+uuid: fef8666f-8e24-4294-85e1-edd0e0eae41a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.referee_details.field_address
+    - field.field.paragraph.referee_details.field_email
+    - field.field.paragraph.referee_details.field_email_status
+    - field.field.paragraph.referee_details.field_name
+    - field.field.paragraph.referee_details.field_phone
+    - field.field.paragraph.referee_details.field_position
+    - field.field.paragraph.referee_details.field_prefix
+    - field.field.paragraph.referee_details.field_ref_link
+    - field.field.paragraph.referee_details.field_referee_feedback_reference
+    - field.field.paragraph.referee_details.field_type
+    - paragraphs.paragraphs_type.referee_details
+  module:
+    - field_layout
+    - layout_discovery
+    - link
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
+id: paragraph.referee_details.default
+targetEntityType: paragraph
+bundle: referee_details
+mode: default
+content:
+  field_address:
+    type: string_textarea
+    weight: 5
+    region: content
+    settings:
+      rows: 1
+      placeholder: ''
+    third_party_settings: {  }
+  field_email:
+    type: email_default
+    weight: 3
+    region: content
+    settings:
+      placeholder: ''
+      size: 60
+    third_party_settings: {  }
+  field_email_status:
+    type: options_select
+    weight: 8
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_name:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_phone:
+    type: string_textfield
+    weight: 4
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_position:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_prefix:
+    type: options_select
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_ref_link:
+    type: link_default
+    weight: 10
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_referee_feedback_reference:
+    type: entity_reference_autocomplete
+    weight: 7
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_type:
+    type: options_select
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

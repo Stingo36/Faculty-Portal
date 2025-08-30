@@ -1,0 +1,39 @@
+uuid: 976daef6-c9ed-4904-8a33-4f2c4bec0a2c
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+    - paragraphs
+id: paragraph.field_please_tick_o
+field_name: field_please_tick_o
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: 'Biochemistry, Biophysics and Bioinformatics'
+      label: 'Biochemistry, Biophysics and Bioinformatics'
+    -
+      value: 'Cellular organization and signaling'
+      label: 'Cellular organization and signaling'
+    -
+      value: 'Genetics and Development'
+      label: 'Genetics and Development'
+    -
+      value: Neurobiology
+      label: Neurobiology
+    -
+      value: 'Ecology and Evolution'
+      label: 'Ecology and Evolution'
+    -
+      value: 'Theory, Simulation and Modelling of Biological Systems'
+      label: 'Theory, Simulation and Modelling of Biological Systems'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

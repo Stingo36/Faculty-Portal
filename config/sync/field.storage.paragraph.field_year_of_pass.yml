@@ -1,0 +1,23 @@
+uuid: d806e83d-f55b-4959-816b-67e6c50f9977
+langcode: en
+status: true
+dependencies:
+  module:
+    - field_permissions
+    - paragraphs
+    - year
+third_party_settings:
+  field_permissions:
+    permission_type: public
+id: paragraph.field_year_of_pass
+field_name: field_year_of_pass
+entity_type: paragraph
+type: year
+settings: {  }
+module: year
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

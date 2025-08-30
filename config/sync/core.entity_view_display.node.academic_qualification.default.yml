@@ -1,0 +1,35 @@
+uuid: 9b19ddf1-8ebc-4b0a-8cfa-f682f7201d35
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.academic_qualification.field_academic_qualification
+    - node.type.academic_qualification
+  module:
+    - display_machine_name
+    - entity_reference_revisions
+    - user
+third_party_settings:
+  display_machine_name:
+    enable_display_machine_name: 0
+id: node.academic_qualification.default
+targetEntityType: node
+bundle: academic_qualification
+mode: default
+content:
+  field_academic_qualification:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true

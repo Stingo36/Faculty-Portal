@@ -1,0 +1,21 @@
+uuid: e2f18bc6-5091-4267-929a-7ef33567cd09
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_are_you_an_oci_card_holder
+    - node.type.basic_information
+  module:
+    - options
+id: node.basic_information.field_are_you_an_oci_card_holder
+field_name: field_are_you_an_oci_card_holder
+entity_type: node
+bundle: basic_information
+label: 'Are you an OCI card holder'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

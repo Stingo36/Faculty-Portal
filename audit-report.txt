@@ -1,0 +1,20 @@
++-------------------+----------------------------------------------------------------------------------+
+| Package           | phpoffice/phpspreadsheet                                                         |
+| Severity          | high                                                                             |
+| CVE               | CVE-2025-54370                                                                   |
+| Title             | PhpSpreadsheet vulnerable to SSRF when reading and displaying a processed HTML   |
+|                   | document in the browser                                                          |
+| URL               | https://github.com/advisories/GHSA-rx7m-68vc-ppxh                                |
+| Affected versions | >=4.0.0,<5.0.0|>=3.0.0,<3.10.0|>=2.2.0,<2.4.0|>=2.0.0,<2.1.12|<1.30.0            |
+| Reported at       | 2025-08-25T14:32:32+00:00                                                        |
++-------------------+----------------------------------------------------------------------------------+
++-------------------+----------------------------------------------------------------------------------+
+| Package           | setasign/fpdi                                                                    |
+| Severity          | medium                                                                           |
+| CVE               | CVE-2025-54869                                                                   |
+| Title             | FPDI allows Memory Exhaustion (OOM) in PDF Parser which leads to Denial of       |
+|                   | Service                                                                          |
+| URL               | https://github.com/advisories/GHSA-jxhh-4648-vpp3                                |
+| Affected versions | <2.6.4                                                                           |
+| Reported at       | 2025-08-05T15:23:54+00:00                                                        |
++-------------------+----------------------------------------------------------------------------------+

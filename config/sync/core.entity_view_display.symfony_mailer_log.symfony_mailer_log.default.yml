@@ -1,0 +1,87 @@
+uuid: 168db6f8-d0fd-4665-a666-e71aca1c0c69
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.symfony_mailer_log.symfony_mailer_log.field_mail_status
+  module:
+    - symfony_mailer_log
+id: symfony_mailer_log.symfony_mailer_log.default
+targetEntityType: symfony_mailer_log
+bundle: symfony_mailer_log
+mode: default
+content:
+  bcc:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  cc:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_mail_status:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  from:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  html_body:
+    type: symfony_mailer_log_html_body
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  reply_to:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  subject:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  to:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  account: true
+  created: true
+  error_message: true
+  headers: true
+  langcode: true
+  sub_type: true
+  text_body: true
+  theme: true
+  transport_dsn: true
+  type: true

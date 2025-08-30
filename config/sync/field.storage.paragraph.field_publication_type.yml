@@ -1,0 +1,36 @@
+uuid: 7edba4ac-8d00-4547-90cf-6b6c8499e3ea
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+    - paragraphs
+id: paragraph.field_publication_type
+field_name: field_publication_type
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: 'Peer-viewed articles'
+      label: 'Peer-viewed articles'
+    -
+      value: Reviews
+      label: Reviews
+    -
+      value: Book-Chapter
+      label: Book-Chapter
+    -
+      value: 'Web Publications'
+      label: 'Web Publications'
+    -
+      value: Others
+      label: Others
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

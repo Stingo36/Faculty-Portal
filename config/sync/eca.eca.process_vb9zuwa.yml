@@ -1,0 +1,109 @@
+uuid: cd0c554b-910f-43a5-baa5-32635a9cc020
+langcode: en
+status: true
+dependencies:
+  config:
+    - easy_email.easy_email_type.2_form_submit_mail_to_user
+    - field.field.node.submit_application.field_form_submitted
+    - field.storage.node.field_form_submitted
+    - node.type.submit_application
+  module:
+    - easy_email
+    - eca_base
+    - eca_content
+    - eca_user
+id: process_vb9zuwa
+modeller: bpmn_io
+label: '1. On Form Submit Mail to Admin And User Submit Application'
+version: '1.1'
+weight: 0
+events:
+  Event_0c0tp8s:
+    plugin: 'content_entity:update'
+    label: 'Entity Update'
+    configuration:
+      type: 'node submit_application'
+    successors:
+      -
+        id: Activity_1rfvu5t
+        condition: Flow_0pxyo6m
+conditions:
+  Flow_0pxyo6m:
+    plugin: eca_entity_field_value_empty
+    configuration:
+      field_name: field_session_key
+      negate: true
+      entity: ''
+  Flow_1rzolgp:
+    plugin: eca_entity_field_value
+    configuration:
+      negate: false
+      case: false
+      expected_value: '0'
+      field_name: field_form_submitted
+      operator: equal
+      type: value
+      entity: ''
+gateways: {  }
+actions:
+  Activity_1rfvu5t:
+    plugin: eca_void_and_condition
+    label: And
+    configuration: {  }
+    successors:
+      -
+        id: Activity_1yd56iu
+        condition: Flow_1rzolgp
+  Activity_1c43iuw:
+    plugin: eca_new_entity
+    label: 'Select Email Template'
+    configuration:
+      token_name: MailToUser
+      type: 'easy_email 2_form_submit_mail_to_user'
+      langcode: ''
+      label: 'mail to user when applicaiton is submitted sucessfully'
+      published: false
+      owner: ''
+    successors:
+      -
+        id: Activity_1cwhe07
+        condition: ''
+  Activity_1cwhe07:
+    plugin: easy_email_send
+    label: 'Send Email to User'
+    configuration:
+      object: MailToUser
+    successors:
+      -
+        id: Activity_15x040y
+        condition: ''
+  Activity_15x040y:
+    plugin: eca_set_field_value
+    label: 'Set Form Flag to True'
+    configuration:
+      field_name: field_form_submitted
+      field_value: '1'
+      method: 'set:clear'
+      strip_tags: true
+      trim: true
+      save_entity: true
+      object: ''
+    successors:
+      -
+        id: Activity_1g1cgjk
+        condition: ''
+  Activity_1g1cgjk:
+    plugin: eca_save_entity
+    label: Save
+    configuration:
+      object: MailToAdmin
+    successors: {  }
+  Activity_1yd56iu:
+    plugin: eca_switch_account
+    label: 'Switch Users To Admin'
+    configuration:
+      user_id: '1'
+    successors:
+      -
+        id: Activity_1c43iuw
+        condition: ''

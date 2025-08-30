@@ -1,0 +1,42 @@
+uuid: 5c52424e-a218-4a71-bab2-d9c54c4135e4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.programs.field_date
+    - field.field.node.programs.field_minimum_referee
+    - node.type.programs
+  module:
+    - datetime_range
+    - user
+id: node.programs.default
+targetEntityType: node
+bundle: programs
+mode: default
+content:
+  field_date:
+    type: daterange_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+      from_to: both
+      separator: '-'
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_minimum_referee:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  langcode: true

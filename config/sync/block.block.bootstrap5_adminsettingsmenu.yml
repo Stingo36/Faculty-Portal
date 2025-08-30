@@ -1,0 +1,34 @@
+uuid: b3ae5485-844b-4179-b9f6-d894651ab7ac
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.admin-settings-menu
+  module:
+    - system
+    - user
+  theme:
+    - bootstrap5
+id: bootstrap5_adminsettingsmenu
+theme: bootstrap5
+region: sidebar_first
+weight: -6
+provider: null
+plugin: 'system_menu_block:admin-settings-menu'
+settings:
+  id: 'system_menu_block:admin-settings-menu'
+  label: 'Admin Settings Menu'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility:
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      administrator: administrator
+      admin: admin

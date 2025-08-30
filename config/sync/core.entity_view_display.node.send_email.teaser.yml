@@ -1,0 +1,65 @@
+uuid: 005a4496-cbc0-4353-b063-b4b39fc8e667
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.send_email.field_candidate_closing_after_
+    - field.field.node.send_email.field_candidate_closing_after_fu
+    - field.field.node.send_email.field_candidate_closing_after_vi
+    - field.field.node.send_email.field_candidate_closing_prelimin
+    - field.field.node.send_email.field_candidate_closing_template
+    - field.field.node.send_email.field_candidate_prescreen_temp
+    - field.field.node.send_email.field_candidate_ref
+    - field.field.node.send_email.field_candidate_templates
+    - field.field.node.send_email.field_email_body_director
+    - field.field.node.send_email.field_email_body_referee
+    - field.field.node.send_email.field_email_body_to_candidate
+    - field.field.node.send_email.field_email_body_to_dean
+    - field.field.node.send_email.field_email_body_to_faculty
+    - field.field.node.send_email.field_email_sent_date
+    - field.field.node.send_email.field_email_status
+    - field.field.node.send_email.field_email_subject
+    - field.field.node.send_email.field_email_to_dean
+    - field.field.node.send_email.field_email_to_director
+    - field.field.node.send_email.field_email_to_faculties
+    - field.field.node.send_email.field_email_type
+    - field.field.node.send_email.field_from_email_id
+    - field.field.node.send_email.field_user_email_id
+    - node.type.send_email
+  module:
+    - user
+id: node.send_email.teaser
+targetEntityType: node
+bundle: send_email
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_candidate_closing_after_: true
+  field_candidate_closing_after_fu: true
+  field_candidate_closing_after_vi: true
+  field_candidate_closing_prelimin: true
+  field_candidate_closing_template: true
+  field_candidate_prescreen_temp: true
+  field_candidate_ref: true
+  field_candidate_templates: true
+  field_email_body_director: true
+  field_email_body_referee: true
+  field_email_body_to_candidate: true
+  field_email_body_to_dean: true
+  field_email_body_to_faculty: true
+  field_email_sent_date: true
+  field_email_status: true
+  field_email_subject: true
+  field_email_to_dean: true
+  field_email_to_director: true
+  field_email_to_faculties: true
+  field_email_type: true
+  field_from_email_id: true
+  field_user_email_id: true
+  langcode: true

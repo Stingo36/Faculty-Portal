@@ -1,0 +1,52 @@
+<nav class="modern-vertical-nav">
+  <ul class="nav flex-column">
+    {% for item in items %}
+      <li class="nav-item">
+        <a class="nav-button {{ item.attributes.class }} {% if item.in_active_trail %}is-active{% endif %}" href="{{ item.url }}">
+          {{ item.title }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</nav>
+
+<style>
+/* Main nav container */
+.modern-vertical-nav {
+  padding: 1rem 0px;
+  border-radius: 1rem;
+}
+
+/* Nav list items */
+.modern-vertical-nav .nav-item {
+  margin-bottom: 0.75rem;
+}
+
+/* Default unselected tab style */
+.nav-button {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1.25rem;
+  text-align: center;
+  background-color: #edf5fe;      /* light blue background */
+  border: 1px solid #bdd9f7;       /* light blue border */
+  color: #163b62;                  /* navy text */
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Hover - stay light blue but slightly darker */
+.nav-button:hover {
+  background-color: #d6eafd;
+  color: #163b62;
+}
+
+/* Active selected state */
+.nav-button.is-active {
+  background-color: #163b62; /* deep navy */
+  color: #ffffff;
+  border: 1px solid #163b62;
+}
+</style>
